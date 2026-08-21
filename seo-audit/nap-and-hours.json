@@ -1,0 +1,57 @@
+{
+  "source": "Live page body copy on https://www.elevatewellnesschiro.com/elevate-wellness-chiropractic-in-bountiful-ut/ (primary contact page listing both offices), cross-checked against /bountiful-location/ and /elevate-wellness-chiropractic-in-clinton-ut/",
+  "locations": [
+    {
+      "name": "Elevate Wellness Chiropractic - Bountiful Office",
+      "address": {
+        "asPublishedOnContactPage": "190 W 100 S, Bountiful, UT 84010",
+        "streetAddress": "190 W 100 S",
+        "addressLocality": "Bountiful",
+        "addressRegion": "UT",
+        "postalCode": "84010",
+        "addressCountry": "US"
+      },
+      "phone": "(801) 214-0454",
+      "hours": {
+        "Monday": "9 AM – 12 PM, 2 – 5:45 PM",
+        "Tuesday": "9 AM – 12 PM, 2 – 5:45 PM",
+        "Wednesday": "9 AM – 12 PM, 2 – 5:45 PM",
+        "Thursday": "9 AM – 12 PM, 2 – 5:45 PM",
+        "Friday": "9 AM – 12 PM, 2 – 5:45 PM",
+        "Saturday": "Closed",
+        "Sunday": "Closed"
+      },
+      "note": "schema.org LocalBusiness/MedicalClinic markup on the homepage lists a DIFFERENT street address (\"190 W 100 S STE C\") and DIFFERENT hours (one JSON-LD block: Mon/Tue/Wed/Thu 09:00-12:00 & 14:00-17:30, no Friday listed; another block: Mon-Fri 09:00-17:45 continuous). The on-page visible text above is treated as the source of truth per the audit brief; the schema discrepancy should be resolved/reconciled in a later phase.",
+      "foundOnPages": [
+        "https://www.elevatewellnesschiro.com/elevate-wellness-chiropractic-in-bountiful-ut/",
+        "https://www.elevatewellnesschiro.com/bountiful-location/"
+      ]
+    },
+    {
+      "name": "Elevate Wellness Chiropractic - Clinton Office",
+      "address": {
+        "asPublishedOnContactPage": "1912 W 1800 N, Suite F, Clinton, UT 84015",
+        "streetAddress": "1912 W 1800 N, Suite F",
+        "addressLocality": "Clinton",
+        "addressRegion": "UT",
+        "postalCode": "84015",
+        "addressCountry": "US"
+      },
+      "phone": "(385) 417-3990",
+      "hours": {
+        "Monday": "8:30 AM – 12 PM, 1:30 – 5:45 PM",
+        "Tuesday": "8:30 AM – 12 PM, 1:30 – 5:45 PM",
+        "Wednesday": "8:30 AM – 12 PM, 1:30 – 5:45 PM",
+        "Thursday": "8:30 AM – 12 PM, 1:30 – 5:45 PM",
+        "Friday": "8:30 AM – 12 PM, 1:30 – 5:45 PM",
+        "Saturday": "Closed",
+        "Sunday": "Closed"
+      },
+      "note": null,
+      "foundOnPages": [
+        "https://www.elevatewellnesschiro.com/elevate-wellness-chiropractic-in-bountiful-ut/",
+        "https://www.elevatewellnesschiro.com/elevate-wellness-chiropractic-in-clinton-ut/"
+      ]
+    }
+  ]
+}

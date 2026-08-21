@@ -1,0 +1,11 @@
+{
+  "servers": {
+    "nextjs-seo": {
+      
+      "url": "https://efficient-simplicity-production-7a93.up.railway.app/mcp",
+      "headers": {
+        "Authorization": "Bearer 0f76e8840a90f19babd8b4cc0300e6d3da6d8d76492681ad94f16da9edda4fca"
+      }
+    }
+  }
+}

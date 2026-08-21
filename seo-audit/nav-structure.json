@@ -1,0 +1,86 @@
+{
+  "source": "https://www.elevatewellnesschiro.com/ (live header/footer markup)",
+  "header": {
+    "menu": [
+      {
+        "label": "Chiropractic",
+        "href": "https://www.elevatewellnesschiro.com/chiropractic-care/",
+        "children": [
+          { "label": "Auto Accidents", "href": "https://www.elevatewellnesschiro.com/auto-accidents/" },
+          { "label": "Back Specialist", "href": "https://www.elevatewellnesschiro.com/back-specialist/" },
+          { "label": "Pediatric Chiropractor", "href": "https://www.elevatewellnesschiro.com/pediatric-chiropractor/" },
+          { "label": "Pregnancy Chiropractor", "href": "https://www.elevatewellnesschiro.com/pregnancy-chiropractor/" },
+          { "label": "Spinal Decompression", "href": "https://www.elevatewellnesschiro.com/spinal-decompression/" },
+          { "label": "Sports Therapy", "href": "https://www.elevatewellnesschiro.com/sports-therapy/" }
+        ]
+      },
+      {
+        "label": "Massage",
+        "href": "https://www.elevatewellnesschiro.com/massage-therapy/"
+      },
+      {
+        "label": "Injuries We Treat",
+        "href": "https://www.elevatewellnesschiro.com/injuries-we-treat/",
+        "children": [
+          { "label": "Auto Injuries", "href": "https://www.elevatewellnesschiro.com/auto-accident-injuries/" },
+          { "label": "Back Pain", "href": "https://www.elevatewellnesschiro.com/back-pain/" },
+          { "label": "Headache", "href": "https://www.elevatewellnesschiro.com/headaches/" },
+          { "label": "Migraine", "href": "https://www.elevatewellnesschiro.com/migraines/" },
+          { "label": "Neck Pain", "href": "https://www.elevatewellnesschiro.com/neck-pain/" },
+          { "label": "Neuropathy", "href": "https://www.elevatewellnesschiro.com/neuropathy-2/" },
+          { "label": "Sciatica", "href": "https://www.elevatewellnesschiro.com/sciatica/" },
+          { "label": "Spinal Disc Injuries", "href": "https://www.elevatewellnesschiro.com/spinal-disc-injuries/" },
+          { "label": "Sports Injuries", "href": "https://www.elevatewellnesschiro.com/sports-injuries/" },
+          { "label": "Tension Headaches", "href": "https://www.elevatewellnesschiro.com/tension-headache/" },
+          { "label": "Whiplash", "href": "https://www.elevatewellnesschiro.com/whiplash/" },
+          { "label": "Workplace Injury", "href": "https://www.elevatewellnesschiro.com/workplace-injury/" }
+        ]
+      },
+      {
+        "label": "About Us",
+        "href": "https://www.elevatewellnesschiro.com/elevate-wellness-chiropractic/",
+        "children": [
+          {
+            "label": "Our Chiropractors",
+            "href": "#",
+            "note": "Not a real link — parent item is a dropdown-only trigger (href=\"#\")",
+            "children": [
+              { "label": "Casey Simmonds DC", "href": "https://www.elevatewellnesschiro.com/dr-casey-simmonds/" },
+              { "label": "Kaden Simmonds DC", "href": "https://www.elevatewellnesschiro.com/kaden-simmonds-dc/" },
+              { "label": "Mikayla Twarog DC", "href": "https://www.elevatewellnesschiro.com/mikayla-twarog-dc/" }
+            ]
+          },
+          { "label": "Insurances Covered", "href": "https://www.elevatewellnesschiro.com/insurances-covered/" },
+          { "label": "New Patient Forms", "href": "https://intake.mychirotouch.com/?clinic=MVCC0002", "doNotChange": true },
+          { "label": "Schedule Online Appointments", "href": "https://appointments.mychirotouch.com/Account/Login?ReturnUrl=%2F%3Fclinic%3DMVCC0002", "doNotChange": true },
+          { "label": "Blog", "href": "https://www.elevatewellnesschiro.com/blog/" }
+        ]
+      },
+      {
+        "label": "Contact Us",
+        "href": "https://www.elevatewellnesschiro.com/elevate-wellness-chiropractic-in-bountiful-ut/",
+        "children": [
+          { "label": "Bountiful Location", "href": "https://www.elevatewellnesschiro.com/bountiful-location/" },
+          { "label": "Clinton Location", "href": "https://www.elevatewellnesschiro.com/elevate-wellness-chiropractic-in-clinton-ut/" }
+        ]
+      }
+    ]
+  },
+  "footer": {
+    "disclaimerText": "Medical Disclaimer: Information on this site is not medical advice and is for educational purposes only. No doctor-patient relationship is formed.",
+    "copyrightLine": "2026 | Elevate Wellness Chiropractic | All Rights Reserved",
+    "links": [
+      { "label": "Click here for Full Legal Disclosures", "href": "https://www.elevatewellnesschiro.com/healthcare-disclaimer/" },
+      { "label": "Elevate Wellness Chiropractic", "href": "https://www.elevatewellnesschiro.com", "note": "logo/site-title link" },
+      { "label": "Privacy Policy", "href": "https://www.elevatewellnesschiro.com/privacy-policy/" },
+      { "label": "Terms", "href": "https://www.elevatewellnesschiro.com/terms/" },
+      { "label": "Accessibility Statement", "href": "https://www.elevatewellnesschiro.com/accessibility-statement/" },
+      { "label": "Anti-Discrimination Disclaimer", "href": "https://www.elevatewellnesschiro.com/anti-discrimination-disclaimer/" },
+      { "label": "Healthcare Disclaimer", "href": "https://www.elevatewellnesschiro.com/healthcare-disclaimer/" },
+      { "label": "HIPAA Notice of Privacy Practices", "href": "https://www.elevatewellnesschiro.com/notice-of-privacy-practices/" },
+      { "label": "XML Sitemap", "href": "https://www.elevatewellnesschiro.com/sitemap_index.xml" },
+      { "label": "Sitemap", "href": "https://www.elevatewellnesschiro.com/sitemap/" },
+      { "label": "PDM", "href": "https://www.pdmidaho.com/", "note": "external agency credit link (\"Site by PDM\") — external, do not change without client sign-off", "doNotChange": true }
+    ]
+  }
+}
