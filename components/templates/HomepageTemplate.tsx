@@ -117,39 +117,52 @@ export function HomepageTemplate({
             <MotionLink
               key={service.title}
               href={service.href}
-              className="group reveal relative aspect-[4/3] w-full overflow-hidden rounded-2xl shadow-md transition-shadow duration-300 hover:shadow-xl"
+              className="group reveal flex flex-col overflow-hidden rounded-2xl bg-white shadow-md transition-shadow duration-300 hover:shadow-xl"
               style={{ "--reveal-delay": `${(i % 4) * 80}ms` } as CSSProperties}
             >
-              <Image
-                src={service.image}
-                alt={service.title}
-                fill
-                sizes="(min-width: 1024px) 23vw, (min-width: 640px) 33vw, 50vw"
-                className="object-cover transition-transform duration-500 group-hover:scale-110"
-              />
-              <div
-                aria-hidden
-                className="absolute inset-0 bg-gradient-to-t from-navy-900/95 via-navy-900/25 to-transparent"
-              />
-              <span className="absolute left-3 top-3 font-display text-xl font-bold text-white/50 sm:text-2xl">
-                {String(i + 1).padStart(2, "0")}
-              </span>
+              <div className="relative aspect-[4/3] w-full shrink-0 overflow-hidden">
+                <Image
+                  src={service.image}
+                  alt={service.title}
+                  fill
+                  sizes="(min-width: 1024px) 23vw, (min-width: 640px) 33vw, 50vw"
+                  className="object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+                <div
+                  aria-hidden
+                  className="absolute inset-0 bg-gradient-to-t from-navy-900/95 via-navy-900/25 to-transparent"
+                />
+                <span className="absolute left-3 top-3 font-display text-xl font-bold text-white/50 sm:text-2xl">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
 
-              {/* Body copy reveals on hover/focus via a height transition, so the default tile stays compact */}
-              <div className="absolute inset-x-3 bottom-3">
-                <h3 className="font-display text-sm font-semibold leading-tight text-white sm:text-base">
-                  {service.title}
-                </h3>
-                <div className="grid grid-rows-[1fr] transition-[grid-template-rows] duration-300 ease-out lg:grid-rows-[0fr] lg:group-hover:grid-rows-[1fr] lg:group-focus-visible:grid-rows-[1fr]">
-                  <div className="overflow-hidden">
-                    <p className="mt-1 line-clamp-3 text-xs leading-relaxed text-white/80">
-                      {service.body}
-                    </p>
-                    <span className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-primary-300">
-                      Learn more &rarr;
-                    </span>
+                {/* Below lg: title only over the image, description sits in its own panel underneath (see below) */}
+                <div className="absolute inset-x-3 bottom-3">
+                  <h3 className="font-display text-sm font-semibold leading-tight text-white sm:text-base">
+                    {service.title}
+                  </h3>
+                  {/* Desktop only — body copy reveals on hover/focus inside the image, tile stays compact by default */}
+                  <div className="hidden lg:grid lg:grid-rows-[0fr] lg:transition-[grid-template-rows] lg:duration-300 lg:ease-out lg:group-hover:grid-rows-[1fr] lg:group-focus-visible:grid-rows-[1fr]">
+                    <div className="overflow-hidden">
+                      <p className="mt-1 line-clamp-3 text-xs leading-relaxed text-white/80">
+                        {service.body}
+                      </p>
+                      <span className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-primary-300">
+                        Learn more &rarr;
+                      </span>
+                    </div>
                   </div>
                 </div>
+              </div>
+
+              {/* Below lg only — description + link as a normal-flow panel, never overlapping the image */}
+              <div className="flex flex-1 flex-col gap-2 p-4 lg:hidden">
+                <p className="line-clamp-3 text-sm leading-relaxed text-ink-700">
+                  {service.body}
+                </p>
+                <span className="inline-flex items-center gap-1 text-xs font-semibold text-primary-600">
+                  Learn more &rarr;
+                </span>
               </div>
             </MotionLink>
           ))}
