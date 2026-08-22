@@ -240,7 +240,7 @@ function SectionBand({
     totalListItems === 0 ? "prose" : totalListItems <= 6 ? "split" : "stacked";
 
   return (
-    <section className={`${bg} px-6 py-16 lg:px-8 lg:py-20`}>
+    <section className={`${bg} px-6 py-16 lg:px-8 lg:py-24`}>
       <div className="mx-auto max-w-[1180px]">
         <SectionCounter index={index} total={total} />
 
@@ -449,12 +449,12 @@ function CtaBand({
   telHref: string;
 }) {
   return (
-    <section className="bg-white px-6 py-20 lg:px-8 lg:py-24">
+    <section className="bg-white px-6 py-14 lg:px-8 lg:py-24">
       <div className="relative mx-auto max-w-[1180px] overflow-hidden rounded-[2rem] bg-navy-900 shadow-2xl">
         <div className="grid grid-cols-1 items-stretch lg:grid-cols-2">
           <div className="relative min-h-[320px] lg:min-h-[440px]">
             <Image
-              src="/images/homepage/schedule-today.png"
+              src="/images/homepage/schedule-today-v2.png"
               alt="Chiropractor evaluating a patient at Elevate Wellness Chiropractic"
               fill
               sizes="(min-width: 1024px) 50vw, 100vw"
@@ -507,7 +507,7 @@ function CtaBand({
 
 function FaqBand({ items }: { items: { question: string; answer: string }[] }) {
   return (
-    <section className="bg-gray-50 px-6 py-20 lg:px-8 lg:py-24">
+    <section className="bg-gray-50 px-6 py-14 lg:px-8 lg:py-24">
       <div className="mx-auto grid max-w-[1180px] grid-cols-1 gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)]">
         <div className="reveal lg:sticky lg:top-32 lg:self-start">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary-600">

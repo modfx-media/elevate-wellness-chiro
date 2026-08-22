@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, type MouseEvent, type ReactNode } from "react";
-import { motion, useMotionValue, useSpring, useReducedMotion } from "motion/react";
+import { useState, type ReactNode } from "react";
+import { motion, useReducedMotion } from "motion/react";
 const EASE_OUT_EXPO = [0.16, 1, 0.3, 1] as const;
 
 const fadeUp = {
@@ -21,70 +21,19 @@ const wordUp = {
   }),
 };
 
-// Magnetic hover: CTA nudges toward the cursor, then springs back on leave.
-function MagneticLink({
-  href,
-  external,
-  className,
-  children,
-}: {
-  href: string;
-  external?: boolean;
-  className: string;
-  children: ReactNode;
-}) {
-  const reduceMotion = useReducedMotion();
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const springX = useSpring(x, { stiffness: 300, damping: 20, mass: 0.5 });
-  const springY = useSpring(y, { stiffness: 300, damping: 20, mass: 0.5 });
-
-  function handleMouseMove(event: MouseEvent<HTMLAnchorElement>) {
-    if (reduceMotion) return;
-    const rect = event.currentTarget.getBoundingClientRect();
-    x.set((event.clientX - rect.left - rect.width / 2) * 0.25);
-    y.set((event.clientY - rect.top - rect.height / 2) * 0.25);
-  }
-
-  function handleMouseLeave() {
-    x.set(0);
-    y.set(0);
-  }
-
-  return (
-    <motion.a
-      href={href}
-      target={external ? "_blank" : undefined}
-      rel={external ? "noopener noreferrer" : undefined}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      style={{ x: springX, y: springY }}
-      whileHover={{ scale: 1.04 }}
-      whileTap={{ scale: 0.96 }}
-      className={className}
-    >
-      {children}
-    </motion.a>
-  );
-}
-
 export function HeroEntrance({
   eyebrow,
   headline,
   subheadline,
-  ctaLabel,
-  ctaHref,
-  phoneLabel,
-  phoneHref,
+  scrollTargetId = "services",
+  scrollLabel = "Explore Our Care",
   topSlot,
 }: {
   eyebrow: string;
   headline: string;
   subheadline: string;
-  ctaLabel: string;
-  ctaHref: string;
-  phoneLabel?: string;
-  phoneHref?: string;
+  scrollTargetId?: string;
+  scrollLabel?: string;
   topSlot?: ReactNode;
 }) {
   const reduceMotion = useReducedMotion();
@@ -92,7 +41,7 @@ export function HeroEntrance({
   const [words] = useState(() => headline.split(" "));
 
   return (
-    <div className="relative flex max-w-xl flex-col items-center text-center lg:items-start lg:text-left">
+    <div className="relative flex max-w-2xl flex-col items-center rounded-3xl border border-white/10 bg-navy-900/35 p-6 text-center backdrop-blur-md sm:p-8 lg:items-start lg:text-left">
       {topSlot ? <div className="mb-5">{topSlot}</div> : null}
       <motion.div
         custom={0}
@@ -135,29 +84,24 @@ export function HeroEntrance({
         {subheadline}
       </motion.p>
 
-      <motion.div
+      <motion.a
+        href={`#${scrollTargetId}`}
         custom={0.85}
         variants={fadeUp}
         initial={initial}
         animate="visible"
-        className="mt-7 flex flex-col items-center justify-center gap-4 sm:flex-row lg:justify-start"
+        className="group mt-8 inline-flex items-center gap-2.5 text-sm font-semibold uppercase tracking-[0.15em] text-white/80 transition-colors hover:text-white"
       >
-        <MagneticLink
-          href={ctaHref}
-          external
-          className="rounded-full bg-primary-500 px-8 py-4 text-base font-semibold text-ink-900 transition-colors hover:bg-primary-600"
+        {scrollLabel}
+        <motion.span
+          aria-hidden
+          animate={reduceMotion ? undefined : { y: [0, 5, 0] }}
+          transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
+          className="flex h-8 w-8 items-center justify-center rounded-full border border-white/25 transition-colors group-hover:border-white/50"
         >
-          {ctaLabel}
-        </MagneticLink>
-        {phoneHref ? (
-          <MagneticLink
-            href={phoneHref}
-            className="rounded-full border border-white/25 px-8 py-4 text-base font-semibold text-white transition-colors hover:bg-white/10"
-          >
-            {phoneLabel}
-          </MagneticLink>
-        ) : null}
-      </motion.div>
+          ↓
+        </motion.span>
+      </motion.a>
     </div>
   );
 }

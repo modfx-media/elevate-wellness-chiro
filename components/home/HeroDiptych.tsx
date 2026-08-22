@@ -24,7 +24,7 @@ export function HeroDiptych({
   const reduceMotion = useReducedMotion();
 
   return (
-    <div className="relative mx-auto w-full max-w-sm lg:ml-auto lg:mr-0">
+    <div className="relative mx-auto w-full max-w-md lg:mx-0">
       <motion.div
         initial={reduceMotion ? false : { opacity: 0, y: 30, scale: 0.96 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}

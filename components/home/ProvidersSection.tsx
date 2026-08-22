@@ -35,9 +35,10 @@ export function ProvidersSection({
   providers: Provider[];
 }) {
   const single = providers.length === 1;
+  const triple = providers.length === 3;
 
   return (
-    <section className="mx-auto w-full max-w-[1280px] px-6 py-24 lg:px-8">
+    <section className="mx-auto w-full max-w-[1280px] px-6 py-14 lg:px-8 lg:py-24">
       <div className="reveal flex items-center justify-center gap-3">
         <span aria-hidden className="h-px w-10 bg-primary-500/60" />
         <span className="text-xs font-semibold uppercase tracking-[0.2em] text-primary-600">
@@ -51,7 +52,7 @@ export function ProvidersSection({
 
       <div
         className={`mx-auto mt-14 grid gap-8 ${
-          single ? "max-w-3xl grid-cols-1" : "sm:grid-cols-2"
+          single ? "max-w-3xl grid-cols-1" : triple ? "sm:grid-cols-3" : "sm:grid-cols-2"
         }`}
       >
         {providers.map((provider, i) => (

@@ -113,9 +113,22 @@ export function Footer() {
 
         <div className="flex flex-col gap-4 py-7 md:flex-row md:items-center md:justify-between">
           <p className="max-w-2xl text-[11px] leading-relaxed text-white/35">{disclaimerText}</p>
-          <p className="shrink-0 text-[12.5px] font-medium text-white/45">
-            &copy; {year} Elevate Wellness Chiropractic. All Rights Reserved.
-          </p>
+          <div className="flex shrink-0 flex-col items-start gap-1 md:items-end">
+            <p className="text-[12.5px] font-medium text-white/45">
+              &copy; {year} Elevate Wellness Chiropractic. All Rights Reserved.
+            </p>
+            <p className="text-[11.5px] text-white/35">
+              Powered by{" "}
+              <a
+                href="https://modfxmedia.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-semibold text-white/60 transition-colors duration-200 hover:text-primary-300"
+              >
+                MODFXMEDIA
+              </a>
+            </p>
+          </div>
         </div>
       </div>
     </footer>

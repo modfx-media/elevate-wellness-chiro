@@ -2,7 +2,13 @@ import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import type { SiteInventoryPage, InventoryImage } from "@/lib/site-content";
-import { parseServiceBody, type BodyBlock, type ServiceSection } from "@/lib/parse-service-body";
+import {
+  parseServiceBody,
+  promoteIntroHeadings,
+  regroupConsecutiveShortsAsLists,
+  type BodyBlock,
+  type ServiceSection,
+} from "@/lib/parse-service-body";
 import { BOOKING_URL } from "@/components/site/nav-data";
 import { locations } from "@/components/site/footer-data";
 import { FaqAccordion } from "@/components/home/FaqAccordion";
@@ -14,14 +20,35 @@ import { MotionLink } from "@/components/home/MotionLink";
 const HUB_SLUG = "injuries-we-treat";
 
 export function ConditionTemplate({ page }: { page: SiteInventoryPage }) {
-  const parsed = parseServiceBody(page);
+  const parsed = promoteIntroHeadings(parseServiceBody(page));
   const hero = page.images.find((img) => img.placement === "hero");
   const inlineImages = page.images.filter((img) => img.placement === "inline (body content)");
   const bountiful = locations[0];
 
   const displayTitle = page.title.split(" | ")[0].split(" - ")[0].trim() || page.title;
-  const inlineMediaIndex = Math.max(0, Math.floor(parsed.sections.length / 2) - 1);
   const isHub = page.slug === HUB_SLUG;
+
+  const leadParagraph =
+    parsed.intro.find((b): b is Extract<BodyBlock, { type: "paragraph" }> => b.type === "paragraph")?.text ?? null;
+  const remainingIntro = leadParagraph
+    ? regroupConsecutiveShortsAsLists(
+        parsed.intro.filter((b, i, arr) => {
+          const firstParaIdx = arr.findIndex((x) => x.type === "paragraph");
+          return i !== firstParaIdx;
+        }),
+      )
+    : regroupConsecutiveShortsAsLists(parsed.intro);
+
+  // Evenly spread inline images across sections so pages with 2–3 images get a
+  // magazine-style image-in-section rhythm instead of a stacked photo column.
+  const sectionImageMap = new Map<number, InventoryImage>();
+  if (parsed.sections.length > 0 && inlineImages.length > 0) {
+    inlineImages.forEach((img, i) => {
+      let target = Math.floor(((i + 1) * parsed.sections.length) / (inlineImages.length + 1));
+      while (sectionImageMap.has(target) && target < parsed.sections.length - 1) target++;
+      sectionImageMap.set(target, img);
+    });
+  }
 
   return (
     <main className="flex flex-1 flex-col bg-white">
@@ -35,31 +62,24 @@ export function ConditionTemplate({ page }: { page: SiteInventoryPage }) {
       <HeroBand
         title={displayTitle}
         breadcrumb={parsed.breadcrumb}
-        preamble={parsed.preamble}
         hero={hero}
-        intro={parsed.intro}
+        lead={leadParagraph}
         isHub={isHub}
+        bountiful={{ phone: bountiful.phone, telHref: bountiful.telHref }}
       />
 
-      {parsed.sections.map((section, i) => {
-        const isAlt = i % 2 === 1;
-        return (
-          <div key={`${section.heading}-${i}`}>
-            <SectionBand
-              section={section}
-              index={i}
-              total={parsed.sections.length}
-              alternate={isAlt}
-            />
-            {i === inlineMediaIndex && inlineImages[0] ? (
-              <MediaImageBand image={inlineImages[0]} />
-            ) : null}
-            {i === inlineMediaIndex && inlineImages[1] ? (
-              <MediaImageBand image={inlineImages[1]} />
-            ) : null}
-          </div>
-        );
-      })}
+      {remainingIntro.length > 0 ? <IntroBody blocks={remainingIntro} /> : null}
+
+      {parsed.sections.map((section, i) => (
+        <SectionBand
+          key={`${section.heading}-${i}`}
+          section={section}
+          index={i}
+          total={parsed.sections.length}
+          alternate={i % 2 === 1}
+          image={sectionImageMap.get(i)}
+        />
+      ))}
 
       {parsed.cta ? (
         <CtaBand
@@ -81,60 +101,41 @@ export function ConditionTemplate({ page }: { page: SiteInventoryPage }) {
 function HeroBand({
   title,
   breadcrumb,
-  preamble,
   hero,
-  intro,
+  lead,
   isHub,
+  bountiful,
 }: {
   title: string;
   breadcrumb: string | null;
-  preamble: string[];
   hero?: InventoryImage;
-  intro: BodyBlock[];
+  lead: string | null;
   isHub: boolean;
+  bountiful: { phone: string; telHref: string };
 }) {
-  const paragraphs = intro.filter(
-    (b): b is Extract<BodyBlock, { type: "paragraph" }> => b.type === "paragraph",
-  );
-  const introLists = intro.filter(
-    (b): b is Extract<BodyBlock, { type: "list" }> => b.type === "list",
-  );
-  const lead = paragraphs[0]?.text;
-  const secondary = paragraphs.slice(1);
-
-  const pillLine = preamble.find((line) => line.includes("|"));
-  const pills = pillLine ? pillLine.split("|").map((s) => s.trim()).filter(Boolean) : [];
-  const subtitleLines = preamble.filter((line) => line !== pillLine);
-
-  const eyebrow = isHub ? "Injuries We Treat" : "Condition Care";
+  const eyebrow = isHub ? "Injuries We Treat" : "Injury & Condition Care";
 
   return (
     <section className="relative overflow-hidden bg-navy-900">
-      {hero ? (
-        <Image
-          src={hero.src}
-          alt=""
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover opacity-30"
-        />
-      ) : null}
       <div
         aria-hidden
-        className="absolute inset-0 bg-gradient-to-br from-navy-900 via-navy-900/95 to-navy-700/80"
+        className="absolute inset-0 bg-gradient-to-br from-navy-900 via-navy-900 to-navy-800"
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute -right-24 top-1/3 h-96 w-96 rounded-full bg-primary-500/15 blur-[160px]"
+        className="pointer-events-none absolute -left-24 -top-24 h-96 w-96 rounded-full bg-primary-500/10 blur-[160px]"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -right-16 bottom-0 h-[28rem] w-[28rem] rounded-full bg-primary-500/10 blur-[180px]"
       />
 
-      <div className="relative mx-auto grid max-w-[1180px] grid-cols-1 items-center gap-14 px-6 pb-20 pt-16 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16 lg:px-8 lg:pb-24 lg:pt-20">
+      <div className="relative mx-auto grid max-w-[1180px] grid-cols-1 items-center gap-10 px-6 pb-16 pt-12 lg:min-h-[520px] lg:grid-cols-[1.05fr_0.95fr] lg:gap-14 lg:px-8 lg:pb-20 lg:pt-16">
         <div className="reveal">
           {breadcrumb ? (
             <nav
               aria-label="Breadcrumb"
-              className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-primary-300"
+              className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-primary-300"
             >
               <Link href="/" className="transition-colors hover:text-white">
                 Home
@@ -160,52 +161,26 @@ function HeroBand({
               </span>
             </nav>
           ) : (
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary-300">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary-300">
               {eyebrow}
             </p>
           )}
-          <h1 className="mt-6 font-display text-4xl font-bold leading-[1.05] tracking-tight text-white sm:text-5xl lg:text-[3.5rem]">
+
+          <span className="mt-4 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-primary-300">
+            <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-primary-400" />
+            {isHub ? "Overview" : "Injury & Condition Care"}
+          </span>
+
+          <h1 className="mt-5 font-display text-4xl font-bold leading-[1.05] tracking-tight text-white sm:text-5xl lg:text-[3.25rem]">
             {title}
           </h1>
-          {subtitleLines.length > 0 ? (
-            <p className="mt-3 max-w-xl text-base font-medium text-primary-300">
-              {subtitleLines.join(" · ")}
+
+          {lead ? (
+            <p className="mt-6 max-w-xl text-base leading-relaxed text-white/80 sm:text-lg">
+              {lead}
             </p>
           ) : null}
-          {pills.length > 0 ? (
-            <div className="mt-5 flex flex-wrap gap-2">
-              {pills.map((pill, i) => (
-                <span
-                  key={i}
-                  className="rounded-full border border-white/20 bg-white/5 px-3.5 py-1.5 text-xs font-semibold text-white/85"
-                >
-                  {pill}
-                </span>
-              ))}
-            </div>
-          ) : null}
-          {lead ? (
-            <p className="mt-6 max-w-xl text-lg leading-relaxed text-white/80">{lead}</p>
-          ) : null}
-          {introLists.length > 0 ? (
-            <div className="mt-5 flex flex-wrap gap-2">
-              {introLists.flatMap((list) => list.items).map((item, i) => (
-                <span
-                  key={i}
-                  className="rounded-full border border-white/20 bg-white/5 px-3.5 py-1.5 text-xs font-semibold text-white/80"
-                >
-                  {item}
-                </span>
-              ))}
-            </div>
-          ) : null}
-          {secondary.length > 0 ? (
-            <div className="mt-5 space-y-3 text-base leading-relaxed text-white/70">
-              {secondary.map((p, i) => (
-                <p key={i}>{p.text}</p>
-              ))}
-            </div>
-          ) : null}
+
           <div className="mt-8 flex flex-col items-start gap-3 sm:flex-row sm:items-center">
             <a
               href={BOOKING_URL}
@@ -216,27 +191,30 @@ function HeroBand({
               Schedule Appointment
             </a>
             <a
-              href={locations[0].telHref}
+              href={bountiful.telHref}
               className="rounded-full border border-white/25 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10"
             >
-              Call {locations[0].phone}
+              Call {bountiful.phone}
             </a>
           </div>
         </div>
 
         {hero ? (
-          <div className="reveal relative aspect-[4/5] overflow-hidden rounded-3xl border border-white/10 shadow-2xl">
+          <div
+            className="reveal relative aspect-[5/4] w-full overflow-hidden rounded-3xl border border-white/10 shadow-2xl lg:aspect-[4/5] lg:justify-self-end"
+            style={{ "--reveal-delay": "120ms" } as CSSProperties}
+          >
             <Image
               src={hero.src}
               alt={hero.alt}
               fill
-              sizes="(min-width: 1024px) 40vw, 90vw"
+              sizes="(min-width: 1024px) 42vw, 100vw"
               priority
               className="object-cover"
             />
             <div
               aria-hidden
-              className="absolute inset-0 bg-gradient-to-t from-navy-900/70 via-navy-900/10 to-transparent"
+              className="absolute inset-0 bg-gradient-to-t from-navy-900/60 via-transparent to-transparent"
             />
           </div>
         ) : null}
@@ -245,18 +223,68 @@ function HeroBand({
   );
 }
 
+// ─── Intro body ──────────────────────────────────────────────────────────────
+//
+// Renders the leftover intro content (secondary paragraphs + any intro lists)
+// as clean prose + a list-card grid, on a light background between the hero
+// and the numbered sections. Prevents the hero from ballooning when the
+// crawler missed section H2s.
+
+export function IntroBody({ blocks }: { blocks: BodyBlock[] }) {
+  if (blocks.length === 0) return null;
+  const paragraphs = blocks.filter(
+    (b): b is Extract<BodyBlock, { type: "paragraph" }> => b.type === "paragraph",
+  );
+  const lists = blocks.filter(
+    (b): b is Extract<BodyBlock, { type: "list" }> => b.type === "list",
+  );
+  const listItems = lists.flatMap((l) => l.items);
+
+  return (
+    <section className="bg-white px-6 py-14 lg:px-8 lg:py-16">
+      <div className="mx-auto max-w-3xl">
+        {paragraphs.length > 0 ? (
+          <div
+            className="reveal space-y-5 text-base leading-relaxed text-ink-900"
+            style={{ "--reveal-delay": "60ms" } as CSSProperties}
+          >
+            {paragraphs.map((p, i) => (
+              <p key={i}>{p.text}</p>
+            ))}
+          </div>
+        ) : null}
+
+        {listItems.length > 0 ? (
+          <ul
+            className={`reveal mt-8 grid grid-cols-1 gap-3 ${
+              listItems.length > 6 ? "sm:grid-cols-2 lg:grid-cols-3" : "sm:grid-cols-2"
+            }`}
+            style={{ "--reveal-delay": "120ms" } as CSSProperties}
+          >
+            {listItems.map((item, i) => (
+              <ListCard key={i} index={i} text={item} />
+            ))}
+          </ul>
+        ) : null}
+      </div>
+    </section>
+  );
+}
+
 // ─── Body sections ───────────────────────────────────────────────────────────
 
-function SectionBand({
+export function SectionBand({
   section,
   index,
   total,
   alternate,
+  image,
 }: {
   section: ServiceSection;
   index: number;
   total: number;
   alternate: boolean;
+  image?: InventoryImage;
 }) {
   const paragraphBlocks = section.blocks.filter(
     (b) => b.type === "paragraph",
@@ -266,16 +294,41 @@ function SectionBand({
   ) as Extract<BodyBlock, { type: "list" }>[];
   const totalListItems = listBlocks.reduce((n, l) => n + l.items.length, 0);
   const bg = alternate ? "bg-gray-50" : "bg-white";
+  // Alternate which side the image appears on for a magazine-style rhythm.
+  const imageOnRight = index % 2 === 0;
 
-  const layout: "prose" | "split" | "stacked" =
-    totalListItems === 0 ? "prose" : totalListItems <= 6 ? "split" : "stacked";
+  const layout: "image-split" | "image-stacked" | "prose" | "split" | "stacked" = image
+    ? totalListItems > 6
+      ? "image-stacked"
+      : "image-split"
+    : totalListItems === 0
+      ? "prose"
+      : totalListItems <= 6
+        ? "split"
+        : "stacked";
 
   return (
-    <section className={`${bg} px-6 py-16 lg:px-8 lg:py-20`}>
+    <section className={`${bg} px-6 py-16 lg:px-8 lg:py-24`}>
       <div className="mx-auto max-w-[1180px]">
         <SectionCounter index={index} total={total} />
 
-        {layout === "prose" ? (
+        {layout === "image-split" && image ? (
+          <ImageSplitLayout
+            heading={section.heading}
+            paragraphs={paragraphBlocks}
+            lists={listBlocks}
+            image={image}
+            imageOnRight={imageOnRight}
+          />
+        ) : layout === "image-stacked" && image ? (
+          <ImageStackedLayout
+            heading={section.heading}
+            paragraphs={paragraphBlocks}
+            lists={listBlocks}
+            image={image}
+            imageOnRight={imageOnRight}
+          />
+        ) : layout === "prose" ? (
           <ProseLayout heading={section.heading} paragraphs={paragraphBlocks} />
         ) : layout === "split" ? (
           <SplitLayout
@@ -295,7 +348,7 @@ function SectionBand({
   );
 }
 
-function SectionCounter({ index, total }: { index: number; total: number }) {
+export function SectionCounter({ index, total }: { index: number; total: number }) {
   return (
     <div className="reveal flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.2em] text-primary-600">
       <span className="tabular-nums text-navy-900">
@@ -401,7 +454,7 @@ function StackedLayout({
   );
 }
 
-function ListCard({ index, text }: { index: number; text: string }) {
+export function ListCard({ index, text }: { index: number; text: string }) {
   return (
     <li className="group flex gap-4 rounded-2xl border border-gray-100 bg-white p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
       <span
@@ -417,28 +470,148 @@ function ListCard({ index, text }: { index: number; text: string }) {
 
 // ─── Inline media ────────────────────────────────────────────────────────────
 
-function MediaImageBand({ image }: { image: InventoryImage }) {
+export function SectionImage({ image, className }: { image: InventoryImage; className?: string }) {
   return (
-    <section className="bg-white px-6 py-4 lg:px-8">
-      <div className="mx-auto max-w-3xl">
-        <figure className="reveal relative aspect-[16/10] overflow-hidden rounded-2xl shadow-xl">
-          <Image
-            src={image.src}
-            alt={image.alt}
-            fill
-            sizes="(min-width: 1024px) 768px, 100vw"
-            className="object-cover object-center"
-          />
-          <figcaption className="sr-only">{image.alt}</figcaption>
-        </figure>
+    <figure
+      className={`reveal relative overflow-hidden rounded-3xl border border-navy-900/5 shadow-xl ${className ?? ""}`}
+      style={{ "--reveal-delay": "100ms" } as CSSProperties}
+    >
+      <Image
+        src={image.src}
+        alt={image.alt}
+        fill
+        sizes="(min-width: 1024px) 44vw, 100vw"
+        className="object-cover"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-white/10"
+      />
+      <figcaption className="sr-only">{image.alt}</figcaption>
+    </figure>
+  );
+}
+
+function ImageSplitLayout({
+  heading,
+  paragraphs,
+  lists,
+  image,
+  imageOnRight,
+}: {
+  heading: string;
+  paragraphs: Extract<BodyBlock, { type: "paragraph" }>[];
+  lists: Extract<BodyBlock, { type: "list" }>[];
+  image: InventoryImage;
+  imageOnRight: boolean;
+}) {
+  const items = lists.flatMap((l) => l.items);
+  const content = (
+    <div className="reveal">
+      <h2 className="mt-4 font-display text-3xl font-bold tracking-tight text-navy-900 sm:text-4xl">
+        {heading}
+      </h2>
+      <div className="mt-6 space-y-4 text-base leading-relaxed text-ink-900">
+        {paragraphs.map((p, i) => (
+          <p key={i}>{p.text}</p>
+        ))}
       </div>
-    </section>
+      {items.length > 0 ? (
+        <ul className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
+          {items.map((item, i) => (
+            <ListCard key={i} index={i} text={item} />
+          ))}
+        </ul>
+      ) : null}
+    </div>
+  );
+  const media = (
+    <SectionImage
+      image={image}
+      className="aspect-[4/3] w-full lg:aspect-auto lg:h-full lg:min-h-[360px]"
+    />
+  );
+  return (
+    <div className="mt-2 grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:gap-14">
+      {imageOnRight ? (
+        <>
+          {content}
+          {media}
+        </>
+      ) : (
+        <>
+          {media}
+          {content}
+        </>
+      )}
+    </div>
+  );
+}
+
+function ImageStackedLayout({
+  heading,
+  paragraphs,
+  lists,
+  image,
+  imageOnRight,
+}: {
+  heading: string;
+  paragraphs: Extract<BodyBlock, { type: "paragraph" }>[];
+  lists: Extract<BodyBlock, { type: "list" }>[];
+  image: InventoryImage;
+  imageOnRight: boolean;
+}) {
+  const items = lists.flatMap((l) => l.items);
+  const intro = (
+    <div className="reveal">
+      <h2 className="mt-4 font-display text-3xl font-bold tracking-tight text-navy-900 sm:text-4xl">
+        {heading}
+      </h2>
+      <div className="mt-6 space-y-4 text-base leading-relaxed text-ink-900">
+        {paragraphs.map((p, i) => (
+          <p key={i}>{p.text}</p>
+        ))}
+      </div>
+    </div>
+  );
+  const media = (
+    <SectionImage
+      image={image}
+      className="aspect-[4/3] w-full lg:aspect-auto lg:h-full lg:min-h-[360px]"
+    />
+  );
+  return (
+    <div>
+      <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:gap-14">
+        {imageOnRight ? (
+          <>
+            {intro}
+            {media}
+          </>
+        ) : (
+          <>
+            {media}
+            {intro}
+          </>
+        )}
+      </div>
+      {items.length > 0 ? (
+        <ul
+          className="reveal mt-10 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3"
+          style={{ "--reveal-delay": "140ms" } as CSSProperties}
+        >
+          {items.map((item, i) => (
+            <ListCard key={i} index={i} text={item} />
+          ))}
+        </ul>
+      ) : null}
+    </div>
   );
 }
 
 // ─── CTA + FAQ ───────────────────────────────────────────────────────────────
 
-function CtaBand({
+export function CtaBand({
   eyebrow,
   heading,
   body,
@@ -452,12 +625,12 @@ function CtaBand({
   telHref: string;
 }) {
   return (
-    <section className="bg-white px-6 py-20 lg:px-8 lg:py-24">
+    <section className="bg-white px-6 py-14 lg:px-8 lg:py-24">
       <div className="relative mx-auto max-w-[1180px] overflow-hidden rounded-[2rem] bg-navy-900 shadow-2xl">
         <div className="grid grid-cols-1 items-stretch lg:grid-cols-2">
           <div className="relative min-h-[320px] lg:min-h-[440px]">
             <Image
-              src="/images/homepage/schedule-today.png"
+              src="/images/homepage/schedule-today-v2.png"
               alt="Chiropractor evaluating a patient at Elevate Wellness Chiropractic"
               fill
               sizes="(min-width: 1024px) 50vw, 100vw"
@@ -510,7 +683,7 @@ function CtaBand({
 
 function FaqBand({ items }: { items: { question: string; answer: string }[] }) {
   return (
-    <section className="bg-gray-50 px-6 py-20 lg:px-8 lg:py-24">
+    <section className="bg-gray-50 px-6 py-14 lg:px-8 lg:py-24">
       <div className="mx-auto grid max-w-[1180px] grid-cols-1 gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)]">
         <div className="reveal lg:sticky lg:top-32 lg:self-start">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary-600">

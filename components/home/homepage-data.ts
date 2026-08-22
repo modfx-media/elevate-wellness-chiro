@@ -381,8 +381,8 @@ export const locations = officeLocations.map((location) => ({
   phone: location.phone,
   telHref: location.telHref,
   hours: location.hours,
-  mapQuery: location.address,
-  mapSrc: `https://www.google.com/maps?q=${encodeURIComponent(location.address)}&output=embed`,
+  mapQuery: `Elevate Wellness Chiropractic, ${location.address}`,
+  mapSrc: `https://www.google.com/maps?q=${encodeURIComponent(`Elevate Wellness Chiropractic, ${location.address}`)}&output=embed`,
 }));
 
 export const locationsHeading = {

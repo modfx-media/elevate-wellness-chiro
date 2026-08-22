@@ -28,7 +28,9 @@ export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [headerHeight, setHeaderHeight] = useState(0);
   const navRef = useRef<HTMLElement>(null);
+  const headerRef = useRef<HTMLElement>(null);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -37,6 +39,20 @@ export function Header() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  // Measures the real rendered header height (it changes as the top utility
+  // bar collapses on scroll) so the mobile menu overlay can start exactly
+  // where the header ends instead of a hardcoded pixel guess.
+  useEffect(() => {
+    const el = headerRef.current;
+    if (!el) return;
+    const update = () => setHeaderHeight(el.getBoundingClientRect().height);
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
 
   useEffect(() => {
     if (!openMenu) return;
@@ -59,7 +75,7 @@ export function Header() {
   // Reproduces the reference site's compact-on-scroll sticky nav interaction
   // (shorter, shadowed, opaque) using Elevate Wellness's own light color scheme.
   return (
-    <header className="sticky top-0 z-50 w-full">
+    <header ref={headerRef} className="sticky top-0 z-50 w-full">
       {/* Top utility bar — collapses on scroll */}
       <div
         className={`overflow-hidden border-b border-white/10 bg-[#0c2c3b] text-white transition-all duration-300 ${
@@ -183,7 +199,12 @@ export function Header() {
       </div>
 
       <div id="mobile-menu">
-        <MobileMenu items={headerMenu} open={mobileOpen} onClose={() => setMobileOpen(false)} />
+        <MobileMenu
+          items={headerMenu}
+          open={mobileOpen}
+          onClose={() => setMobileOpen(false)}
+          topOffset={headerHeight}
+        />
       </div>
     </header>
   );

@@ -130,6 +130,25 @@ already exist); section rhythm is standardized on top of it:
 | `--radius-card` | 1rem (16px) | Card/panel corner radius |
 | `--radius-button` | 9999px (full/pill) | Button corner radius — see §5 |
 
+### Section vertical-padding tiers (implemented convention)
+
+`--space-section-y` above is the general spec; in practice every page
+section should use one of these three concrete Tailwind utility pairs so
+spacing stays consistent site-wide and never stacks into oversized mobile
+whitespace gaps between adjacent sections:
+
+| Tier | Classes | Mobile / Desktop | Use for |
+|---|---|---|---|
+| **Standard** | `py-14 lg:py-24` | 56px / 96px | Default content sections — service grids, CTA-card wrappers, offices/contact grids, provider bio, FAQ/CTA bands on interior pages |
+| **Feature** | `py-16 lg:py-28` | 64px / 112px | Hero-weight or dark/colored bands — philosophy band, homepage FAQ, reviews/testimonials, blog teaser, locations/map, area bands |
+| **Compact** | `py-8 lg:py-10` | 32px / 40px | Slim callout/estimate bars |
+
+Horizontal gutter stays `px-6 lg:px-8` (24px/32px) everywhere — already
+consistent, no tier needed. Never pair two adjacent sections that both use
+the Feature tier's full padding without a strong visual break (image, card,
+divider) between them — the combined 128px+ can read as unintentional
+whitespace on mobile.
+
 ### Breakpoints (Tailwind defaults — no custom breakpoints needed)
 
 `sm` 640px · `md` 768px · `lg` 1024px · `xl` 1280px · `2xl` 1536px. Content

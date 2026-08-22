@@ -26,7 +26,7 @@ export function HeroVideoBackground() {
       <video
         ref={videoRef}
         className="absolute inset-0 h-full w-full object-cover"
-        style={{ filter: "brightness(0.55) saturate(1.05)" }}
+        style={{ filter: "brightness(0.85) saturate(1.1)" }}
         autoPlay
         muted
         loop
@@ -37,15 +37,18 @@ export function HeroVideoBackground() {
         <source src="/videos/hero-chiropractic.mp4" type="video/mp4" />
       </video>
 
-      {/* Navy multiply tint — caps peak luminance of any bright frame */}
-      <div className="absolute inset-0 bg-navy-900/70 mix-blend-multiply" />
+      {/* Light navy multiply tint for on-brand cohesion — kept subtle so the
+          video itself stays visible instead of reading as a solid color. */}
+      <div className="absolute inset-0 bg-navy-900/30 mix-blend-multiply" />
 
-      {/* Diagonal scrim — darkest over the left text column */}
+      {/* Gentle bottom-up scrim only, for stat-strip legibility — no longer a
+          heavy diagonal wash so the video reads clearly across the frame.
+          Text legibility is instead handled by a glass panel in HeroEntrance. */}
       <div
         className="absolute inset-0"
         style={{
           background:
-            "linear-gradient(105deg, rgba(24,62,83,0.95) 0%, rgba(24,62,83,0.86) 42%, rgba(24,62,83,0.55) 72%, rgba(24,62,83,0.35) 100%)",
+            "linear-gradient(180deg, rgba(18,59,78,0.25) 0%, rgba(18,59,78,0.15) 35%, rgba(18,59,78,0.45) 100%)",
         }}
       />
 

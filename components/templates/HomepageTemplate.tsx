@@ -73,15 +73,11 @@ export function HomepageTemplate({
         <HeroVideoBackground />
 
         <div className="relative z-10 mx-auto max-w-6xl">
-          <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[1.15fr_0.85fr]">
+          <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:gap-8">
             <HeroEntrance
               eyebrow={content.heroEyebrow}
               headline={hero.headline}
               subheadline={hero.subheadline}
-              ctaLabel={hero.ctaLabel}
-              ctaHref={hero.ctaHref}
-              phoneLabel={`Call ${content.phone}`}
-              phoneHref={content.telHref}
               topSlot={<HeroTrustChip rating={reviews.ratingValue} reviewCount={reviews.reviewCount} />}
             />
 
@@ -95,8 +91,8 @@ export function HomepageTemplate({
             />
           </div>
 
-          {/* Trust stats — one connected glass strip with dividers */}
-          <div className="mt-10 inline-flex flex-wrap items-stretch overflow-hidden rounded-2xl border border-white/15 bg-white/10 backdrop-blur-md">
+          {/* Trust stats — one connected glass strip with dividers (desktop only; hero is compact on mobile) */}
+          <div className="mt-10 hidden flex-wrap items-stretch overflow-hidden rounded-2xl border border-white/15 bg-white/10 backdrop-blur-md lg:inline-flex">
             {trustBadges.map((badge, i) => (
               <div
                 key={badge.label}
@@ -110,7 +106,7 @@ export function HomepageTemplate({
       </section>
 
       {/* Services grid — compact tile grid, body copy reveals on hover to keep the section short */}
-      <section className="mx-auto w-full max-w-[1280px] px-6 py-20 lg:px-8">
+      <section id="services" className="mx-auto w-full max-w-[1280px] px-6 py-14 lg:px-8 lg:py-24">
         <SectionEyebrow label="What We Do" />
         <h2 className="reveal mt-4 text-center font-display text-4xl font-bold tracking-tight text-ink-900 sm:text-5xl">
           {servicesHeading}
@@ -144,7 +140,7 @@ export function HomepageTemplate({
                 <h3 className="font-display text-sm font-semibold leading-tight text-white sm:text-base">
                   {service.title}
                 </h3>
-                <div className="grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-out group-hover:grid-rows-[1fr] group-focus-visible:grid-rows-[1fr]">
+                <div className="grid grid-rows-[1fr] transition-[grid-template-rows] duration-300 ease-out lg:grid-rows-[0fr] lg:group-hover:grid-rows-[1fr] lg:group-focus-visible:grid-rows-[1fr]">
                   <div className="overflow-hidden">
                     <p className="mt-1 line-clamp-3 text-xs leading-relaxed text-white/80">
                       {service.body}
@@ -161,7 +157,7 @@ export function HomepageTemplate({
       </section>
 
       {/* Bountiful / practice philosophy */}
-      <section className="relative overflow-hidden bg-gray-50 px-6 py-28 lg:px-8">
+      <section className="relative overflow-hidden bg-gray-50 px-6 py-16 lg:px-8 lg:py-28">
         <div className="mx-auto grid max-w-[1280px] grid-cols-1 items-center gap-16 lg:grid-cols-2">
           <div className="relative">
             <div
@@ -213,13 +209,13 @@ export function HomepageTemplate({
       <ProvidersSection heading={content.providersHeading} providers={content.providers} />
 
       {/* CTA banner — two-column card, real chiropractic photo + copy */}
-      <section className="px-6 py-24 lg:px-8">
+      <section className="px-6 py-14 lg:px-8 lg:py-24">
         <div className="relative mx-auto max-w-[1280px] overflow-hidden rounded-[2rem] bg-navy-900 shadow-2xl">
           <div className="grid grid-cols-1 items-stretch lg:grid-cols-2">
             {/* Left column — photo */}
             <div className="relative min-h-[360px] lg:min-h-[520px]">
               <Image
-                src="/images/homepage/schedule-today.png"
+                src="/images/homepage/schedule-today-v2.png"
                 alt="Chiropractor evaluating a patient's spine at Elevate Wellness Chiropractic"
                 fill
                 sizes="(min-width: 1024px) 50vw, 100vw"
@@ -270,7 +266,7 @@ export function HomepageTemplate({
       </section>
 
       {/* FAQ — sticky label column + accordion, like a modern SaaS FAQ layout */}
-      <section className="mx-auto w-full max-w-[1280px] px-6 py-28 lg:px-8">
+      <section className="mx-auto w-full max-w-[1280px] px-6 py-16 lg:px-8 lg:py-28">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)]">
           <div className="reveal lg:sticky lg:top-32 lg:self-start">
             <div className="flex items-center gap-3 lg:justify-start">
@@ -289,8 +285,8 @@ export function HomepageTemplate({
         </div>
       </section>
 
-      {/* Reviews / testimonials band — real 5.0 aggregate rating, animated stars */}
-      <section className="relative overflow-hidden bg-navy-900 px-6 py-24 lg:px-8 lg:py-28">
+      {/* Reviews / testimonials — rating band + real review carousel merged into one dark section */}
+      <section className="relative overflow-hidden bg-navy-900 px-6 py-16 lg:px-8 lg:py-28">
         <div
           aria-hidden
           className="pointer-events-none absolute left-1/2 top-0 h-[320px] w-[640px] -translate-x-1/2 rounded-full bg-primary-500/10 blur-[150px]"
@@ -309,28 +305,18 @@ export function HomepageTemplate({
             bookLabel={reviews.bookLabel}
             bookHref={reviews.bookHref}
           />
-        </div>
-      </section>
 
-      {/* Google review cards — real reviews scroll horizontally */}
-      <section className="bg-white px-6 py-20 lg:px-8">
-        <div className="mx-auto w-full max-w-[1280px]">
-          <div className="reveal mx-auto max-w-2xl text-center">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary-600">
-              Real Reviews
-            </p>
-            <h2 className="mt-3 font-display text-3xl font-bold tracking-tight text-ink-900 sm:text-4xl">
-              What our patients are saying
-            </h2>
-          </div>
-          <div className="reveal mt-12">
+          <div
+            className="reveal mx-auto mt-16 w-full max-w-[1280px]"
+            style={{ "--reveal-delay": "160ms" } as CSSProperties}
+          >
             <ReviewCarousel reviews={testimonials} />
           </div>
         </div>
       </section>
 
       {/* Blog preview */}
-      <section className="bg-gray-50 px-6 py-28 lg:px-8">
+      <section className="bg-gray-50 px-6 py-16 lg:px-8 lg:py-28">
         <div className="mx-auto w-full max-w-[1280px]">
           <SectionEyebrow label="From the Blog" />
           <h2 className="reveal mt-4 text-center font-display text-4xl font-bold tracking-tight text-ink-900 sm:text-5xl">
@@ -380,7 +366,7 @@ export function HomepageTemplate({
       </section>
 
       {/* Locations + map — both real Utah offices with hours & directions */}
-      <section className="mx-auto w-full max-w-[1280px] px-6 py-28 lg:px-8">
+      <section className="mx-auto w-full max-w-[1280px] px-6 py-16 lg:px-8 lg:py-28">
         <SectionEyebrow label={locationsHeading.eyebrow} />
         <h2 className="reveal mt-4 text-center font-display text-4xl font-bold tracking-tight text-ink-900 sm:text-5xl">
           {locationsHeading.heading}

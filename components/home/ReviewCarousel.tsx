@@ -174,7 +174,7 @@ export function ReviewCarousel({ reviews }: { reviews: Testimonial[] }) {
         onClick={() => scrollByCard(-1)}
         aria-label="Previous reviews"
         disabled={!canPrev}
-        className="absolute -left-4 top-1/2 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-navy-900 text-white shadow-lg transition-opacity disabled:opacity-30 lg:flex"
+        className="absolute -left-4 top-1/2 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white text-navy-900 shadow-lg transition-opacity disabled:opacity-30 lg:flex"
       >
         <ChevronIcon direction="left" />
       </button>
@@ -183,7 +183,7 @@ export function ReviewCarousel({ reviews }: { reviews: Testimonial[] }) {
         onClick={() => scrollByCard(1)}
         aria-label="Next reviews"
         disabled={!canNext}
-        className="absolute -right-4 top-1/2 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-navy-900 text-white shadow-lg transition-opacity disabled:opacity-30 lg:flex"
+        className="absolute -right-4 top-1/2 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white text-navy-900 shadow-lg transition-opacity disabled:opacity-30 lg:flex"
       >
         <ChevronIcon direction="right" />
       </button>

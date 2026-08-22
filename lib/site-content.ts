@@ -65,6 +65,15 @@ const data = inventory as unknown as SiteInventory;
 /** Production site origin these routes/canonicals are built for. */
 export const SITE_URL = "https://www.elevatewellnesschiro.com";
 
+/**
+ * Upgrades http:// URLs on the site's own host to https://. Some crawled
+ * openGraph.image values use http even though the site itself is https-only,
+ * which trips next/image's remotePatterns check.
+ */
+export function normalizeAssetUrl(url: string): string {
+  return url.replace(/^http:\/\/www\.elevatewellnesschiro\.com/, "https://www.elevatewellnesschiro.com");
+}
+
 const AUTHOR_PATH_PREFIX = "/author/";
 
 export function getAllPages(): SiteInventoryPage[] {
@@ -97,4 +106,57 @@ export function getAuthorPages(): SiteInventoryPage[] {
 
 export function getAuthorPageBySlug(slug: string): SiteInventoryPage | undefined {
   return getAuthorPages().find((p) => p.slug === slug);
+}
+
+// ─── Blog helpers ────────────────────────────────────────────────────────────
+
+export function getBlogPosts(): SiteInventoryPage[] {
+  return data.pages.filter((p) => p.pageType === "blog post");
+}
+
+export function getBlogPostBySlug(slug: string): SiteInventoryPage | undefined {
+  return getBlogPosts().find((p) => p.slug === slug);
+}
+
+/** All blog posts sorted newest-first by publishDate. */
+export function getBlogPostsSortedByDate(): SiteInventoryPage[] {
+  return [...getBlogPosts()].sort((a, b) => {
+    const ad = a.publishDate ?? "";
+    const bd = b.publishDate ?? "";
+    return bd.localeCompare(ad);
+  });
+}
+
+export function getCategoryArchives(): SiteInventoryPage[] {
+  return data.pages.filter((p) => p.pageType === "category archive");
+}
+
+/**
+ * Returns the blog posts linked from `categorySlug`'s crawled archive page —
+ * the same posts that showed on the live-site's first page. Preserves the
+ * order they appeared in the crawl's `internalLinks` array (dedup keeps first).
+ */
+export function getPostsLinkedFromCategory(categorySlug: string): SiteInventoryPage[] {
+  const category = data.pages.find(
+    (p) => p.pageType === "category archive" && p.slug === categorySlug,
+  );
+  if (!category) return [];
+  const posts = getBlogPosts();
+  const postBySlug = new Map(posts.map((p) => [p.slug, p]));
+  const seen = new Set<string>();
+  const out: SiteInventoryPage[] = [];
+  for (const link of category.internalLinks) {
+    for (const post of posts) {
+      if (seen.has(post.slug)) continue;
+      if (link.destination.includes(`/${post.slug}/`) || link.destination.endsWith(`/${post.slug}`)) {
+        const rec = postBySlug.get(post.slug);
+        if (rec) {
+          out.push(rec);
+          seen.add(post.slug);
+        }
+        break;
+      }
+    }
+  }
+  return out;
 }

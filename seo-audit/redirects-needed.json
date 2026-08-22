@@ -1,4 +1,22 @@
 {
-  "description": "Log any slug that cannot be preserved 1:1 in the Next.js route scaffold. Every entry must have { \"oldPath\": \"/old/\", \"newPath\": \"/new/\" } and next.config.ts wires it as a 308 permanent redirect. Empty because every live URL (including the 6 /author/[slug]/ pages) maps 1:1 to a route in this phase.",
-  "redirects": []
+  "description": "Legacy WordPress URLs that appear in crawled internalLinks but don't have a 1:1 slug in the Next.js build. Each entry is wired as a 308 permanent redirect via next.config.ts. Patterns with :param are parameterized routes.",
+  "redirects": [
+    { "oldPath": "/sitemap_index.xml", "newPath": "/sitemap.xml" },
+    { "oldPath": "/clinton-home/", "newPath": "/clinton/" },
+    { "oldPath": "/lower-back-pain/", "newPath": "/back-pain/" },
+    { "oldPath": "/neck-pain-symptoms/", "newPath": "/neck-pain/" },
+    { "oldPath": "/headache-treatment/", "newPath": "/headaches/" },
+    { "oldPath": "/chiropractic-care-bountiful-ut/", "newPath": "/elevate-wellness-chiropractic-in-bountiful-ut/" },
+    { "oldPath": "/chiropractic-2/", "newPath": "/chiropractic-care/" },
+    { "oldPath": "/pregnancy-and-pediatrics/", "newPath": "/pregnancy-chiropractor/" },
+    { "oldPath": "/about-us/", "newPath": "/elevate-wellness-chiropractic-in-bountiful-ut/" },
+    { "oldPath": "/could-a-hidden-spine-misalignment-be-ruining-your-recovery-2/", "newPath": "/could-a-hidden-spine-misalignment-be-ruining-your-recovery/" },
+    { "oldPath": "/blog/page/:n", "newPath": "/blog/" },
+    { "oldPath": "/chiropractor-bountiful-ut/page/:n", "newPath": "/chiropractor-bountiful-ut/" },
+    { "oldPath": "/spinal-decompression-bountiful-ut/page/:n", "newPath": "/spinal-decompression-bountiful-ut/" },
+    { "oldPath": "/auto-accidents-bountiful-ut/page/:n", "newPath": "/auto-accidents-bountiful-ut/" },
+    { "oldPath": "/sports-therapy-bountiful-ut/page/:n", "newPath": "/sports-therapy-bountiful-ut/" },
+    { "oldPath": "/author/:slug/page/:n", "newPath": "/author/:slug/" },
+    { "oldPath": "/tag/:slug", "newPath": "/blog/" }
+  ]
 }
