@@ -194,12 +194,14 @@ function HeroBand({
   hero,
   lead,
   bountiful,
+  showBookingButton = true,
 }: {
   title: string;
   breadcrumb: string | null;
   hero?: { src: string; alt: string };
   lead: string | null;
   bountiful: { phone: string; telHref: string };
+  showBookingButton?: boolean;
 }) {
   return (
     <section className="relative overflow-hidden bg-navy-900">
@@ -255,14 +257,16 @@ function HeroBand({
           ) : null}
 
           <div className="mt-8 flex flex-col items-start gap-3 sm:flex-row sm:items-center">
-            <a
-              href={BOOKING_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-full bg-primary-500 px-6 py-3 text-sm font-semibold text-ink-900 transition-colors hover:bg-primary-600"
-            >
-              Schedule Appointment
-            </a>
+            {showBookingButton ? (
+              <a
+                href={BOOKING_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-full bg-primary-500 px-6 py-3 text-sm font-semibold text-ink-900 transition-colors hover:bg-primary-600"
+              >
+                Schedule Appointment
+              </a>
+            ) : null}
             <a
               href={bountiful.telHref}
               className="rounded-full border border-white/25 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10"
@@ -587,6 +591,7 @@ function ContactTemplate({ page }: { page: SiteInventoryPage }) {
         }}
         lead={introText}
         bountiful={{ phone: locations[0].phone, telHref: locations[0].telHref }}
+        showBookingButton={false}
       />
 
       <section className="bg-white px-6 py-14 lg:px-8 lg:py-24">
