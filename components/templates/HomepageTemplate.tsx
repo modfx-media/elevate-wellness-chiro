@@ -6,7 +6,7 @@ import { HeroEntrance } from "@/components/home/HeroEntrance";
 import { MotionLink } from "@/components/home/MotionLink";
 import { MotionButton } from "@/components/home/MotionButton";
 import { HeroVideoBackground } from "@/components/home/HeroVideoBackground";
-import { HeroDiptych } from "@/components/home/HeroDiptych";
+import { HeroServicesSlideshow } from "@/components/home/HeroServicesSlideshow";
 import { HeroStat } from "@/components/home/HeroStat";
 import { HeroTrustChip } from "@/components/home/HeroTrustChip";
 import { ReviewsBand } from "@/components/home/ReviewsBand";
@@ -81,11 +81,8 @@ export function HomepageTemplate({
               topSlot={<HeroTrustChip rating={reviews.ratingValue} reviewCount={reviews.reviewCount} />}
             />
 
-            <HeroDiptych
-              topSrc={hero.actionShots[0]}
-              bottomSrc={hero.actionShots[1]}
-              topAlt="Chiropractic adjustment at Elevate Wellness Chiropractic"
-              bottomAlt="Spinal decompression treatment at Elevate Wellness Chiropractic"
+            <HeroServicesSlideshow
+              slides={services.map(({ title, href, image }) => ({ title, href, image }))}
               ratingValue={trustBadges[0].value}
               ratingLabel={trustBadges[0].label}
             />
@@ -171,27 +168,41 @@ export function HomepageTemplate({
 
       {/* Bountiful / practice philosophy */}
       <section className="relative overflow-hidden bg-gray-50 px-6 py-16 lg:px-8 lg:py-28">
-        <div className="mx-auto grid max-w-[1280px] grid-cols-1 items-center gap-16 lg:grid-cols-2">
-          <div className="relative">
-            <div
-              aria-hidden
-              className="absolute -left-4 -top-4 hidden h-full w-full rounded-3xl border border-primary-300/70 lg:block"
-            />
-            <div className="reveal relative aspect-[4/3] w-full overflow-hidden rounded-3xl shadow-xl">
-              <Image
-                src={philosophy.image}
-                alt="Elevate Wellness Chiropractic in Bountiful, Utah"
-                fill
-                sizes="(min-width: 1024px) 50vw, 100vw"
-                className="object-cover"
-              />
+        <div className="mx-auto grid max-w-[1280px] grid-cols-1 items-center gap-6 lg:grid-cols-2">
+          <div className="relative mx-auto w-full lg:mx-0">
+            <div className="flex items-end gap-4">
+              <div className="reveal relative aspect-[3/4] w-full max-w-[340px] overflow-hidden rounded-2xl shadow-lg">
+                <Image
+                  src={philosophy.image}
+                  alt="Elevate Wellness Chiropractic in Bountiful, Utah"
+                  fill
+                  sizes="(min-width: 1024px) 340px, 60vw"
+                  quality={90}
+                  className="object-cover"
+                />
+              </div>
+              {philosophy.secondaryImage ? (
+                <div
+                  className="reveal relative aspect-[4/3] w-full max-w-[300px] self-center overflow-hidden rounded-2xl shadow-md"
+                  style={{ "--reveal-delay": "80ms" } as CSSProperties}
+                >
+                  <Image
+                    src={philosophy.secondaryImage}
+                    alt="Chiropractic care at Elevate Wellness Chiropractic"
+                    fill
+                    sizes="300px"
+                    quality={90}
+                    className="object-cover"
+                  />
+                </div>
+              ) : null}
             </div>
             <div
-              className="reveal absolute -bottom-6 -right-4 max-w-[13rem] rounded-2xl bg-navy-900 p-5 shadow-2xl sm:-right-6"
+              className="reveal ml-auto mt-4 max-w-[9.5rem] rounded-xl bg-navy-900 p-3 shadow-2xl lg:absolute lg:-bottom-6 lg:-right-4 lg:mt-0 lg:max-w-[11rem] lg:p-4"
               style={{ "--reveal-delay": "220ms" } as CSSProperties}
             >
-              <p className="font-display text-3xl font-bold text-primary-300">{trustBadges[2].value}</p>
-              <p className="mt-1 text-[0.7rem] font-semibold uppercase leading-tight tracking-wide text-white/60">
+              <p className="font-display text-xl font-bold text-primary-300 lg:text-2xl">{trustBadges[2].value}</p>
+              <p className="mt-1 text-[0.6rem] font-semibold uppercase leading-tight tracking-wide text-white/60 lg:text-[0.65rem]">
                 {trustBadges[2].label} across Davis County
               </p>
             </div>

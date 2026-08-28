@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
-import type { SiteInventoryPage } from "@/lib/site-content";
+import { SITE_URL, type SiteInventoryPage } from "@/lib/site-content";
 
 /** Builds page `<head>` metadata (title/description/canonical/OG) from a crawled inventory record. */
 export function buildMetadata(page: SiteInventoryPage): Metadata {
   return {
+    metadataBase: new URL(SITE_URL),
     title: page.metaTitle || page.title,
     description: page.metaDescription,
     alternates: {

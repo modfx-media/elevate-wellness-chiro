@@ -19,20 +19,20 @@ export const hero = {
 /**
  * Trust signals shown below the hero. Every value here is sourced from the
  * crawl (aggregateRating in the homepage's structuredData; office count from
- * nap-and-hours.json; "thousands of patients" paraphrased from the Spinal
- * Decompression service copy below) — no numbers are invented.
+ * nap-and-hours.json), except "Patients Helped" which was set to "5K+" per
+ * explicit client instruction (overrides the crawl's "thousands" wording).
  */
 export const trustBadges = [
   { value: "5.0", label: "Patient Rating (180 Reviews)" },
   { value: `${officeLocations.length}`, label: "Utah Locations" },
-  { value: "1000s", label: "Patients Helped" },
+  { value: "5K+", label: "Patients Helped" },
 ];
 
 export const services = [
   {
     title: "Chiropractic Care",
     href: "/chiropractic-care/",
-    image: "/images/homepage/chiropractic-new.webp",
+    image: "/images/homepage/chiropractic-care.jpg",
     body: "We are dedicated to providing the highest quality chiropractic care in Davis County. Whether you come to us to help with pain management or general wellness, we want to meet you wherever you are in your health journey. Our philosophy is to get to the root cause of your pain and not just address the symptoms. We get great results because we are focused on giving the most specific chiropractic care. We hope you\u2019ll notice the difference, just as many of our patients do.",
   },
   {
@@ -77,7 +77,7 @@ export const services = [
     // own metaDescription and the image reuses the real office photo.
     title: "Massage",
     href: "/massage-therapy/",
-    image: "/images/homepage/massage.jpg",
+    image: "/images/homepage/massage-therapy.jpg",
     body: "Discover the benefits of chiropractic massage therapy for pain relief and recovery.",
   },
 ];
@@ -88,7 +88,8 @@ export const philosophy = {
   eyebrow: "Chiropractic Services in Bountiful, UT", // verbatim h1 "CHIROPRACTIC SERVICES IN BOUNTIFUL, UT"
   heading: "Elevate Wellness Chiropractic: Services for Pain Relief & Wellness",
   body: "Our approach is simple at Elevate Wellness Chiropractic. We are dedicated to providing the highest quality chiropractic care to you and your family in Bountiful Utah. We believe that health is one of the things we value most and will assist you, through your Chiropractor, in achieving your health goals. We provide you and your family pain relief and wellness care whether you have lost your health or are seeking to maintain the good health you already have.",
-  image: "/images/homepage/your-bountiful-chiropractor.jpg",
+  image: "/images/homepage/philosophy-primary.png",
+  secondaryImage: "/images/homepage/hero1.jpg",
 };
 
 export const doctorsHeading = "Meet Your Chiropractors"; // per request; verbatim source is "MEET YOUR CHIROPRACTOR"
@@ -97,7 +98,7 @@ export const doctors = [
   {
     name: "Dr. Casey Simmonds",
     href: "/dr-casey-simmonds/",
-    image: "/images/homepage/dr-casey-simmonds.jpg",
+    image: "/images/homepage/dr-casey-simmonds.png",
     body: "Meet Dr. Casey Simmonds, the owner and founder of Elevate Wellness Chiropractic in Bountiful. Dr. Simmonds is passionate about being a chiropractor and chiropractic care, health, and wellness. He structures his treatments to meet the individual needs of his patients. If you are looking for the best chiropractor in the Bountiful area, Dr. Casey is here to help you!",
   },
   {
@@ -150,7 +151,7 @@ export const locationContent: Record<LocationKey, {
   label: string;
   homeHref: string;
   heroEyebrow: string;
-  philosophy: { eyebrow: string; heading: string; body: string; image: string };
+  philosophy: { eyebrow: string; heading: string; body: string; image: string; secondaryImage?: string };
   providersHeading: string;
   providers: Provider[];
   ctaBody: string;
@@ -292,7 +293,7 @@ export const reviews = {
   starCount: 5,
   reviewCount: 180,
   reviewCountLabel: "180 Google reviews",
-  body: "Utah's Top Rated Chiropractic Office. Our patients consistently rate us five stars — see for yourself why families across Davis County trust Elevate Wellness Chiropractic with their care.",
+  body: "Utah's Top Rated Chiropractic Office. Our patients consistently rate us five stars, see for yourself why families across Davis County trust Elevate Wellness Chiropractic with their care.",
   googleLabel: "Read Reviews on Google",
   googleHref: socialLinks.find((link) => link.label === "Google")?.href ?? "/reviews/",
   bookLabel: "Schedule Appointment",
@@ -388,5 +389,5 @@ export const locations = officeLocations.map((location) => ({
 export const locationsHeading = {
   eyebrow: "Visit Us",
   heading: "Two Utah Locations",
-  body: "Find the Elevate Wellness Chiropractic office nearest you in Bountiful or Clinton. Walk-ins welcome — or schedule your visit online.",
+  body: "Find the Elevate Wellness Chiropractic office nearest you in Bountiful or Clinton. Walk-ins welcome, or schedule your visit online.",
 };
