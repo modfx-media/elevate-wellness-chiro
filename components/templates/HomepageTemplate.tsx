@@ -168,7 +168,7 @@ export function HomepageTemplate({
 
       {/* Bountiful / practice philosophy */}
       <section className="relative overflow-hidden bg-gray-50 px-6 py-16 lg:px-8 lg:py-28">
-        <div className="mx-auto grid max-w-[1280px] grid-cols-1 items-center gap-6 lg:grid-cols-2">
+        <div className="mx-auto grid max-w-[1280px] grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-16">
           <div className="relative mx-auto w-full lg:mx-0">
             <div className="flex items-end gap-4">
               <div className="reveal relative aspect-[3/4] w-full max-w-[340px] overflow-hidden rounded-2xl shadow-lg">
@@ -198,7 +198,7 @@ export function HomepageTemplate({
               ) : null}
             </div>
             <div
-              className="reveal ml-auto mt-4 max-w-[9.5rem] rounded-xl bg-navy-900 p-3 shadow-2xl lg:absolute lg:-bottom-6 lg:-right-4 lg:mt-0 lg:max-w-[11rem] lg:p-4"
+              className="reveal ml-auto mt-4 max-w-[9.5rem] rounded-xl bg-navy-900 p-3 shadow-2xl lg:absolute lg:-bottom-8 lg:-right-6 lg:mt-0 lg:max-w-[11rem] lg:p-4"
               style={{ "--reveal-delay": "220ms" } as CSSProperties}
             >
               <p className="font-display text-xl font-bold text-primary-300 lg:text-2xl">{trustBadges[2].value}</p>
