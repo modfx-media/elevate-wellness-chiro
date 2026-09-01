@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Poppins, Inter } from "next/font/google";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
@@ -30,6 +31,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <Header />
         {children}
         <Footer />
+        <Script id="knock-knock-widget" strategy="afterInteractive">
+          {`
+            window.company_id = '6a96e16365212050a471ce42';
+            var newScript = document.createElement('script');
+            newScript.src = 'https://api.knock-knockapp.com/widget/widget.js';
+            document.getElementsByTagName('HEAD')[0].appendChild(newScript);
+          `}
+        </Script>
       </body>
     </html>
   );
