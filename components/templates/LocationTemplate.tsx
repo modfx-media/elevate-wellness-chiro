@@ -188,7 +188,7 @@ function extractAreas(section: ServiceSection): string[] | null {
 
 // ─── Hero ────────────────────────────────────────────────────────────────────
 
-function HeroBand({
+export function HeroBand({
   title,
   breadcrumb,
   hero,
@@ -331,14 +331,16 @@ function FormEstimateCallout() {
 
 // ─── Areas We Serve ──────────────────────────────────────────────────────────
 
-function AreasWeServeBand({
+export function AreasWeServeBand({
   heading,
   areas,
   activeSlug,
+  hrefForArea,
 }: {
   heading: string;
   areas: string[];
   activeSlug: string;
+  hrefForArea?: (area: string) => string | null;
 }) {
   return (
     <section className="bg-navy-900 px-6 py-16 lg:px-8 lg:py-28">
@@ -360,10 +362,11 @@ function AreasWeServeBand({
         >
           {areas.map((area) => {
             const slug = CITY_TO_SLUG[area] ?? null;
-            const isActive = slug === activeSlug;
+            const href = hrefForArea ? hrefForArea(area) : slug ? `/${slug}/` : null;
+            const isActive = href === `/${activeSlug}/`;
             const base =
               "rounded-full border px-4 py-2 text-sm font-semibold transition-colors";
-            if (!slug) {
+            if (!href) {
               return (
                 <li key={area}>
                   <span className={`${base} border-white/15 bg-white/5 text-white/70`}>
@@ -375,7 +378,7 @@ function AreasWeServeBand({
             return (
               <li key={area}>
                 <Link
-                  href={`/${slug}/`}
+                  href={href}
                   className={
                     isActive
                       ? `${base} border-primary-500 bg-primary-500 text-ink-900`

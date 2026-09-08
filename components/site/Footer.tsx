@@ -101,7 +101,15 @@ export function Footer() {
               ))}
               <li>
                 <Link
-                  href="/sitemap.xml"
+                  href="/areas-we-serve/"
+                  className="text-[13.5px] font-medium text-white/55 transition-colors duration-200 hover:text-primary-300"
+                >
+                  Areas We Serve
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/sitemap/"
                   className="text-[13.5px] font-medium text-white/55 transition-colors duration-200 hover:text-primary-300"
                 >
                   Sitemap
