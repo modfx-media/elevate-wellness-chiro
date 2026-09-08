@@ -98,7 +98,7 @@ export const doctors = [
   {
     name: "Dr. Casey Simmonds",
     href: "/dr-casey-simmonds/",
-    image: "/images/homepage/dr-casey-simmonds.png",
+    image: "/images/homepage/dr-simmonds.png",
     body: "Meet Dr. Casey Simmonds, the owner and founder of Elevate Wellness Chiropractic in Bountiful. Dr. Simmonds is passionate about being a chiropractor and chiropractic care, health, and wellness. He structures his treatments to meet the individual needs of his patients. If you are looking for the best chiropractor in the Bountiful area, Dr. Casey is here to help you!",
   },
   {

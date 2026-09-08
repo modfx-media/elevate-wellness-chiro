@@ -5,13 +5,19 @@ import type { Provider } from "@/components/home/homepage-data";
 
 function Avatar({ provider }: { provider: Provider }) {
   if (provider.image) {
+    const isCasey = provider.image === "/images/homepage/dr-simmonds.png";
+
     return (
       <Image
         src={provider.image}
         alt={provider.name}
         fill
         sizes="(min-width: 1024px) 33vw, 100vw"
-        className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
+        className={`object-cover transition-transform duration-500 ${
+          isCasey
+            ? "scale-105 object-[50%_35%] group-hover:scale-[1.1]"
+            : "object-top group-hover:scale-105"
+        }`}
       />
     );
   }

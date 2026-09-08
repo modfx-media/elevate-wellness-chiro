@@ -13,7 +13,7 @@ const PRACTICE_URL = "https://www.elevatewellnesschiro.com/";
 // Slug-keyed headshot overrides. Keeps the inventory alt text but swaps the src
 // for a locally-hosted photo that reads better than the crawled WordPress asset.
 const HEADSHOT_OVERRIDES: Record<string, string> = {
-  "dr-casey-simmonds": "/images/homepage/dr-casey-simmonds.png",
+  "dr-casey-simmonds": "/images/homepage/dr-simmonds.png",
 };
 
 export function ProviderBioTemplate({ page }: { page: SiteInventoryPage }) {
@@ -206,7 +206,11 @@ function HeroBand({
               fill
               sizes="(min-width: 1024px) 42vw, 100vw"
               priority
-              className="object-cover object-top"
+              className={
+                headshot.src === "/images/homepage/dr-simmonds.png"
+                  ? "scale-[1.12] object-cover object-center"
+                  : "object-cover object-top"
+              }
             />
             <div
               aria-hidden
