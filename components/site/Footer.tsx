@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { disclaimerText, legalLinks, locations, socialLinks } from "./footer-data";
-import { BOOKING_URL, toHref } from "./nav-data";
+import { BOOKING_URL } from "./nav-data";
 
 export function Footer() {
   const year = new Date().getFullYear();
@@ -21,7 +21,7 @@ export function Footer() {
         <div className="grid grid-cols-1 gap-10 border-b border-white/10 py-14 md:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_0.9fr] lg:gap-8">
           {/* Brand */}
           <div className="md:col-span-2 lg:col-span-1">
-            <Link href={toHref("/")}>
+            <Link href="/">
               <Image
                 src="/brand/elevate-wellness-logo-white.png"
                 alt="Elevate Wellness Chiropractic"
@@ -101,7 +101,7 @@ export function Footer() {
               ))}
               <li>
                 <Link
-                  href={toHref("/areas-we-serve/")}
+                  href="/areas-we-serve/"
                   className="text-[13.5px] font-medium text-white/55 transition-colors duration-200 hover:text-primary-300"
                 >
                   Areas We Serve
@@ -109,7 +109,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href={toHref("/sitemap/")}
+                  href="/sitemap/"
                   className="text-[13.5px] font-medium text-white/55 transition-colors duration-200 hover:text-primary-300"
                 >
                   Sitemap

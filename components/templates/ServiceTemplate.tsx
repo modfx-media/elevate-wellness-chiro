@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties } from "react";
-import { SITE_URL, toSiteUrl } from "@/lib/constants";
+import { SITE_URL } from "@/lib/constants";
 import type { SiteInventoryPage, InventoryVideo, InventoryImage } from "@/lib/site-content";
 import { parseServiceBody, type BodyBlock, type ServiceSection } from "@/lib/parse-service-body";
 import { BOOKING_URL } from "@/components/site/nav-data";
@@ -130,7 +130,7 @@ function HeroBand({
         <div className="reveal">
           {breadcrumb ? (
             <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-primary-300">
-              <Link href={toSiteUrl("/")} className="transition-colors hover:text-white">Home</Link>
+              <Link href="/" className="transition-colors hover:text-white">Home</Link>
               <span aria-hidden className="text-white/40">/</span>
               <span className="text-white/70">{breadcrumb.replace(/^Home\s*[-–—]\s*/i, "")}</span>
             </nav>
@@ -522,7 +522,7 @@ function FaqBand({ items }: { items: { question: string; answer: string }[] }) {
             Common questions from patients about this service. Still have a question? Reach out to our team.
           </p>
           <MotionLink
-            href={toSiteUrl("/elevate-wellness-chiropractic-in-bountiful-ut/")}
+            href="/elevate-wellness-chiropractic-in-bountiful-ut/"
             className="mt-6 inline-flex w-fit items-center gap-2 rounded-full bg-navy-900 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-navy-900/90"
           >
             Contact Us &rarr;

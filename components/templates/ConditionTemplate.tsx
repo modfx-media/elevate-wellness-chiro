@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties } from "react";
-import { SITE_URL, toSiteUrl } from "@/lib/constants";
+import { SITE_URL } from "@/lib/constants";
 import type { SiteInventoryPage, InventoryImage } from "@/lib/site-content";
 import { JsonLd } from "@/components/seo/JsonLd";
 import {
@@ -139,7 +139,7 @@ function HeroBand({
               aria-label="Breadcrumb"
               className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-primary-300"
             >
-              <Link href={toSiteUrl("/")} className="transition-colors hover:text-white">
+              <Link href="/" className="transition-colors hover:text-white">
                 Home
               </Link>
               <span aria-hidden className="text-white/40">
@@ -148,7 +148,7 @@ function HeroBand({
               {!isHub ? (
                 <>
                   <Link
-                    href={toSiteUrl("/injuries-we-treat/")}
+                    href="/injuries-we-treat/"
                     className="transition-colors hover:text-white"
                   >
                     Injuries We Treat
@@ -698,7 +698,7 @@ function FaqBand({ items }: { items: { question: string; answer: string }[] }) {
             Common questions patients ask about this condition. Still have a question? Reach out to our team.
           </p>
           <MotionLink
-            href={toSiteUrl("/elevate-wellness-chiropractic-in-bountiful-ut/")}
+            href="/elevate-wellness-chiropractic-in-bountiful-ut/"
             className="mt-6 inline-flex w-fit items-center gap-2 rounded-full bg-navy-900 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-navy-900/90"
           >
             Contact Us &rarr;

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { SiteInventoryPage } from "@/lib/site-content";
-import { SITE_URL, toSiteUrl } from "@/lib/constants";
+import { SITE_URL } from "@/lib/constants";
 import { JsonLd } from "@/components/seo/JsonLd";
 
 /**
@@ -35,7 +35,7 @@ export function PagePlaceholder({
         This page is not part of our current chiropractic service directory. Visit the blog or homepage
         for care information in Bountiful and Clinton, Utah.
       </p>
-      <Link href={toSiteUrl("/")} className="mt-4 w-fit text-sm font-semibold text-primary-700 hover:underline">
+      <Link href="/" className="mt-4 w-fit text-sm font-semibold text-primary-700 hover:underline">
         Return to the homepage
       </Link>
     </main>

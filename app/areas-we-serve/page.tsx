@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { pseoPages } from "@/lib/pseo-pages";
 import { pseoTopics } from "@/data/pseo-topics";
-import { SITE_URL, toSiteUrl } from "@/lib/constants";
+import { SITE_URL } from "@/lib/constants";
 import { socialMetadata } from "@/lib/seo";
 import { JsonLd } from "@/components/seo/JsonLd";
 
@@ -71,7 +71,7 @@ export default function AreasWeServePage() {
                   {topicPages.map((page) => (
                     <li key={page.slug}>
                       <Link
-                        href={toSiteUrl(`/${page.slug}/`)}
+                        href={`/${page.slug}/`}
                         className="group inline-flex items-center gap-2 text-sm font-semibold text-ink-700 transition-colors hover:text-primary-700"
                       >
                         <span aria-hidden className="text-primary-500 transition-transform group-hover:translate-x-0.5">

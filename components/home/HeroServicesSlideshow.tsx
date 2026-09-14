@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { toSiteUrl } from "@/lib/constants";
 import { useCallback, useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 
@@ -119,7 +118,7 @@ export function HeroServicesSlideshow({
                 {active.title}
               </p>
               <Link
-                href={toSiteUrl(active.href)}
+                href={active.href}
                 className="mt-2 inline-flex items-center gap-1.5 text-sm font-semibold text-white/85 transition-colors hover:text-white"
               >
                 Learn more

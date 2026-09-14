@@ -91,7 +91,7 @@ export function Header() {
               return (
                 <Link
                   key={tab.label}
-                  href={toHref(tab.href)}
+                  href={tab.href}
                   className={`rounded-full px-3 py-1 uppercase tracking-wide transition-colors ${
                     active
                       ? "bg-white/15 text-white"
@@ -149,7 +149,7 @@ export function Header() {
           aria-label="Primary"
           className="mx-auto flex w-full max-w-[1280px] items-center justify-between gap-4 px-6 lg:px-8"
         >
-          <Link href={toHref("/")} className="shrink-0" onClick={() => setOpenMenu(null)}>
+          <Link href="/" className="shrink-0" onClick={() => setOpenMenu(null)}>
             <Image
               src="/brand/elevate-wellness-logo-white.png"
               alt="Elevate Wellness Chiropractic"
