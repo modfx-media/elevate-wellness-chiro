@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Script from "next/script";
 import type { CSSProperties } from "react";
+import { SITE_URL } from "@/lib/constants";
 import type { SiteInventoryPage, InventoryImage } from "@/lib/site-content";
 import { JsonLd } from "@/components/seo/JsonLd";
 import {
@@ -791,7 +792,7 @@ function LocationJsonLd({
     {
       "@type": "BreadcrumbList",
       itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Home", item: "https://www.elevatewellnesschiro.com/" },
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
         { "@type": "ListItem", position: 2, name: displayTitle, item: page.canonicalUrl },
       ],
     },

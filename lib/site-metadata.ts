@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { SITE_URL, type SiteInventoryPage } from "@/lib/site-content";
+import { SITE_URL } from "@/lib/constants";
+import type { SiteInventoryPage } from "@/lib/site-content";
 import { clampMetaDescription, isNoindexPath, socialMetadata } from "@/lib/seo";
 
 const TITLE_OVERRIDES: Record<string, string> = {

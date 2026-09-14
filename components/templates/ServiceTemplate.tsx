@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties } from "react";
+import { SITE_URL } from "@/lib/constants";
 import type { SiteInventoryPage, InventoryVideo, InventoryImage } from "@/lib/site-content";
 import { parseServiceBody, type BodyBlock, type ServiceSection } from "@/lib/parse-service-body";
 import { BOOKING_URL } from "@/components/site/nav-data";
@@ -550,7 +551,7 @@ function ServicePageJsonLd({
     {
       "@type": "BreadcrumbList",
       itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Home", item: "https://www.elevatewellnesschiro.com/" },
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
         { "@type": "ListItem", position: 2, name: displayTitle, item: page.canonicalUrl },
       ],
     },
@@ -562,7 +563,7 @@ function ServicePageJsonLd({
       provider: {
         "@type": "MedicalBusiness",
         name: "Elevate Wellness Chiropractic",
-        url: "https://www.elevatewellnesschiro.com/",
+        url: `${SITE_URL}/`,
       },
     },
   ];

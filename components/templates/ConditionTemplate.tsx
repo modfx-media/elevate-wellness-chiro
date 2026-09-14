@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties } from "react";
+import { SITE_URL } from "@/lib/constants";
 import type { SiteInventoryPage, InventoryImage } from "@/lib/site-content";
 import { JsonLd } from "@/components/seo/JsonLd";
 import {
@@ -729,12 +730,12 @@ function ConditionPageJsonLd({
       "@type": "BreadcrumbList",
       itemListElement: isHub
         ? [
-            { "@type": "ListItem", position: 1, name: "Home", item: "https://www.elevatewellnesschiro.com/" },
+            { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
             { "@type": "ListItem", position: 2, name: displayTitle, item: page.canonicalUrl },
           ]
         : [
-            { "@type": "ListItem", position: 1, name: "Home", item: "https://www.elevatewellnesschiro.com/" },
-            { "@type": "ListItem", position: 2, name: "Injuries We Treat", item: "https://www.elevatewellnesschiro.com/injuries-we-treat/" },
+            { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+            { "@type": "ListItem", position: 2, name: "Injuries We Treat", item: `${SITE_URL}/injuries-we-treat/` },
             { "@type": "ListItem", position: 3, name: displayTitle, item: page.canonicalUrl },
           ],
     },
@@ -751,7 +752,7 @@ function ConditionPageJsonLd({
           provider: {
             "@type": "MedicalBusiness",
             name: "Elevate Wellness Chiropractic",
-            url: "https://www.elevatewellnesschiro.com/",
+            url: `${SITE_URL}/`,
           },
         }
       : {
@@ -765,7 +766,7 @@ function ConditionPageJsonLd({
             provider: {
               "@type": "MedicalBusiness",
               name: "Elevate Wellness Chiropractic",
-              url: "https://www.elevatewellnesschiro.com/",
+              url: `${SITE_URL}/`,
             },
           },
         },

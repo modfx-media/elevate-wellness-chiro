@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { SITE_URL } from "@/lib/site-content";
+import { SITE_URL } from "@/lib/constants";
 
 /** Allow crawlers on indexable pages; keep confirmation and author stubs out. */
 export default function robots(): MetadataRoute.Robots {

@@ -36,7 +36,10 @@ const ROOT = resolve(__dirname, "..");
 const inventory = JSON.parse(readFileSync(resolve(ROOT, "seo-audit/site-inventory.json"), "utf8"));
 const redirectsNeeded = JSON.parse(readFileSync(resolve(ROOT, "seo-audit/redirects-needed.json"), "utf8"));
 
-const SITE_URL = "https://www.elevatewellnesschiro.com";
+const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://www.elevatewellnesschiro.com").replace(
+  /\/$/,
+  "",
+);
 
 // Word-count tolerance below which we flag a page.
 const WORD_COUNT_TOLERANCE = 0.15; // 15%

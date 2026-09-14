@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { getHomepage, SITE_URL, type SiteInventoryPage } from "@/lib/site-content";
+import { SITE_URL } from "@/lib/constants";
+import { getHomepage, type SiteInventoryPage } from "@/lib/site-content";
 import { buildMetadata } from "@/lib/site-metadata";
 import { HomepageTemplate } from "@/components/templates/HomepageTemplate";
 

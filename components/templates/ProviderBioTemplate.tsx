@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties } from "react";
+import { SITE_URL } from "@/lib/constants";
 import type { SiteInventoryPage, InventoryImage } from "@/lib/site-content";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { parseServiceBody } from "@/lib/parse-service-body";
@@ -9,7 +10,6 @@ import { locations } from "@/components/site/footer-data";
 import { CtaBand } from "./ConditionTemplate";
 
 const PRACTICE_NAME = "Elevate Wellness Chiropractic";
-const PRACTICE_URL = "https://www.elevatewellnesschiro.com/";
 
 // Slug-keyed headshot overrides. Keeps the inventory alt text but swaps the src
 // for a locally-hosted photo that reads better than the crawled WordPress asset.
@@ -282,7 +282,7 @@ function ProviderJsonLd({
     worksFor: {
       "@type": "MedicalBusiness",
       name: PRACTICE_NAME,
-      url: PRACTICE_URL,
+      url: `${SITE_URL}/`,
     },
     medicalSpecialty: "Chiropractic",
   };
@@ -293,7 +293,7 @@ function ProviderJsonLd({
     {
       "@type": "BreadcrumbList",
       itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Home", item: PRACTICE_URL },
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
         { "@type": "ListItem", position: 2, name: displayName, item: page.canonicalUrl },
       ],
     },

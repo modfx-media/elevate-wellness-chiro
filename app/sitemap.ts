@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
-import { getAllPages, SITE_URL, type SiteInventoryPage } from "@/lib/site-content";
+import { SITE_URL } from "@/lib/constants";
+import { getAllPages, type SiteInventoryPage } from "@/lib/site-content";
 import { pseoPages } from "@/lib/pseo-pages";
 import { isNoindexPath } from "@/lib/seo";
 

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { SITE_URL } from "@/lib/site-content";
+import { SITE_URL } from "@/lib/constants";
 import { socialMetadata } from "@/lib/seo";
 
 const TITLE = "Page Not Found | Elevate Wellness Chiropractic";

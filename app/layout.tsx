@@ -3,7 +3,7 @@ import Script from "next/script";
 import { Poppins, Inter } from "next/font/google";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
-import { SITE_URL } from "@/lib/site-content";
+import { SITE_URL } from "@/lib/constants";
 import { socialMetadata } from "@/lib/seo";
 import "./globals.css";
 

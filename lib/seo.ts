@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { SITE_URL } from "@/lib/site-content";
+import { SITE_URL } from "@/lib/constants";
 
 export const DEFAULT_OG_IMAGE = "/images/og-default.jpg";
 export const DEFAULT_OG_ALT = "Elevate Wellness Chiropractic in Bountiful and Clinton, UT";

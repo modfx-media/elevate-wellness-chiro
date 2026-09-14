@@ -62,11 +62,7 @@ interface SiteInventory {
 
 const data = inventory as unknown as SiteInventory;
 
-/** Production site origin these routes/canonicals are built for. */
-export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.elevatewellnesschiro.com").replace(
-  /\/$/,
-  "",
-);
+export { SITE_URL } from "@/lib/constants";
 
 /**
  * Upgrades http:// URLs on the site's own host to https://. Some crawled
@@ -74,7 +70,9 @@ export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.elevat
  * which trips next/image's remotePatterns check.
  */
 export function normalizeAssetUrl(url: string): string {
-  return url.replace(/^http:\/\/www\.elevatewellnesschiro\.com/, "https://www.elevatewellnesschiro.com");
+  return url
+    .replace(/^http:\/\/(www\.)?elevatewellnesschiro\.com/, "https://www.elevatewellnesschiro.com")
+    .replace(/^https:\/\/elevatewellnesschiro\.com/, "https://www.elevatewellnesschiro.com");
 }
 
 const AUTHOR_PATH_PREFIX = "/author/";

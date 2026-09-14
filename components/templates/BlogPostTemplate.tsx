@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties } from "react";
+import { SITE_URL } from "@/lib/constants";
 import type { SiteInventoryPage, InventoryImage } from "@/lib/site-content";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getBlogPosts, getCategoryArchives, normalizeAssetUrl } from "@/lib/site-content";
@@ -14,7 +15,6 @@ import { BOOKING_URL } from "@/components/site/nav-data";
 import { locations } from "@/components/site/footer-data";
 
 const PRACTICE_NAME = "Elevate Wellness Chiropractic";
-const PRACTICE_URL = "https://www.elevatewellnesschiro.com/";
 
 export function BlogPostTemplate({ page }: { page: SiteInventoryPage }) {
   const parsed = promoteIntroHeadings(parseServiceBody(page));
@@ -542,8 +542,8 @@ function BlogPostingJsonLd({
     {
       "@type": "BreadcrumbList",
       itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Home", item: PRACTICE_URL },
-        { "@type": "ListItem", position: 2, name: "Blog", item: `${PRACTICE_URL}blog/` },
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+        { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE_URL}/blog/` },
         { "@type": "ListItem", position: 3, name: displayTitle, item: page.canonicalUrl },
       ],
     },
@@ -562,7 +562,7 @@ function BlogPostingJsonLd({
       publisher: {
         "@type": "Organization",
         name: PRACTICE_NAME,
-        url: PRACTICE_URL,
+        url: `${SITE_URL}/`,
       },
     },
   ];

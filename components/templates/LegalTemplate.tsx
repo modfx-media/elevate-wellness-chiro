@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { CSSProperties } from "react";
+import { SITE_URL } from "@/lib/constants";
 import type { SiteInventoryPage } from "@/lib/site-content";
 import { JsonLd } from "@/components/seo/JsonLd";
 import {
@@ -8,8 +9,6 @@ import {
   type BodyBlock,
   type ServiceSection,
 } from "@/lib/parse-service-body";
-
-const PRACTICE_URL = "https://www.elevatewellnesschiro.com/";
 
 export function LegalTemplate({ page }: { page: SiteInventoryPage }) {
   const parsed = promoteIntroHeadings(parseServiceBody(page));
@@ -164,7 +163,7 @@ function LegalJsonLd({
     {
       "@type": "BreadcrumbList",
       itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Home", item: PRACTICE_URL },
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
         { "@type": "ListItem", position: 2, name: displayTitle, item: page.canonicalUrl },
       ],
     },

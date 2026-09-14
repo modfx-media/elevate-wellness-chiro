@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties } from "react";
+import { SITE_URL } from "@/lib/constants";
 import type { SiteInventoryPage } from "@/lib/site-content";
 import { JsonLd } from "@/components/seo/JsonLd";
 import {
@@ -12,7 +13,6 @@ import { BOOKING_URL } from "@/components/site/nav-data";
 import { locations } from "@/components/site/footer-data";
 
 const PRACTICE_NAME = "Elevate Wellness Chiropractic";
-const PRACTICE_URL = "https://www.elevatewellnesschiro.com/";
 const BLOG_HUB_SLUG = "blog";
 
 export function CategoryArchiveTemplate({ page }: { page: SiteInventoryPage }) {
@@ -300,12 +300,12 @@ function BlogArchiveJsonLd({
       itemListElement:
         page.slug === BLOG_HUB_SLUG
           ? [
-              { "@type": "ListItem", position: 1, name: "Home", item: PRACTICE_URL },
+              { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
               { "@type": "ListItem", position: 2, name: "Blog", item: page.canonicalUrl },
             ]
           : [
-              { "@type": "ListItem", position: 1, name: "Home", item: PRACTICE_URL },
-              { "@type": "ListItem", position: 2, name: "Blog", item: `${PRACTICE_URL}blog/` },
+              { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+              { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE_URL}/blog/` },
               { "@type": "ListItem", position: 3, name: displayTitle, item: page.canonicalUrl },
             ],
     },
@@ -317,7 +317,7 @@ function BlogArchiveJsonLd({
       publisher: {
         "@type": "Organization",
         name: PRACTICE_NAME,
-        url: PRACTICE_URL,
+        url: `${SITE_URL}/`,
       },
       mainEntity: {
         "@type": "ItemList",

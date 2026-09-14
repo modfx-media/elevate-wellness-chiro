@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties } from "react";
+import { SITE_URL } from "@/lib/constants";
 import type { SiteInventoryPage } from "@/lib/site-content";
 import { normalizeAssetUrl } from "@/lib/site-content";
 import {
@@ -15,8 +16,6 @@ import { ProvidersSection } from "@/components/home/ProvidersSection";
 import { CtaBand } from "./ConditionTemplate";
 import { PagePlaceholder } from "./PagePlaceholder";
 import { JsonLd } from "@/components/seo/JsonLd";
-
-const PRACTICE_URL = "https://www.elevatewellnesschiro.com/";
 
 // Slugs with real content in site-inventory.json — routed through the full
 // prose-and-list utility shell. Other utility slugs (author archives, sitemap,
@@ -247,7 +246,7 @@ function AboutJsonLd({
     {
       "@type": "BreadcrumbList",
       itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Home", item: PRACTICE_URL },
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
         { "@type": "ListItem", position: 2, name: displayTitle, item: page.canonicalUrl },
       ],
     },
@@ -261,7 +260,7 @@ function AboutJsonLd({
     {
       "@type": ["MedicalClinic", "Organization"],
       name: "Elevate Wellness Chiropractic",
-      url: PRACTICE_URL,
+      url: `${SITE_URL}/`,
       telephone: bountiful.phone,
       address: {
         "@type": "PostalAddress",
@@ -504,7 +503,7 @@ function UtilityJsonLd({
     {
       "@type": "BreadcrumbList",
       itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Home", item: PRACTICE_URL },
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
         { "@type": "ListItem", position: 2, name: displayTitle, item: page.canonicalUrl },
       ],
     },

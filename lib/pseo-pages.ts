@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { pseoCities, type PseoCity } from "@/data/pseo-cities";
 import { pseoTopics, type PseoTopic } from "@/data/pseo-topics";
-import { SITE_URL } from "@/lib/site-content";
+import { SITE_URL } from "@/lib/constants";
 import { clampMetaDescription, socialMetadata } from "@/lib/seo";
 
 const BRAND = "Elevate Wellness Chiropractic";

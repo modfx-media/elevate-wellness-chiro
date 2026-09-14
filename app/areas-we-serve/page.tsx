@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { pseoPages } from "@/lib/pseo-pages";
 import { pseoTopics } from "@/data/pseo-topics";
-import { SITE_URL } from "@/lib/site-content";
+import { SITE_URL } from "@/lib/constants";
 import { socialMetadata } from "@/lib/seo";
 import { JsonLd } from "@/components/seo/JsonLd";
 

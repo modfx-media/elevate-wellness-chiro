@@ -1,5 +1,5 @@
 import type { PseoPage } from "@/lib/pseo-pages";
-import { SITE_URL } from "@/lib/site-content";
+import { SITE_URL } from "@/lib/constants";
 import { getPseoContent } from "@/lib/pseo-content";
 import { pseoCities } from "@/data/pseo-cities";
 import { locations } from "@/components/site/footer-data";

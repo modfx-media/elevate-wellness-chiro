@@ -1,5 +1,5 @@
 import napAndHours from "@/seo-audit/nap-and-hours.json";
-import { SITE_URL } from "@/lib/site-content";
+import { SITE_URL } from "@/lib/constants";
 import { faqItems } from "./homepage-data";
 import { JsonLd } from "@/components/seo/JsonLd";
 
