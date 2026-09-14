@@ -5,7 +5,8 @@ import type { Provider } from "@/components/home/homepage-data";
 
 function Avatar({ provider }: { provider: Provider }) {
   if (provider.image) {
-    const isCasey = provider.image === "/images/homepage/dr-simmonds.png";
+    const isCasey = provider.image.includes("casey-simmonds-card");
+    const isKaden = provider.image.includes("kaden-simmonds-card");
 
     return (
       <Image
@@ -14,9 +15,11 @@ function Avatar({ provider }: { provider: Provider }) {
         fill
         sizes="(min-width: 1024px) 33vw, 100vw"
         className={`object-cover transition-transform duration-500 ${
-          isCasey
-            ? "scale-105 object-[50%_35%] group-hover:scale-[1.1]"
-            : "object-top group-hover:scale-105"
+          isKaden
+            ? "scale-[1.14] object-[50%_0%] group-hover:scale-[1.20]"
+            : isCasey
+              ? "scale-[1.04] object-[50%_36%] group-hover:scale-[1.10]"
+              : "object-top group-hover:scale-105"
         }`}
       />
     );

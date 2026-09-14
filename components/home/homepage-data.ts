@@ -88,8 +88,7 @@ export const philosophy = {
   eyebrow: "Chiropractic Services in Bountiful, UT", // verbatim h1 "CHIROPRACTIC SERVICES IN BOUNTIFUL, UT"
   heading: "Elevate Wellness Chiropractic: Services for Pain Relief & Wellness",
   body: "Our approach is simple at Elevate Wellness Chiropractic. We are dedicated to providing the highest quality chiropractic care to you and your family in Bountiful Utah. We believe that health is one of the things we value most and will assist you, through your Chiropractor, in achieving your health goals. We provide you and your family pain relief and wellness care whether you have lost your health or are seeking to maintain the good health you already have.",
-  image: "/images/homepage/philosophy-primary.png",
-  secondaryImage: "/images/homepage/hero1.jpg",
+  image: "/images/homepage/treatment-table-cropped.jpeg",
 };
 
 export const doctorsHeading = "Meet Your Chiropractors"; // per request; verbatim source is "MEET YOUR CHIROPRACTOR"
@@ -98,13 +97,13 @@ export const doctors = [
   {
     name: "Dr. Casey Simmonds",
     href: "/dr-casey-simmonds/",
-    image: "/images/homepage/dr-simmonds.png",
+    image: "/images/homepage/casey-simmonds-card.jpeg",
     body: "Meet Dr. Casey Simmonds, the owner and founder of Elevate Wellness Chiropractic in Bountiful. Dr. Simmonds is passionate about being a chiropractor and chiropractic care, health, and wellness. He structures his treatments to meet the individual needs of his patients. If you are looking for the best chiropractor in the Bountiful area, Dr. Casey is here to help you!",
   },
   {
     name: "Dr. Kaden Simmonds",
     href: "/kaden-simmonds-dc/",
-    image: "/images/homepage/dr-kaden-simmonds.jpeg",
+    image: "/images/homepage/kaden-simmonds-card-v2.jpeg",
     body: "Dr. Kaden Simmonds grew up in Bountiful, UT, where his best friend\u2019s father, a Chiropractor, inspired him by allowing him to spend hours in his office, learning about Chiropractic care and witnessing its benefits firsthand. Additionally, Dr. Simmonds was heavily involved in sports throughout his upbringing, and it was Chiropractic care that enabled him to stay in the game and perform at his best. These experiences collectively sparked his interest in pursuing a career as a Chiropractor.",
   },
   {
@@ -151,7 +150,7 @@ export const locationContent: Record<LocationKey, {
   label: string;
   homeHref: string;
   heroEyebrow: string;
-  philosophy: { eyebrow: string; heading: string; body: string; image: string; secondaryImage?: string };
+  philosophy: { eyebrow: string; heading: string; body: string; image: string };
   providersHeading: string;
   providers: Provider[];
   ctaBody: string;

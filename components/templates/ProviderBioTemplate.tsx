@@ -13,7 +13,8 @@ const PRACTICE_URL = "https://www.elevatewellnesschiro.com/";
 // Slug-keyed headshot overrides. Keeps the inventory alt text but swaps the src
 // for a locally-hosted photo that reads better than the crawled WordPress asset.
 const HEADSHOT_OVERRIDES: Record<string, string> = {
-  "dr-casey-simmonds": "/images/homepage/dr-simmonds.png",
+  "dr-casey-simmonds": "/images/homepage/casey-simmonds-banner.jpeg",
+  "kaden-simmonds-dc": "/images/homepage/kaden-simmonds-banner.jpeg",
 };
 
 export function ProviderBioTemplate({ page }: { page: SiteInventoryPage }) {
@@ -30,10 +31,14 @@ export function ProviderBioTemplate({ page }: { page: SiteInventoryPage }) {
   const headshotRaw =
     page.images.find((img) => img.placement === "hero") ??
     page.images.find((img) => img.placement.startsWith("inline"));
-  const headshot: InventoryImage | undefined =
-    headshotRaw && HEADSHOT_OVERRIDES[page.slug]
-      ? { ...headshotRaw, src: HEADSHOT_OVERRIDES[page.slug] }
-      : headshotRaw;
+  const overrideSrc = HEADSHOT_OVERRIDES[page.slug];
+  const headshot: InventoryImage | undefined = overrideSrc
+    ? {
+        src: overrideSrc,
+        alt: headshotRaw?.alt || displayName,
+        placement: headshotRaw?.placement || "hero",
+      }
+    : headshotRaw;
 
   const bioParagraphs: string[] = [];
   for (const b of parsed.intro) {
@@ -207,8 +212,9 @@ function HeroBand({
               sizes="(min-width: 1024px) 42vw, 100vw"
               priority
               className={
-                headshot.src === "/images/homepage/dr-simmonds.png"
-                  ? "scale-[1.12] object-cover object-center"
+                headshot.src.includes("casey-simmonds") ||
+                headshot.src.includes("kaden-simmonds")
+                  ? "scale-[1.08] object-cover object-[50%_18%]"
                   : "object-cover object-top"
               }
             />

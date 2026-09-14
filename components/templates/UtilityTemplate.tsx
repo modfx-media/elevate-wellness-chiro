@@ -85,7 +85,12 @@ function AboutUsTemplate({ page }: { page: SiteInventoryPage }) {
   const displayTitle = parsed.preamble[0] ?? page.title.split(" | ")[0].split(" - ")[0].trim();
   const breadcrumbLabel = parsed.breadcrumb?.replace(/^Home\s*[-–—]\s*/i, "") ?? displayTitle;
 
-  const inlineImage = page.images.find((img) => img.placement.startsWith("inline"));
+  const inventoryInline = page.images.find((img) => img.placement.startsWith("inline"));
+  const inlineImage = {
+    src: "/images/about/treatment-seated.jpeg",
+    alt: "Chiropractic neck adjustment at Elevate Wellness Chiropractic",
+    placement: inventoryInline?.placement || "inline (body content)",
+  };
 
   const aboutSection = parsed.sections.find((s) => s.heading === "About Our Chiropractic Care");
   const splitIdx =
@@ -145,8 +150,8 @@ function AboutUsTemplate({ page }: { page: SiteInventoryPage }) {
 
             <div className="relative aspect-[4/3] w-full overflow-hidden rounded-3xl border border-navy-900/5 shadow-xl lg:self-start">
               <Image
-                src="/images/about/elevate-wellness-office.jpg"
-                alt="Elevate Wellness Chiropractic office in Bountiful, UT"
+                src="/images/about/treatment-decompression.jpeg"
+                alt="Spinal decompression treatment at Elevate Wellness Chiropractic"
                 fill
                 sizes="(min-width: 1024px) 40vw, 100vw"
                 className="object-cover"

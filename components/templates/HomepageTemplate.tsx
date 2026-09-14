@@ -168,37 +168,19 @@ export function HomepageTemplate({
 
       {/* Bountiful / practice philosophy */}
       <section className="relative overflow-hidden bg-gray-50 px-6 py-16 lg:px-8 lg:py-28">
-        <div className="mx-auto grid max-w-[1280px] grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-16">
-          <div className="relative mx-auto w-full lg:mx-0">
-            <div className="flex items-end gap-4">
-              <div className="reveal relative aspect-[3/4] w-full max-w-[340px] overflow-hidden rounded-2xl shadow-lg">
-                <Image
-                  src={philosophy.image}
-                  alt="Elevate Wellness Chiropractic in Bountiful, Utah"
-                  fill
-                  sizes="(min-width: 1024px) 340px, 60vw"
-                  quality={90}
-                  className="object-cover"
-                />
-              </div>
-              {philosophy.secondaryImage ? (
-                <div
-                  className="reveal relative aspect-[4/3] w-full max-w-[300px] self-center overflow-hidden rounded-2xl shadow-md"
-                  style={{ "--reveal-delay": "80ms" } as CSSProperties}
-                >
-                  <Image
-                    src={philosophy.secondaryImage}
-                    alt="Chiropractic care at Elevate Wellness Chiropractic"
-                    fill
-                    sizes="300px"
-                    quality={90}
-                    className="object-cover"
-                  />
-                </div>
-              ) : null}
-            </div>
+        <div className="mx-auto flex max-w-[1280px] flex-col items-center gap-8 lg:flex-row lg:items-center lg:gap-10">
+          <div className="reveal relative w-full max-w-[22rem] shrink-0 lg:max-w-[28rem]">
+            <Image
+              src={philosophy.image}
+              alt="Chiropractic table treatment at Elevate Wellness Chiropractic"
+              width={location === "bountiful" ? 2000 : 1600}
+              height={location === "bountiful" ? 1867 : 1200}
+              sizes="(min-width: 1024px) 448px, 80vw"
+              quality={90}
+              className="h-auto w-full rounded-2xl shadow-lg"
+            />
             <div
-              className="reveal ml-auto mt-4 max-w-[9.5rem] rounded-xl bg-navy-900 p-3 shadow-2xl lg:absolute lg:-bottom-8 lg:-right-6 lg:mt-0 lg:max-w-[11rem] lg:p-4"
+              className="absolute -bottom-3 -right-3 max-w-[9.5rem] rounded-xl bg-navy-900 p-3 shadow-2xl lg:max-w-[10.5rem] lg:p-3.5"
               style={{ "--reveal-delay": "220ms" } as CSSProperties}
             >
               <p className="font-display text-xl font-bold text-primary-300 lg:text-2xl">{trustBadges[2].value}</p>
@@ -208,7 +190,7 @@ export function HomepageTemplate({
             </div>
           </div>
 
-          <div className="reveal" style={{ "--reveal-delay": "120ms" } as CSSProperties}>
+          <div className="reveal min-w-0 w-full lg:flex-1" style={{ "--reveal-delay": "120ms" } as CSSProperties}>
             <div className="flex items-center gap-3">
               <span aria-hidden className="h-px w-10 bg-primary-500/60" />
               <span className="text-xs font-semibold uppercase tracking-[0.2em] text-primary-600">
