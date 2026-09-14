@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { motion } from "motion/react";
 import type { CSSProperties } from "react";
+import { toSiteUrl } from "@/lib/constants";
 
 const MotionNextLink = motion.create(Link);
 
@@ -19,7 +20,7 @@ export function MotionLink({
 }) {
   return (
     <MotionNextLink
-      href={href}
+      href={toSiteUrl(href)}
       className={className}
       style={style}
       whileHover={{ y: -8 }}

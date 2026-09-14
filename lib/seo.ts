@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { SITE_URL } from "@/lib/constants";
+import { SITE_URL, toSiteUrl } from "@/lib/constants";
 
 export const DEFAULT_OG_IMAGE = "/images/og-default.jpg";
 export const DEFAULT_OG_ALT = "Elevate Wellness Chiropractic in Bountiful and Clinton, UT";
@@ -86,7 +86,5 @@ export function socialMetadata(input: {
 }
 
 export function absoluteUrl(path: string): string {
-  if (path.startsWith("http")) return path;
-  const suffix = path.startsWith("/") ? path : `/${path}`;
-  return `${SITE_URL}${suffix}`;
+  return toSiteUrl(path.startsWith("http") || path.startsWith("/") ? path : `/${path}`);
 }

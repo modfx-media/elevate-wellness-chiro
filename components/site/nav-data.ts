@@ -1,5 +1,5 @@
 import navStructure from "@/seo-audit/nav-structure.json";
-import { SITE_URL } from "@/lib/constants";
+import { toSiteUrl } from "@/lib/constants";
 
 export interface NavItem {
   label: string;
@@ -11,10 +11,9 @@ export interface NavItem {
 
 export const headerMenu = navStructure.header.menu as NavItem[];
 
-/** Converts an absolute www.elevatewellnesschiro.com URL to its site-relative path; leaves external/anchor hrefs untouched. */
+/** Normalizes site links to https://www.elevatewellnesschiro.com; leaves external/anchor hrefs untouched. */
 export function toHref(href: string): string {
-  if (href === "#" || !href.startsWith(SITE_URL)) return href;
-  return href.slice(SITE_URL.length) || "/";
+  return toSiteUrl(href);
 }
 
 function findChild(items: NavItem[], label: string): NavItem | undefined {

@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Script from "next/script";
 import type { CSSProperties } from "react";
-import { SITE_URL } from "@/lib/constants";
+import { SITE_URL, toSiteUrl } from "@/lib/constants";
 import type { SiteInventoryPage, InventoryImage } from "@/lib/site-content";
 import { JsonLd } from "@/components/seo/JsonLd";
 import {
@@ -227,7 +227,7 @@ export function HeroBand({
               aria-label="Breadcrumb"
               className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-primary-300"
             >
-              <Link href="/" className="transition-colors hover:text-white">
+              <Link href={toSiteUrl("/")} className="transition-colors hover:text-white">
                 Home
               </Link>
               <span aria-hidden className="text-white/40">
@@ -380,7 +380,7 @@ export function AreasWeServeBand({
             return (
               <li key={area}>
                 <Link
-                  href={href}
+                  href={toSiteUrl(href)}
                   className={
                     isActive
                       ? `${base} border-primary-500 bg-primary-500 text-ink-900`

@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
+import { toSiteUrl } from "@/lib/constants";
 
 export function MotionButton({
   href,
@@ -15,7 +16,7 @@ export function MotionButton({
 }) {
   return (
     <motion.a
-      href={href}
+      href={external ? href : toSiteUrl(href)}
       target={external ? "_blank" : undefined}
       rel={external ? "noopener noreferrer" : undefined}
       className={className}

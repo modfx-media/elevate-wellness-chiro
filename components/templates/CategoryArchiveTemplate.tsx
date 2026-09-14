@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties } from "react";
-import { SITE_URL } from "@/lib/constants";
+import { SITE_URL, toSiteUrl } from "@/lib/constants";
 import type { SiteInventoryPage } from "@/lib/site-content";
 import { JsonLd } from "@/components/seo/JsonLd";
 import {
@@ -95,7 +95,7 @@ function HeroBand({
           aria-label="Breadcrumb"
           className="reveal flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-primary-300"
         >
-          <Link href="/" className="transition-colors hover:text-white">
+          <Link href={toSiteUrl("/")} className="transition-colors hover:text-white">
             Home
           </Link>
           <span aria-hidden className="text-white/40">
@@ -105,7 +105,7 @@ function HeroBand({
             <span className="text-white/70">Blog</span>
           ) : (
             <>
-              <Link href="/blog/" className="transition-colors hover:text-white">
+              <Link href={toSiteUrl("/blog/")} className="transition-colors hover:text-white">
                 Blog
               </Link>
               <span aria-hidden className="text-white/40">
@@ -162,7 +162,7 @@ function PostCard({ post, index }: { post: SiteInventoryPage; index: number }) {
       className="reveal group flex flex-col overflow-hidden rounded-2xl border border-navy-900/5 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
       style={{ "--reveal-delay": `${Math.min(index * 40, 240)}ms` } as CSSProperties}
     >
-      <Link href={`/${post.slug}/`} className="flex h-full flex-col">
+      <Link href={toSiteUrl(`/${post.slug}/`)} className="flex h-full flex-col">
         {img ? (
           <div className="relative aspect-[16/10] overflow-hidden">
             <Image
@@ -227,7 +227,7 @@ function MoreFromBlogLink() {
     <section className="bg-white px-6 pb-8 lg:px-8">
       <div className="mx-auto max-w-[1180px] text-center">
         <Link
-          href="/blog/"
+          href={toSiteUrl("/blog/")}
           className="inline-flex items-center gap-2 rounded-full border border-navy-900/15 px-6 py-3 text-sm font-semibold text-navy-900 transition-colors hover:border-primary-400 hover:bg-primary-50"
         >
           See every post in the blog &rarr;
