@@ -7,7 +7,7 @@ import { locations as officeLocations, socialLinks } from "@/components/site/foo
 // presentation is redesigned; wording/meaning is preserved as-is.
 
 export const hero = {
-  headline: "Elevate Your Wellness, Align Your Life",
+  headline: "Chiropractic Care in Bountiful, UT",
   subheadline: "Utah's Top Rated Chiropractic Office",
   ctaLabel: "Schedule Appointment",
   ctaHref: BOOKING_URL,
@@ -150,6 +150,7 @@ export const locationContent: Record<LocationKey, {
   label: string;
   homeHref: string;
   heroEyebrow: string;
+  heroHeadline: string;
   philosophy: { eyebrow: string; heading: string; body: string; image: string };
   providersHeading: string;
   providers: Provider[];
@@ -162,6 +163,7 @@ export const locationContent: Record<LocationKey, {
     label: "Bountiful",
     homeHref: "/",
     heroEyebrow: "Elevate Wellness Chiropractic · Bountiful",
+    heroHeadline: "Chiropractic Care in Bountiful, UT",
     philosophy,
     providersHeading: "Meet Your Chiropractors",
     providers: [
@@ -177,6 +179,7 @@ export const locationContent: Record<LocationKey, {
     label: "Clinton",
     homeHref: "/clinton",
     heroEyebrow: "Elevate Wellness Chiropractic · Clinton",
+    heroHeadline: "Chiropractic Care in Clinton, UT",
     philosophy: {
       eyebrow: "Chiropractic Services in Clinton, UT",
       heading: "Expert Chiropractic Care in Clinton, UT for Your Wellness Needs",

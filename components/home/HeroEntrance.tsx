@@ -57,7 +57,7 @@ export function HeroEntrance({
       </motion.div>
 
       <h1 className="mt-6 font-display text-4xl font-bold leading-[1.03] tracking-tight text-white sm:text-5xl lg:text-6xl">
-        <span className="flex flex-wrap justify-center gap-x-[0.28em] lg:justify-start">
+        <span className="flex flex-wrap justify-center lg:justify-start">
           {words.map((word, i) => (
             <span key={`${word}-${i}`} className="overflow-hidden pb-1">
               <motion.span
@@ -68,6 +68,7 @@ export function HeroEntrance({
                 className="inline-block"
               >
                 {word}
+                {i < words.length - 1 ? " " : ""}
               </motion.span>
             </span>
           ))}

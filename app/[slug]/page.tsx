@@ -20,7 +20,12 @@ export async function generateMetadata(props: PageProps<"/[slug]">): Promise<Met
   if (page) return buildMetadata(page);
 
   const pseoPage = getPseoPageBySlug(slug);
-  return pseoPage ? buildPseoMetadata(pseoPage) : {};
+  if (pseoPage) return buildPseoMetadata(pseoPage);
+
+  return {
+    title: "Page Not Found | Elevate Wellness Chiropractic",
+    robots: { index: false, follow: true },
+  };
 }
 
 export default async function FlatPage(props: PageProps<"/[slug]">) {

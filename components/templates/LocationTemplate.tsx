@@ -3,6 +3,7 @@ import Link from "next/link";
 import Script from "next/script";
 import type { CSSProperties } from "react";
 import type { SiteInventoryPage, InventoryImage } from "@/lib/site-content";
+import { JsonLd } from "@/components/seo/JsonLd";
 import {
   parseServiceBody,
   promoteIntroHeadings,
@@ -810,10 +811,5 @@ function LocationJsonLd({
     },
   ];
   const jsonLd = { "@context": "https://schema.org", "@graph": graph };
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-    />
-  );
+  return <JsonLd id={`location-jsonld-${page.slug}`} data={jsonLd} />;
 }

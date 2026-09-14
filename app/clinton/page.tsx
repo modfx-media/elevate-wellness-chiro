@@ -12,7 +12,6 @@ function getClintonPage(): SiteInventoryPage {
     metaDescription:
       "Expert chiropractic care in Clinton, UT at Elevate Wellness Chiropractic. Meet Dr. Mikayla Twarog and schedule your visit today.",
     canonicalUrl: `${SITE_URL}/clinton/`,
-    openGraph: null,
   };
 }
 

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import type { SiteInventoryPage } from "@/lib/site-content";
+import { JsonLd } from "@/components/seo/JsonLd";
 import {
   parseServiceBody,
   promoteIntroHeadings,
@@ -176,10 +177,5 @@ function LegalJsonLd({
     },
   ];
   const jsonLd = { "@context": "https://schema.org", "@graph": graph };
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-    />
-  );
+  return <JsonLd id={`legal-jsonld-${page.slug}`} data={jsonLd} />;
 }

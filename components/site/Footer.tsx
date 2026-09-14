@@ -61,10 +61,10 @@ export function Footer() {
           {/* Locations */}
           {locations.map((location) => (
             <div key={location.name}>
-              <h4 className="mb-4 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-primary-300">
+              <p className="mb-4 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-primary-300">
                 <span aria-hidden className="h-px w-4 bg-primary-500/60" />
                 {location.name.replace("Elevate Wellness Chiropractic - ", "")}
-              </h4>
+              </p>
               <address className="flex flex-col gap-3 text-sm not-italic text-white/60">
                 <span>{location.address}</span>
                 <a href={location.telHref} className="w-fit font-semibold text-white/85 transition-colors hover:text-primary-300">
@@ -84,10 +84,10 @@ export function Footer() {
 
           {/* Legal */}
           <div>
-            <h4 className="mb-4 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-primary-300">
+            <p className="mb-4 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-primary-300">
               <span aria-hidden className="h-px w-4 bg-primary-500/60" />
               Legal
-            </h4>
+            </p>
             <ul className="flex flex-col gap-3">
               {legalLinks.map((link) => (
                 <li key={link.label}>

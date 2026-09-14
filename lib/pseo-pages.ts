@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { pseoCities, type PseoCity } from "@/data/pseo-cities";
 import { pseoTopics, type PseoTopic } from "@/data/pseo-topics";
 import { SITE_URL } from "@/lib/site-content";
+import { clampMetaDescription, socialMetadata } from "@/lib/seo";
 
 const BRAND = "Elevate Wellness Chiropractic";
 const MAX_TITLE_LENGTH = 59;
@@ -33,7 +34,12 @@ export function getPseoTitle(page: PseoPage): string {
 }
 
 export function getPseoDescription(page: PseoPage): string {
-  return `Explore ${page.topic.name.toLowerCase()} care near ${page.city.name}, UT at Elevate Wellness Chiropractic. Visit our Bountiful or Clinton office.`;
+  const office =
+    page.city.county === "Davis" || page.city.county === "Salt Lake" ? "Bountiful" : "Clinton";
+  return clampMetaDescription(
+    "",
+    `${page.topic.name} in ${page.city.name}, UT at Elevate Wellness Chiropractic. Visit our ${office} office for personalized chiropractic care nearby.`,
+  );
 }
 
 export function buildPseoMetadata(page: PseoPage): Metadata {
@@ -46,6 +52,6 @@ export function buildPseoMetadata(page: PseoPage): Metadata {
     title,
     description,
     alternates: { canonical: canonicalUrl },
-    openGraph: { title, description, url: canonicalUrl },
+    ...socialMetadata({ title, description, url: canonicalUrl }),
   };
 }

@@ -114,9 +114,9 @@ export function HeroServicesSlideshow({
               <span className="inline-flex items-center rounded-full bg-white/15 px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-wide text-white backdrop-blur-md">
                 Featured Service
               </span>
-              <h3 className="mt-3 font-display text-2xl font-bold leading-tight text-white">
+              <p className="mt-3 font-display text-2xl font-bold leading-tight text-white">
                 {active.title}
-              </h3>
+              </p>
               <Link
                 href={active.href}
                 className="mt-2 inline-flex items-center gap-1.5 text-sm font-semibold text-white/85 transition-colors hover:text-white"

@@ -2,24 +2,46 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { pseoPages } from "@/lib/pseo-pages";
 import { pseoTopics } from "@/data/pseo-topics";
+import { SITE_URL } from "@/lib/site-content";
+import { socialMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/seo/JsonLd";
+
+const TITLE = "Chiropractic Care Areas We Serve in Northern Utah";
+const DESCRIPTION =
+  "Find chiropractic care near Davis, Weber, and Salt Lake County communities. Explore local service pages for Elevate Wellness in Bountiful and Clinton, UT.";
 
 export const metadata: Metadata = {
-  title: "Areas We Serve | Elevate Wellness Chiropractic",
-  description:
-    "Explore chiropractic services and care options available throughout Davis, Weber, and nearby Northern Utah communities.",
-  alternates: { canonical: "/areas-we-serve/" },
+  metadataBase: new URL(SITE_URL),
+  title: `${TITLE} | Elevate Wellness`,
+  description: DESCRIPTION,
+  alternates: { canonical: `${SITE_URL}/areas-we-serve/` },
+  ...socialMetadata({
+    title: `${TITLE} | Elevate Wellness`,
+    description: DESCRIPTION,
+    url: `${SITE_URL}/areas-we-serve/`,
+  }),
 };
 
 export default function AreasWeServePage() {
   return (
     <main className="flex-1 bg-white">
+      <JsonLd
+        id="areas-we-serve-jsonld"
+        data={{
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          name: TITLE,
+          description: DESCRIPTION,
+          url: `${SITE_URL}/areas-we-serve/`,
+        }}
+      />
       <section className="bg-navy-900 px-6 py-16 text-white sm:py-20 lg:px-8">
         <div className="mx-auto max-w-[1180px]">
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary-300">
             Northern Utah Care
           </p>
           <h1 className="mt-4 max-w-3xl font-display text-4xl font-bold leading-[1.05] tracking-tight sm:text-5xl lg:text-[3.5rem]">
-            Areas We Serve
+            {TITLE}
           </h1>
           <p className="mt-5 max-w-2xl text-base leading-relaxed text-white/70 sm:text-lg">
             Find local information about chiropractic services and common conditions we address near our Bountiful and Clinton offices.

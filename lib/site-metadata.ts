@@ -1,26 +1,34 @@
 import type { Metadata } from "next";
 import { SITE_URL, type SiteInventoryPage } from "@/lib/site-content";
+import { clampMetaDescription, isNoindexPath, socialMetadata } from "@/lib/seo";
 
-/** Builds page `<head>` metadata (title/description/canonical/OG) from a crawled inventory record. */
+const TITLE_OVERRIDES: Record<string, string> = {
+  "/chiropractor-in-north-salt-lake-ut-2/": "Chiropractor in North Salt Lake, UT | Elevate Wellness",
+  "/chiropractic-services-in-north-salt-lake-ut/": "Chiropractic Services in North Salt Lake | Elevate Wellness",
+};
+
+function pageTitle(page: SiteInventoryPage): string {
+  return TITLE_OVERRIDES[page.path] || page.metaTitle || page.title;
+}
+
+function pageDescription(page: SiteInventoryPage): string {
+  const shortTitle = pageTitle(page).replace(/\s+\|.+$/, "");
+  const fallback = `${shortTitle} at Elevate Wellness Chiropractic in Bountiful and Clinton, UT. Book personalized chiropractic care today.`;
+  return clampMetaDescription(page.metaDescription || "", fallback);
+}
+
+/** Builds page `<head>` metadata (title/description/canonical/OG/Twitter) from an inventory record. */
 export function buildMetadata(page: SiteInventoryPage): Metadata {
+  const title = pageTitle(page);
+  const description = pageDescription(page);
+  const canonical = page.canonicalUrl || `${SITE_URL}${page.path}`;
+  const index = !isNoindexPath(page.path);
+
   return {
     metadataBase: new URL(SITE_URL),
-    title: page.metaTitle || page.title,
-    description: page.metaDescription,
-    alternates: {
-      canonical: page.canonicalUrl,
-    },
-    openGraph: page.openGraph
-      ? {
-          title: page.openGraph.title ?? page.metaTitle ?? page.title,
-          description: page.openGraph.description ?? page.metaDescription,
-          url: page.canonicalUrl,
-          images: page.openGraph.image ? [page.openGraph.image] : undefined,
-        }
-      : {
-          title: page.metaTitle || page.title,
-          description: page.metaDescription,
-          url: page.canonicalUrl,
-        },
+    title,
+    description,
+    alternates: { canonical },
+    ...socialMetadata({ title, description, url: canonical, index }),
   };
 }

@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import type { SiteInventoryPage, InventoryImage } from "@/lib/site-content";
+import { JsonLd } from "@/components/seo/JsonLd";
 import {
   parseServiceBody,
   promoteIntroHeadings,
@@ -630,7 +631,7 @@ export function CtaBand({
         <div className="grid grid-cols-1 items-stretch lg:grid-cols-2">
           <div className="relative min-h-[320px] lg:min-h-[440px]">
             <Image
-              src="/images/homepage/schedule-today-v2.png"
+              src="/images/homepage/schedule-today-v2.jpg"
               alt="Chiropractor evaluating a patient at Elevate Wellness Chiropractic"
               fill
               sizes="(min-width: 1024px) 50vw, 100vw"
@@ -780,10 +781,5 @@ function ConditionPageJsonLd({
     });
   }
   const jsonLd = { "@context": "https://schema.org", "@graph": graph };
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-    />
-  );
+  return <JsonLd id={`condition-jsonld-${page.slug}`} data={jsonLd} />;
 }

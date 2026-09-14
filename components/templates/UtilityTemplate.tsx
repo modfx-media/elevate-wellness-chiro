@@ -14,6 +14,7 @@ import { doctors } from "@/components/home/homepage-data";
 import { ProvidersSection } from "@/components/home/ProvidersSection";
 import { CtaBand } from "./ConditionTemplate";
 import { PagePlaceholder } from "./PagePlaceholder";
+import { JsonLd } from "@/components/seo/JsonLd";
 
 const PRACTICE_URL = "https://www.elevatewellnesschiro.com/";
 
@@ -273,12 +274,7 @@ function AboutJsonLd({
     },
   ];
   const jsonLd = { "@context": "https://schema.org", "@graph": graph };
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-    />
-  );
+  return <JsonLd id={`about-jsonld-${page.slug}`} data={jsonLd} />;
 }
 
 // ─── Hero ────────────────────────────────────────────────────────────────────
@@ -521,10 +517,5 @@ function UtilityJsonLd({
     },
   ];
   const jsonLd = { "@context": "https://schema.org", "@graph": graph };
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-    />
-  );
+  return <JsonLd id={`utility-jsonld-${page.slug}`} data={jsonLd} />;
 }

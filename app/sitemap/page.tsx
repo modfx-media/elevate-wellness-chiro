@@ -3,12 +3,19 @@ import Link from "next/link";
 import { pseoTopics } from "@/data/pseo-topics";
 import { pseoPages } from "@/lib/pseo-pages";
 import { getAllPages, SITE_URL, type SiteInventoryPage } from "@/lib/site-content";
+import { isNoindexPath, socialMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/seo/JsonLd";
+
+const TITLE = "Sitemap | Elevate Wellness Chiropractic";
+const DESCRIPTION =
+  "Browse every chiropractic service, condition, location, provider, article, and patient resource on the Elevate Wellness Chiropractic website.";
 
 export const metadata: Metadata = {
-  title: "Sitemap | Elevate Wellness Chiropractic",
-  description:
-    "Browse every service, condition, location, provider, article, and patient resource on the Elevate Wellness Chiropractic website.",
+  metadataBase: new URL(SITE_URL),
+  title: TITLE,
+  description: DESCRIPTION,
   alternates: { canonical: `${SITE_URL}/sitemap/` },
+  ...socialMetadata({ title: TITLE, description: DESCRIPTION, url: `${SITE_URL}/sitemap/` }),
 };
 
 const GROUPS: { label: string; types: SiteInventoryPage["pageType"][] }[] = [
@@ -31,17 +38,32 @@ export default function SitemapPage() {
   const groupedPages = GROUPS.map((group) => ({
     ...group,
     pages: inventoryPages
-      .filter((page) => group.types.includes(page.pageType) && !pseoPaths.has(page.path))
+      .filter(
+        (page) =>
+          group.types.includes(page.pageType) &&
+          !pseoPaths.has(page.path) &&
+          !isNoindexPath(page.path),
+      )
       .sort((a, b) => pageLabel(a).localeCompare(pageLabel(b))),
   }));
   const totalUrls = new Set([
-    ...inventoryPages.map((page) => page.path),
+    ...inventoryPages.filter((page) => !isNoindexPath(page.path)).map((page) => page.path),
     ...pseoPages.map((page) => `/${page.slug}/`),
     "/areas-we-serve/",
   ]).size;
 
   return (
     <main className="flex-1 bg-white">
+      <JsonLd
+        id="html-sitemap-jsonld"
+        data={{
+          "@context": "https://schema.org",
+          "@type": "WebPage",
+          name: TITLE,
+          description: DESCRIPTION,
+          url: `${SITE_URL}/sitemap/`,
+        }}
+      />
       <section className="relative overflow-hidden bg-navy-900 px-6 py-16 text-white sm:py-20 lg:px-8">
         <div aria-hidden className="absolute inset-x-0 bottom-0 h-px bg-primary-500/50" />
         <div className="relative mx-auto max-w-[1180px]">
@@ -51,7 +73,7 @@ export default function SitemapPage() {
           <div className="mt-4 grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
             <div>
               <h1 className="font-display text-4xl font-bold leading-[1.05] tracking-tight sm:text-5xl lg:text-[3.5rem]">
-                Sitemap
+                Chiropractic Website Sitemap
               </h1>
               <p className="mt-5 max-w-2xl text-base leading-relaxed text-white/70 sm:text-lg">
                 A complete directory of our chiropractic services, health information, local care pages, and patient resources.

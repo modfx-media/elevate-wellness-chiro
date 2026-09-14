@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import type { SiteInventoryPage } from "@/lib/site-content";
+import { JsonLd } from "@/components/seo/JsonLd";
 import {
   getBlogPostsSortedByDate,
   getPostsLinkedFromCategory,
@@ -332,10 +333,5 @@ function BlogArchiveJsonLd({
     },
   ];
   const jsonLd = { "@context": "https://schema.org", "@graph": graph };
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-    />
-  );
+  return <JsonLd id={`archive-jsonld-${page.slug}`} data={jsonLd} />;
 }

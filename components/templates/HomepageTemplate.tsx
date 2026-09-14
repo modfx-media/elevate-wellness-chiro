@@ -76,7 +76,7 @@ export function HomepageTemplate({
           <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:gap-8">
             <HeroEntrance
               eyebrow={content.heroEyebrow}
-              headline={hero.headline}
+              headline={content.heroHeadline}
               subheadline={hero.subheadline}
               topSlot={<HeroTrustChip rating={reviews.ratingValue} reviewCount={reviews.reviewCount} />}
             />
@@ -221,9 +221,10 @@ export function HomepageTemplate({
             {/* Left column — photo */}
             <div className="relative min-h-[360px] lg:min-h-[520px]">
               <Image
-                src="/images/homepage/schedule-today-v2.png"
+                src="/images/homepage/schedule-today-v2.jpg"
                 alt="Chiropractor evaluating a patient's spine at Elevate Wellness Chiropractic"
                 fill
+                priority
                 sizes="(min-width: 1024px) 50vw, 100vw"
                 className="object-cover"
               />
@@ -342,7 +343,7 @@ export function HomepageTemplate({
                 >
                   <Image
                     src={blogFallbackImages[i % blogFallbackImages.length]}
-                    alt=""
+                    alt={post.title}
                     fill
                     sizes="(min-width: 768px) 25vw, 100vw"
                     className="object-cover transition-transform duration-500 group-hover:scale-110"

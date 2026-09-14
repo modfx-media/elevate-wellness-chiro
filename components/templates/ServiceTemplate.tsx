@@ -7,12 +7,13 @@ import { BOOKING_URL } from "@/components/site/nav-data";
 import { locations } from "@/components/site/footer-data";
 import { FaqAccordion } from "@/components/home/FaqAccordion";
 import { MotionLink } from "@/components/home/MotionLink";
+import { JsonLd } from "@/components/seo/JsonLd";
 
 // Slug-keyed hero image overrides. Keeps the crawled alt text but swaps the src
 // for a locally-hosted photo that reads better than the original WordPress asset.
 const HERO_OVERRIDES: Record<string, string> = {
-  "spinal-decompression": "/images/services/spinal-decompression-hero.png",
-  "pediatric-chiropractor": "/images/services/pediatric-chiropractor-hero.png",
+  "spinal-decompression": "/images/services/spinal-decompression-hero.jpg",
+  "pediatric-chiropractor": "/images/services/pediatric-chiropractor-hero.jpg",
 };
 
 export function ServiceTemplate({ page }: { page: SiteInventoryPage }) {
@@ -108,7 +109,7 @@ function HeroBand({
       {hero ? (
         <Image
           src={hero.src}
-          alt=""
+          alt="Chiropractic treatment at Elevate Wellness Chiropractic"
           fill
           priority
           sizes="100vw"
@@ -454,7 +455,7 @@ function CtaBand({
         <div className="grid grid-cols-1 items-stretch lg:grid-cols-2">
           <div className="relative min-h-[320px] lg:min-h-[440px]">
             <Image
-              src="/images/homepage/schedule-today-v2.png"
+              src="/images/homepage/schedule-today-v2.jpg"
               alt="Chiropractor evaluating a patient at Elevate Wellness Chiropractic"
               fill
               sizes="(min-width: 1024px) 50vw, 100vw"
@@ -576,5 +577,5 @@ function ServicePageJsonLd({
     });
   }
   const jsonLd = { "@context": "https://schema.org", "@graph": graph };
-  return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />;
+  return <JsonLd id={`service-jsonld-${page.slug}`} data={jsonLd} />;
 }

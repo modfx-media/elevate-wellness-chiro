@@ -63,7 +63,10 @@ interface SiteInventory {
 const data = inventory as unknown as SiteInventory;
 
 /** Production site origin these routes/canonicals are built for. */
-export const SITE_URL = "https://www.elevatewellnesschiro.com";
+export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.elevatewellnesschiro.com").replace(
+  /\/$/,
+  "",
+);
 
 /**
  * Upgrades http:// URLs on the site's own host to https://. Some crawled

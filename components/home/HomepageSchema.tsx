@@ -1,6 +1,7 @@
 import napAndHours from "@/seo-audit/nap-and-hours.json";
 import { SITE_URL } from "@/lib/site-content";
 import { faqItems } from "./homepage-data";
+import { JsonLd } from "@/components/seo/JsonLd";
 
 const [bountiful, clinton] = napAndHours.locations;
 
@@ -78,18 +79,9 @@ const faqSchema = {
 export function HomepageSchema() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(bountifulSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(clintonSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
-      />
+      <JsonLd id="homepage-bountiful-business" data={bountifulSchema} />
+      <JsonLd id="homepage-clinton-business" data={clintonSchema} />
+      <JsonLd id="homepage-faq" data={faqSchema} />
     </>
   );
 }

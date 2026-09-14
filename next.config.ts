@@ -3,6 +3,9 @@ import redirectsNeeded from "./seo-audit/redirects-needed.json";
 
 const nextConfig: NextConfig = {
   trailingSlash: true,
+  images: {
+    qualities: [70, 75, 90],
+  },
   async redirects() {
     return redirectsNeeded.redirects.map(
       (redirect: { oldPath: string; newPath: string }) => ({

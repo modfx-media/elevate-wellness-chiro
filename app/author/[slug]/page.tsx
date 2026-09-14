@@ -11,7 +11,12 @@ export async function generateStaticParams() {
 export async function generateMetadata(props: PageProps<"/author/[slug]">): Promise<Metadata> {
   const { slug } = await props.params;
   const page = getAuthorPageBySlug(slug);
-  if (!page) return {};
+  if (!page) {
+    return {
+      title: "Page Not Found | Elevate Wellness Chiropractic",
+      robots: { index: false, follow: true },
+    };
+  }
   return buildMetadata(page);
 }
 

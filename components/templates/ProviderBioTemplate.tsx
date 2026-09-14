@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import type { SiteInventoryPage, InventoryImage } from "@/lib/site-content";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { parseServiceBody } from "@/lib/parse-service-body";
 import { BOOKING_URL } from "@/components/site/nav-data";
 import { locations } from "@/components/site/footer-data";
@@ -299,10 +300,5 @@ function ProviderJsonLd({
     person,
   ];
   const jsonLd = { "@context": "https://schema.org", "@graph": graph };
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-    />
-  );
+  return <JsonLd id={`provider-jsonld-${page.slug}`} data={jsonLd} />;
 }
