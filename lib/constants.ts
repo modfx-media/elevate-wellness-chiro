@@ -1,8 +1,18 @@
-/** Production origin for canonicals, sitemap, robots, OG, and JSON-LD. */
-export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://www.elevatewellnesschiro.com").replace(
-  /\/$/,
-  "",
-);
+const CANONICAL_ORIGIN = "https://www.elevatewellnesschiro.com";
+
+function resolveSiteUrl(raw: string | undefined): string {
+  const value = (raw || CANONICAL_ORIGIN).replace(/\/$/, "");
+  try {
+    const host = new URL(value).hostname.replace(/^www\./, "");
+    if (host === "elevatewellnesschiro.com") return CANONICAL_ORIGIN;
+  } catch {
+    /* ignore invalid env and keep the live www origin */
+  }
+  return CANONICAL_ORIGIN;
+}
+
+/** Always the live www origin. Preview / Vercel hosts never override this. */
+export const SITE_URL = resolveSiteUrl(process.env.NEXT_PUBLIC_SITE_URL);
 
 const OWN_HOSTS = [
   SITE_URL,
