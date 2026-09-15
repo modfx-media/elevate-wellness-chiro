@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties } from "react";
-import { SITE_URL, toSiteUrl } from "@/lib/constants";
+import { SITE_URL, toSitePath } from "@/lib/constants";
 import type { SiteInventoryPage } from "@/lib/site-content";
 import { normalizeAssetUrl } from "@/lib/site-content";
 import {
@@ -165,7 +165,7 @@ function AboutUsTemplate({ page }: { page: SiteInventoryPage }) {
 
       <div className="mx-auto -mt-12 mb-12 max-w-[1180px] px-6 text-center lg:px-8">
         <Link
-          href={toSiteUrl("/insurances-covered/")}
+          href={toSitePath("/insurances-covered/")}
           className="inline-flex items-center gap-2 text-sm font-semibold text-primary-700 hover:underline"
         >
           See the insurance plans we accept &rarr;
@@ -211,7 +211,7 @@ function AboutHero({
             aria-label="Breadcrumb"
             className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-primary-300"
           >
-            <Link href={toSiteUrl("/")} className="transition-colors hover:text-white">
+            <Link href={toSitePath("/")} className="transition-colors hover:text-white">
               Home
             </Link>
             <span aria-hidden className="text-white/40">
@@ -303,7 +303,7 @@ function HeroBand({
           aria-label="Breadcrumb"
           className="reveal flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-primary-300"
         >
-          <Link href={toSiteUrl("/")} className="transition-colors hover:text-white">
+          <Link href={toSitePath("/")} className="transition-colors hover:text-white">
             Home
           </Link>
           <span aria-hidden className="text-white/40">

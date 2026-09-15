@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { pseoTopics } from "@/data/pseo-topics";
 import { pseoPages } from "@/lib/pseo-pages";
-import { SITE_URL, toSiteUrl } from "@/lib/constants";
+import { SITE_URL, toSitePath } from "@/lib/constants";
 import { getAllPages, type SiteInventoryPage } from "@/lib/site-content";
 import { isNoindexPath, socialMetadata } from "@/lib/seo";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -152,7 +152,7 @@ export default function SitemapPage() {
                   <ul className="mt-5 grid gap-x-8 gap-y-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                     {topicPages.map((page) => (
                       <li key={page.slug}>
-                        <Link href={toSiteUrl(`/${page.slug}/`)} className="text-sm font-medium text-white/65 transition-colors hover:text-primary-300">
+                        <Link href={toSitePath(`/${page.slug}/`)} className="text-sm font-medium text-white/65 transition-colors hover:text-primary-300">
                           {topic.name} in {page.city.name}, UT
                         </Link>
                       </li>
@@ -180,7 +180,7 @@ function SectionHeading({ eyebrow, title }: { eyebrow: string; title: string }) 
 function DirectoryLink({ href, label }: { href: string; label: string }) {
   return (
     <li>
-      <Link href={toSiteUrl(href)} className="group inline-flex items-start gap-2 text-sm font-semibold leading-relaxed text-ink-700 transition-colors hover:text-primary-700">
+      <Link href={toSitePath(href)} className="group inline-flex items-start gap-2 text-sm font-semibold leading-relaxed text-ink-700 transition-colors hover:text-primary-700">
         <span aria-hidden className="mt-px text-primary-500 transition-transform group-hover:translate-x-0.5">&rarr;</span>
         <span>{label}</span>
       </Link>

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { CSSProperties } from "react";
-import { SITE_URL, toSiteUrl } from "@/lib/constants";
+import { SITE_URL, toSitePath } from "@/lib/constants";
 import type { SiteInventoryPage } from "@/lib/site-content";
 import { JsonLd } from "@/components/seo/JsonLd";
 import {
@@ -49,7 +49,7 @@ function HeroBand({
           aria-label="Breadcrumb"
           className="reveal flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-primary-300"
         >
-          <Link href={toSiteUrl("/")} className="transition-colors hover:text-white">
+          <Link href={toSitePath("/")} className="transition-colors hover:text-white">
             Home
           </Link>
           <span aria-hidden className="text-white/40">

@@ -1,5 +1,5 @@
 import navStructure from "@/seo-audit/nav-structure.json";
-import { toSiteUrl } from "@/lib/constants";
+import { toSitePath } from "@/lib/constants";
 
 export interface NavItem {
   label: string;
@@ -11,9 +11,9 @@ export interface NavItem {
 
 export const headerMenu = navStructure.header.menu as NavItem[];
 
-/** Keeps site links on https://www.elevatewellnesschiro.com; leaves external/anchor hrefs untouched. */
+/** In-app path so localhost / preview stay on this origin. Leaves external/anchor hrefs untouched. */
 export function toHref(href: string): string {
-  return toSiteUrl(href);
+  return toSitePath(href);
 }
 
 function findChild(items: NavItem[], label: string): NavItem | undefined {

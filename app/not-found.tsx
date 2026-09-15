@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { SITE_URL, toSiteUrl } from "@/lib/constants";
+import { SITE_URL, toSitePath } from "@/lib/constants";
 import { socialMetadata } from "@/lib/seo";
 
 const TITLE = "Page Not Found | Elevate Wellness Chiropractic";
@@ -29,7 +29,7 @@ export default function NotFound() {
         That URL is not available. Visit our homepage for chiropractic care in Bountiful and Clinton, Utah.
       </p>
       <Link
-        href={toSiteUrl("/")}
+        href={toSitePath("/")}
         className="mt-8 inline-flex w-fit rounded-full bg-navy-900 px-7 py-3.5 text-sm font-semibold text-white"
       >
         Back to homepage

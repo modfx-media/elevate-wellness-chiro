@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties } from "react";
-import { SITE_URL, toSiteUrl } from "@/lib/constants";
+import { SITE_URL, toSitePath } from "@/lib/constants";
 import type { SiteInventoryPage, InventoryImage } from "@/lib/site-content";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getBlogPosts, getCategoryArchives, normalizeAssetUrl } from "@/lib/site-content";
@@ -142,13 +142,13 @@ function HeroBand({
           aria-label="Breadcrumb"
           className="reveal flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-primary-300"
         >
-          <Link href={toSiteUrl("/")} className="transition-colors hover:text-white">
+          <Link href={toSitePath("/")} className="transition-colors hover:text-white">
             Home
           </Link>
           <span aria-hidden className="text-white/40">
             /
           </span>
-          <Link href={toSiteUrl("/blog/")} className="transition-colors hover:text-white">
+          <Link href={toSitePath("/blog/")} className="transition-colors hover:text-white">
             Blog
           </Link>
           {category ? (
@@ -157,7 +157,7 @@ function HeroBand({
                 /
               </span>
               <Link
-                href={toSiteUrl(`/${category.slug}/`)}
+                href={toSitePath(`/${category.slug}/`)}
                 className="transition-colors hover:text-white"
               >
                 {category.label}
@@ -168,7 +168,7 @@ function HeroBand({
 
         {category ? (
           <Link
-            href={toSiteUrl(`/${category.slug}/`)}
+            href={toSitePath(`/${category.slug}/`)}
             className="reveal mt-6 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-primary-300 transition-colors hover:border-primary-400 hover:bg-primary-500/20"
           >
             <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-primary-400" />
@@ -458,7 +458,7 @@ function PostFooter({
                 </h2>
               </div>
               <Link
-                href={toSiteUrl("/blog/")}
+                href={toSitePath("/blog/")}
                 className="hidden text-sm font-semibold text-primary-700 hover:underline sm:inline"
               >
                 All posts &rarr;
@@ -484,7 +484,7 @@ function RecentCard({ post }: { post: SiteInventoryPage }) {
   const title = post.title.split(" | ")[0].split(" - ")[0].trim();
   return (
     <li className="group flex flex-col overflow-hidden rounded-2xl border border-navy-900/5 bg-white shadow-sm transition-all hover:-translate-y-1 hover:shadow-xl">
-      <Link href={toSiteUrl(`/${post.slug}/`)} className="flex h-full flex-col">
+      <Link href={toSitePath(`/${post.slug}/`)} className="flex h-full flex-col">
         {img ? (
           <div className="relative aspect-[16/10] overflow-hidden">
             <Image
