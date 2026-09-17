@@ -27,7 +27,10 @@ export function ProviderBioTemplate({ page }: { page: SiteInventoryPage }) {
   // back to the generic role implied by the site context and body copy.
   const roleHeading =
     parsed.sections.find((s) => !isCtaHeading(s.heading))?.heading ?? null;
-  const jobTitle = roleHeading ?? "Chiropractor";
+  const ROLE_OVERRIDES: Record<string, string> = {
+    "dr-casey-simmonds": "Founder & Chiropractic",
+  };
+  const jobTitle = ROLE_OVERRIDES[page.slug] ?? roleHeading ?? "Chiropractor";
 
   const headshotRaw =
     page.images.find((img) => img.placement === "hero") ??
