@@ -26,7 +26,7 @@ const ABOUT_SLUG = "elevate-wellness-chiropractic";
 // Same 3 bios as the homepage's "Meet Your Chiropractors" section, with roles
 // matching how each doctor is billed on the live About Us page.
 const ABOUT_PROVIDERS = [
-  { ...doctors[0], role: "Founder & Chiropractic" },
+  { ...doctors[0], role: "Founder & Chiropractor" },
   { ...doctors[1], role: "Chiropractor" },
   { ...doctors[2], role: "Chiropractor" },
 ];

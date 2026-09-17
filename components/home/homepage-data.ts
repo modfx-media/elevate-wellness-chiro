@@ -167,7 +167,7 @@ export const locationContent: Record<LocationKey, {
     philosophy,
     providersHeading: "Meet Your Chiropractors",
     providers: [
-      { ...doctors[0], role: "Founder & Chiropractic" },
+      { ...doctors[0], role: "Founder & Chiropractor" },
       { ...doctors[1], role: "Chiropractor" },
     ],
     ctaBody: ctaBanner.body,

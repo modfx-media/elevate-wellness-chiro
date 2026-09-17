@@ -28,7 +28,7 @@ export function ProviderBioTemplate({ page }: { page: SiteInventoryPage }) {
   const roleHeading =
     parsed.sections.find((s) => !isCtaHeading(s.heading))?.heading ?? null;
   const ROLE_OVERRIDES: Record<string, string> = {
-    "dr-casey-simmonds": "Founder & Chiropractic",
+    "dr-casey-simmonds": "Founder & Chiropractor",
   };
   const jobTitle = ROLE_OVERRIDES[page.slug] ?? roleHeading ?? "Chiropractor";
 

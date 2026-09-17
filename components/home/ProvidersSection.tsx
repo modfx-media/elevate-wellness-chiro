@@ -80,7 +80,9 @@ export function ProvidersSection({
             >
               <Avatar provider={provider} />
             </div>
-            <div className="flex flex-1 flex-col justify-center p-7 lg:p-8">
+            <div
+              className={`flex flex-1 flex-col p-7 lg:p-8 ${single ? "justify-center" : ""}`}
+            >
               <span className="inline-flex w-fit items-center gap-2 rounded-full bg-primary-100/70 px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.15em] text-accent">
                 {provider.role}
               </span>
@@ -88,7 +90,9 @@ export function ProvidersSection({
                 {provider.name}
               </h3>
               <p className="mt-3 text-sm leading-relaxed text-ink-700">{provider.body}</p>
-              <span className="mt-5 inline-flex w-fit items-center gap-1 text-sm font-semibold text-accent">
+              <span
+                className={`${single ? "mt-5" : "mt-auto pt-5"} inline-flex w-fit items-center gap-1 text-sm font-semibold text-accent`}
+              >
                 Meet {provider.name.replace("Dr. ", "")}
                 <span
                   aria-hidden
