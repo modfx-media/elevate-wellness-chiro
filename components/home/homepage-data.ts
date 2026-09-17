@@ -23,7 +23,7 @@ export const hero = {
  * explicit client instruction (overrides the crawl's "thousands" wording).
  */
 export const trustBadges = [
-  { value: "5.0", label: "Patient Rating (180 Reviews)" },
+  { value: "5.0", label: "Patient Rating (327 Reviews)" },
   { value: `${officeLocations.length}`, label: "Utah Locations" },
   { value: "5K+", label: "Patients Helped" },
 ];
@@ -283,7 +283,7 @@ export function getRecentBlogPosts(count: number): BlogPreviewPost[] {
 /**
  * Testimonials section. Headings are verbatim from the homepage crawl
  * ("TESTIMONIALS" / "FROM OUR CLIENTS"); rating + count come from the
- * homepage's aggregateRating structured data (ratingValue 5, reviewCount 180).
+ * homepage's aggregateRating structured data (ratingValue 5, reviewCount 327).
  * The live "reviews" page is an embedded Google widget with no written quotes
  * in the crawl, so we surface the real aggregate and link to Google instead of
  * inventing testimonials.
@@ -293,8 +293,8 @@ export const reviews = {
   heading: "From Our Clients", // verbatim h2 "FROM OUR CLIENTS"
   ratingValue: "5.0",
   starCount: 5,
-  reviewCount: 180,
-  reviewCountLabel: "180 Google reviews",
+  reviewCount: 327,
+  reviewCountLabel: "327 Google reviews",
   body: "Utah's Top Rated Chiropractic Office. Our patients consistently rate us five stars, see for yourself why families across Davis County trust Elevate Wellness Chiropractic with their care.",
   googleLabel: "Read Reviews on Google",
   googleHref: socialLinks.find((link) => link.label === "Google")?.href ?? "/reviews/",
