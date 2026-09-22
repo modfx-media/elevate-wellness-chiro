@@ -17,13 +17,15 @@ function GoogleGlyph() {
 export function HeroTrustChip({
   rating,
   reviewCount,
+  reviewsUrl,
 }: {
   rating: string;
   reviewCount: number;
+  reviewsUrl?: string;
 }) {
   const reduceMotion = useReducedMotion();
 
-  return (
+  const chip = (
     <motion.div
       initial={reduceMotion ? false : { opacity: 0, y: -8 }}
       animate={{ opacity: 1, y: 0 }}
@@ -42,5 +44,13 @@ export function HeroTrustChip({
       <span aria-hidden className="h-3 w-px bg-white/20" />
       <span className="text-[0.7rem] font-medium text-white/70">{reviewCount} reviews</span>
     </motion.div>
+  );
+
+  if (!reviewsUrl) return chip;
+
+  return (
+    <a href={reviewsUrl} target="_blank" rel="noopener noreferrer" className="inline-flex">
+      {chip}
+    </a>
   );
 }

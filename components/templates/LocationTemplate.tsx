@@ -14,8 +14,9 @@ import {
 } from "@/lib/parse-service-body";
 import { BOOKING_URL } from "@/components/site/nav-data";
 import { locations } from "@/components/site/footer-data";
-import { testimonials } from "@/components/home/homepage-data";
+import { toTestimonials } from "@/components/home/homepage-data";
 import { ReviewCarousel } from "@/components/home/ReviewCarousel";
+import { GoogleReviews } from "@/components/home/GoogleReviews";
 import napAndHours from "@/seo-audit/nap-and-hours.json";
 import {
   SectionBand,
@@ -738,28 +739,32 @@ function ContactFormSection() {
 
 function ContactTestimonialsSection() {
   return (
-    <section className="relative overflow-hidden bg-navy-900 px-6 py-16 lg:px-8 lg:py-28">
-      <div
-        aria-hidden
-        className="pointer-events-none absolute left-1/2 top-0 h-[320px] w-[640px] -translate-x-1/2 rounded-full bg-primary-500/10 blur-[150px]"
-      />
-      <div className="relative mx-auto max-w-[1280px]">
-        <div className="reveal mx-auto max-w-2xl text-center">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary-300">
-            Real Reviews
-          </p>
-          <h2 className="mt-3 font-display text-3xl font-bold tracking-tight text-white sm:text-4xl">
-            What Our Patients Are Saying
-          </h2>
-        </div>
-        <div
-          className="reveal mt-12"
-          style={{ "--reveal-delay": "120ms" } as CSSProperties}
-        >
-          <ReviewCarousel reviews={testimonials} />
-        </div>
-      </div>
-    </section>
+    <GoogleReviews>
+      {({ reviews }) => (
+        <section className="relative overflow-hidden bg-navy-900 px-6 py-16 lg:px-8 lg:py-28">
+          <div
+            aria-hidden
+            className="pointer-events-none absolute left-1/2 top-0 h-[320px] w-[640px] -translate-x-1/2 rounded-full bg-primary-500/10 blur-[150px]"
+          />
+          <div className="relative mx-auto max-w-[1280px]">
+            <div className="reveal mx-auto max-w-2xl text-center">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary-300">
+                Real Reviews
+              </p>
+              <h2 className="mt-3 font-display text-3xl font-bold tracking-tight text-white sm:text-4xl">
+                What Our Patients Are Saying
+              </h2>
+            </div>
+            <div
+              className="reveal mt-12"
+              style={{ "--reveal-delay": "120ms" } as CSSProperties}
+            >
+              <ReviewCarousel reviews={toTestimonials(reviews)} />
+            </div>
+          </div>
+        </section>
+      )}
+    </GoogleReviews>
   );
 }
 

@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useReducedMotion } from "motion/react";
 import type { Testimonial } from "./homepage-data";
 
 const AVATAR_PALETTE = [
@@ -83,7 +84,7 @@ function ReviewCard({ review }: { review: Testimonial }) {
       </header>
 
       <div className="mt-4">
-        <StarRow rating={review.rating} />
+        <StarRow rating={5} />
       </div>
 
       <p
@@ -122,46 +123,77 @@ function ChevronIcon({ direction }: { direction: "left" | "right" }) {
 
 export function ReviewCarousel({ reviews }: { reviews: Testimonial[] }) {
   const trackRef = useRef<HTMLDivElement>(null);
-  const [canPrev, setCanPrev] = useState(false);
-  const [canNext, setCanNext] = useState(true);
+  const pausedRef = useRef(false);
+  const resumeTimer = useRef<number | null>(null);
+  const reduceMotion = useReducedMotion();
 
-  const updateEdges = useCallback(() => {
+  const cardStep = useCallback(() => {
     const el = trackRef.current;
-    if (!el) return;
-    setCanPrev(el.scrollLeft > 4);
-    setCanNext(el.scrollLeft + el.clientWidth < el.scrollWidth - 4);
+    const first = el?.firstElementChild as HTMLElement | null;
+    return (first?.offsetWidth ?? 320) + 16;
   }, []);
+
+  const wrapScroll = useCallback(() => {
+    const el = trackRef.current;
+    if (!el || reviews.length < 2) return;
+    const loopWidth = el.scrollWidth / 2;
+    if (el.scrollLeft >= loopWidth) el.scrollLeft -= loopWidth;
+    if (el.scrollLeft < 0) el.scrollLeft += loopWidth;
+  }, [reviews.length]);
 
   useEffect(() => {
     const el = trackRef.current;
-    if (!el) return;
-    updateEdges();
-    el.addEventListener("scroll", updateEdges, { passive: true });
-    window.addEventListener("resize", updateEdges);
-    return () => {
-      el.removeEventListener("scroll", updateEdges);
-      window.removeEventListener("resize", updateEdges);
+    if (!el || reduceMotion || reviews.length < 2) return;
+
+    let frame = 0;
+    const tick = () => {
+      if (!pausedRef.current) {
+        el.scrollLeft += 0.45;
+        wrapScroll();
+      }
+      frame = window.requestAnimationFrame(tick);
     };
-  }, [updateEdges]);
+    frame = window.requestAnimationFrame(tick);
+    return () => window.cancelAnimationFrame(frame);
+  }, [reduceMotion, reviews.length, wrapScroll]);
+
+  function pauseFor(ms = 4000) {
+    pausedRef.current = true;
+    if (resumeTimer.current) window.clearTimeout(resumeTimer.current);
+    resumeTimer.current = window.setTimeout(() => {
+      pausedRef.current = false;
+    }, ms);
+  }
 
   function scrollByCard(dir: 1 | -1) {
     const el = trackRef.current;
     if (!el) return;
-    const first = el.firstElementChild as HTMLElement | null;
-    const gap = 16;
-    const step = (first?.clientWidth ?? 320) + gap;
-    el.scrollBy({ left: dir * step, behavior: "smooth" });
+    pauseFor();
+    el.scrollBy({ left: dir * cardStep(), behavior: "smooth" });
+    window.setTimeout(wrapScroll, 420);
   }
 
+  if (reviews.length === 0) return null;
+
+  const looped = reviews.length > 1 ? [...reviews, ...reviews] : reviews;
+
   return (
-    <div className="relative">
+    <div
+      className="relative"
+      onMouseEnter={() => {
+        pausedRef.current = true;
+      }}
+      onMouseLeave={() => {
+        pausedRef.current = false;
+      }}
+    >
       <div
         ref={trackRef}
-        className="flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth px-1 pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="flex gap-4 overflow-x-auto px-1 pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
-        {reviews.map((review) => (
+        {looped.map((review, index) => (
           <div
-            key={`${review.name}-${review.date}`}
+            key={`${review.name}-${review.date}-${index}`}
             className="w-[85%] shrink-0 sm:w-[46%] lg:w-[calc((100%-3rem)/4)]"
           >
             <ReviewCard review={review} />
@@ -169,24 +201,26 @@ export function ReviewCarousel({ reviews }: { reviews: Testimonial[] }) {
         ))}
       </div>
 
-      <button
-        type="button"
-        onClick={() => scrollByCard(-1)}
-        aria-label="Previous reviews"
-        disabled={!canPrev}
-        className="absolute -left-4 top-1/2 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white text-navy-900 shadow-lg transition-opacity disabled:opacity-30 lg:flex"
-      >
-        <ChevronIcon direction="left" />
-      </button>
-      <button
-        type="button"
-        onClick={() => scrollByCard(1)}
-        aria-label="Next reviews"
-        disabled={!canNext}
-        className="absolute -right-4 top-1/2 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white text-navy-900 shadow-lg transition-opacity disabled:opacity-30 lg:flex"
-      >
-        <ChevronIcon direction="right" />
-      </button>
+      {reviews.length > 1 ? (
+        <>
+          <button
+            type="button"
+            onClick={() => scrollByCard(-1)}
+            aria-label="Previous reviews"
+            className="absolute -left-4 top-1/2 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white text-navy-900 shadow-lg lg:flex"
+          >
+            <ChevronIcon direction="left" />
+          </button>
+          <button
+            type="button"
+            onClick={() => scrollByCard(1)}
+            aria-label="Next reviews"
+            className="absolute -right-4 top-1/2 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white text-navy-900 shadow-lg lg:flex"
+          >
+            <ChevronIcon direction="right" />
+          </button>
+        </>
+      ) : null}
     </div>
   );
 }

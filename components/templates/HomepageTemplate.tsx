@@ -11,9 +11,11 @@ import { HeroStat } from "@/components/home/HeroStat";
 import { HeroTrustChip } from "@/components/home/HeroTrustChip";
 import { ReviewsBand } from "@/components/home/ReviewsBand";
 import { ReviewCarousel } from "@/components/home/ReviewCarousel";
+import { GoogleReviews } from "@/components/home/GoogleReviews";
 import { LocationsMap } from "@/components/home/LocationsMap";
 import { ProvidersSection } from "@/components/home/ProvidersSection";
 import type { CSSProperties } from "react";
+import { formatGoogleRating, getDisplayedGoogleReviews } from "@/lib/google-reviews";
 import {
   hero,
   trustBadges,
@@ -27,7 +29,7 @@ import {
   blogFallbackImages,
   getRecentBlogPosts,
   reviews,
-  testimonials,
+  toTestimonials,
   locations,
   locationsHeading,
   getLocationContent,
@@ -52,7 +54,7 @@ function formatBlogDate(value: string): string {
   return date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
 }
 
-export function HomepageTemplate({
+export async function HomepageTemplate({
   page,
   location = "bountiful",
 }: {
@@ -63,6 +65,15 @@ export function HomepageTemplate({
   const recentPosts = getRecentBlogPosts(4);
   const content = getLocationContent(location);
   const philosophy = content.philosophy;
+  const { meta } = await getDisplayedGoogleReviews();
+  const ratingValue = formatGoogleRating(meta.rating) || reviews.ratingValue;
+  const heroBadges = [
+    {
+      value: ratingValue,
+      label: `Patient Rating (${meta.reviewCount} Reviews)`,
+    },
+    ...trustBadges.slice(1),
+  ];
 
   return (
     <main className="flex flex-1 flex-col">
@@ -78,26 +89,41 @@ export function HomepageTemplate({
               eyebrow={content.heroEyebrow}
               headline={content.heroHeadline}
               subheadline={hero.subheadline}
-              topSlot={<HeroTrustChip rating={reviews.ratingValue} reviewCount={reviews.reviewCount} />}
+              topSlot={
+                <HeroTrustChip
+                  rating={ratingValue}
+                  reviewCount={meta.reviewCount}
+                  reviewsUrl={meta.reviewsUrl}
+                />
+              }
             />
 
             <HeroServicesSlideshow
               slides={services.map(({ title, href, image }) => ({ title, href, image }))}
-              ratingValue={trustBadges[0].value}
-              ratingLabel={trustBadges[0].label}
+              ratingValue={heroBadges[0].value}
+              ratingLabel={heroBadges[0].label}
             />
           </div>
 
           {/* Trust stats — one connected glass strip with dividers (desktop only; hero is compact on mobile) */}
           <div className="mt-10 hidden flex-wrap items-stretch overflow-hidden rounded-2xl border border-white/15 bg-white/10 backdrop-blur-md lg:inline-flex">
-            {trustBadges.map((badge, i) => (
-              <div
-                key={badge.label}
-                className={`px-6 py-4 ${i > 0 ? "border-l border-white/10" : ""}`}
-              >
-                <HeroStat value={badge.value} label={badge.label} />
-              </div>
-            ))}
+            {heroBadges.map((badge, i) => {
+              const stat = <HeroStat value={badge.value} label={badge.label} />;
+              return (
+                <div
+                  key={badge.label}
+                  className={`px-6 py-4 ${i > 0 ? "border-l border-white/10" : ""}`}
+                >
+                  {i === 0 && meta.reviewsUrl ? (
+                    <a href={meta.reviewsUrl} target="_blank" rel="noopener noreferrer">
+                      {stat}
+                    </a>
+                  ) : (
+                    stat
+                  )}
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -292,35 +318,39 @@ export function HomepageTemplate({
         </div>
       </section>
 
-      {/* Reviews / testimonials — rating band + real review carousel merged into one dark section */}
-      <section className="relative overflow-hidden bg-navy-900 px-6 py-16 lg:px-8 lg:py-28">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute left-1/2 top-0 h-[320px] w-[640px] -translate-x-1/2 rounded-full bg-primary-500/10 blur-[150px]"
-        />
-        <div className="relative">
-          <ReviewsBand
-            eyebrow={reviews.eyebrow}
-            heading={reviews.heading}
-            ratingValue={reviews.ratingValue}
-            starCount={reviews.starCount}
-            reviewCount={reviews.reviewCount}
-            reviewCountLabel={reviews.reviewCountLabel}
-            body={reviews.body}
-            googleLabel={reviews.googleLabel}
-            googleHref={reviews.googleHref}
-            bookLabel={reviews.bookLabel}
-            bookHref={reviews.bookHref}
-          />
+      {/* Reviews / testimonials — live 5-star Google quotes + overall rating */}
+      <GoogleReviews>
+        {({ reviews: googleQuotes, meta: reviewMeta }) => (
+          <section className="relative overflow-hidden bg-navy-900 px-6 py-16 lg:px-8 lg:py-28">
+            <div
+              aria-hidden
+              className="pointer-events-none absolute left-1/2 top-0 h-[320px] w-[640px] -translate-x-1/2 rounded-full bg-primary-500/10 blur-[150px]"
+            />
+            <div className="relative">
+              <ReviewsBand
+                eyebrow={reviews.eyebrow}
+                heading={reviews.heading}
+                ratingValue={formatGoogleRating(reviewMeta.rating) || reviews.ratingValue}
+                starCount={reviews.starCount}
+                reviewCount={reviewMeta.reviewCount}
+                reviewCountLabel={`${reviewMeta.reviewCount} Google reviews`}
+                body={reviews.body}
+                googleLabel={reviews.googleLabel}
+                googleHref={reviewMeta.reviewsUrl}
+                bookLabel={reviews.bookLabel}
+                bookHref={reviews.bookHref}
+              />
 
-          <div
-            className="reveal mx-auto mt-16 w-full max-w-[1280px]"
-            style={{ "--reveal-delay": "160ms" } as CSSProperties}
-          >
-            <ReviewCarousel reviews={testimonials} />
-          </div>
-        </div>
-      </section>
+              <div
+                className="reveal mx-auto mt-16 w-full max-w-[1280px]"
+                style={{ "--reveal-delay": "160ms" } as CSSProperties}
+              >
+                <ReviewCarousel reviews={toTestimonials(googleQuotes)} />
+              </div>
+            </div>
+          </section>
+        )}
+      </GoogleReviews>
 
       {/* Blog preview */}
       <section className="bg-gray-50 px-6 py-16 lg:px-8 lg:py-28">

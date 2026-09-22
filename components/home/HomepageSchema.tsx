@@ -1,5 +1,7 @@
 import napAndHours from "@/seo-audit/nap-and-hours.json";
 import { SITE_URL } from "@/lib/constants";
+import { getDisplayedGoogleReviews } from "@/lib/google-reviews";
+import { isFiveStarReview } from "@/lib/reviews";
 import { faqItems } from "./homepage-data";
 import { JsonLd } from "@/components/seo/JsonLd";
 
@@ -76,10 +78,40 @@ const faqSchema = {
   })),
 };
 
-export function HomepageSchema() {
+export async function HomepageSchema() {
+  const { reviews, meta } = await getDisplayedGoogleReviews();
+  const visible = reviews.filter(isFiveStarReview);
+  const bountifulWithReviews = {
+    ...bountifulSchema,
+    ...(meta.rating > 0 && meta.reviewCount > 0
+      ? {
+          aggregateRating: {
+            "@type": "AggregateRating",
+            ratingValue: String(meta.rating),
+            reviewCount: String(meta.reviewCount),
+            bestRating: "5",
+          },
+        }
+      : {}),
+    ...(visible.length
+      ? {
+          review: visible.map((review) => ({
+            "@type": "Review",
+            author: { "@type": "Person", name: review.name },
+            reviewRating: {
+              "@type": "Rating",
+              ratingValue: "5",
+              bestRating: "5",
+            },
+            reviewBody: review.quote,
+          })),
+        }
+      : {}),
+  };
+
   return (
     <>
-      <JsonLd id="homepage-bountiful-business" data={bountifulSchema} />
+      <JsonLd id="homepage-bountiful-business" data={bountifulWithReviews} />
       <JsonLd id="homepage-clinton-business" data={clintonSchema} />
       <JsonLd id="homepage-faq" data={faqSchema} />
     </>

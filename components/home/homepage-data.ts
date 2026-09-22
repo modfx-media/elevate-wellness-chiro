@@ -309,69 +309,18 @@ export interface Testimonial {
   text: string;
 }
 
-/** Real Google reviews of Elevate Wellness Chiropractic, verbatim from the review widget. */
-export const testimonials: Testimonial[] = [
-  {
-    name: "Lance Tilley",
-    date: "4 August 2026",
-    rating: 5,
-    text: "The doctors are competent and confident. They are great to work with and are fun to be around. They are great.",
-  },
-  {
-    name: "Hector dehesa",
-    date: "10 July 2026",
-    rating: 5,
-    text: "I started going here after my accident last year. I\u2019ve started to feel better right away. Last week I had to use another service in an emergency and my regular chiropractor was on vacation. I called Elevate and they got me in the next morning.",
-  },
-  {
-    name: "Jeny Petersen",
-    date: "9 July 2026",
-    rating: 5,
-    text: "Everyone is pleasant and eager to help you. The doctors are very personable, kind, and helpful. He explained my condition to me and answered all my questions.",
-  },
-  {
-    name: "Brian puff",
-    date: "10 June 2026",
-    rating: 5,
-    text: "I had a rib popped out with pain, I got adjusted with other treatment. I feel better after this and will make this a stop whenever I pass through the area.",
-  },
-  {
-    name: "Juan Pablo Flores",
-    date: "18 May 2026",
-    rating: 5,
-    text: "Los mejores en todo, atenci\u00f3n, recepci\u00f3n, asesoramiento, y claro que salimos de all\u00ed, como nuevos.",
-  },
-  {
-    name: "Audri Ence",
-    date: "26 February 2026",
-    rating: 5,
-    text: "Honest and helpful, highly recommend.",
-  },
-  {
-    name: "Matt Hauck",
-    date: "26 February 2026",
-    rating: 5,
-    text: "Kaden rocks! Super helpful and I\u2019m getting better each visit.",
-  },
-  {
-    name: "Blair Stratton",
-    date: "25 February 2026",
-    rating: 5,
-    text: "Casey and Kaden are the best. I\u2019ve been dealing with issues from a car wreck a couple years ago and they\u2019ve been able to take away the pain and help me feel like myself again.",
-  },
-  {
-    name: "Crystal Walker",
-    date: "17 February 2026",
-    rating: 5,
-    text: "Best chiropractor experience I\u2019ve ever had! Professional, friendly, and incredibly effective. I felt relief almost immediately and continue to see improvement with every visit.",
-  },
-  {
-    name: "Emily J",
-    date: "26 January 2026",
-    rating: 5,
-    text: "I had an excellent experience at Elevate Wellness following a car accident. After the accident, I struggled with limited neck mobility and daily headaches. The team was thorough and got me back to feeling normal again.",
-  },
-];
+export function toTestimonials(
+  items: { name: string; quote: string; rating: number; relativeTime?: string }[],
+): Testimonial[] {
+  return items
+    .filter((item) => item.rating === 5 && item.quote.trim().length > 0 && item.name.trim().length > 0)
+    .map((item) => ({
+      name: item.name,
+      date: item.relativeTime ?? "Posted on Google",
+      rating: 5,
+      text: item.quote,
+    }));
+}
 
 /**
  * Office locations for the map + contact section. Sourced verbatim from

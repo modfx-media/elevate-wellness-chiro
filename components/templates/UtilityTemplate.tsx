@@ -11,8 +11,13 @@ import {
   type ServiceSection,
 } from "@/lib/parse-service-body";
 import { locations } from "@/components/site/footer-data";
-import { doctors } from "@/components/home/homepage-data";
+import { doctors, reviews, toTestimonials } from "@/components/home/homepage-data";
 import { ProvidersSection } from "@/components/home/ProvidersSection";
+import { GoogleReviews } from "@/components/home/GoogleReviews";
+import { ReviewsBand } from "@/components/home/ReviewsBand";
+import { ReviewCarousel } from "@/components/home/ReviewCarousel";
+import { formatGoogleRating } from "@/lib/google-reviews";
+import { isFiveStarReview } from "@/lib/reviews";
 import { CtaBand } from "./ConditionTemplate";
 import { PagePlaceholder } from "./PagePlaceholder";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -22,6 +27,7 @@ import { JsonLd } from "@/components/seo/JsonLd";
 // thank-you, etc.) keep the placeholder until their data model is defined.
 const CONTENT_UTILITY_SLUGS = new Set(["insurances-covered"]);
 const ABOUT_SLUG = "elevate-wellness-chiropractic";
+const REVIEWS_SLUG = "reviews";
 
 // Same 3 bios as the homepage's "Meet Your Chiropractors" section, with roles
 // matching how each doctor is billed on the live About Us page.
@@ -34,6 +40,10 @@ const ABOUT_PROVIDERS = [
 export function UtilityTemplate({ page }: { page: SiteInventoryPage }) {
   if (page.slug === ABOUT_SLUG) {
     return <AboutUsTemplate page={page} />;
+  }
+
+  if (page.slug === REVIEWS_SLUG) {
+    return <ReviewsPageTemplate page={page} />;
   }
 
   if (!CONTENT_UTILITY_SLUGS.has(page.slug)) {
@@ -65,6 +75,82 @@ export function UtilityTemplate({ page }: { page: SiteInventoryPage }) {
           telHref={bountiful.telHref}
         />
       ) : null}
+    </main>
+  );
+}
+
+function ReviewsPageTemplate({ page }: { page: SiteInventoryPage }) {
+  return (
+    <main className="flex flex-1 flex-col bg-white">
+      <GoogleReviews>
+        {({ reviews: googleQuotes, meta }) => {
+          const visible = googleQuotes.filter(isFiveStarReview);
+          return (
+            <>
+              <JsonLd
+                id="reviews-page-jsonld"
+                data={{
+                  "@context": "https://schema.org",
+                  "@type": "MedicalBusiness",
+                  name: "Elevate Wellness Chiropractic",
+                  url: SITE_URL,
+                  ...(meta.rating > 0 && meta.reviewCount > 0
+                    ? {
+                        aggregateRating: {
+                          "@type": "AggregateRating",
+                          ratingValue: String(meta.rating),
+                          reviewCount: String(meta.reviewCount),
+                          bestRating: "5",
+                        },
+                      }
+                    : {}),
+                  ...(visible.length
+                    ? {
+                        review: visible.map((review) => ({
+                          "@type": "Review",
+                          author: { "@type": "Person", name: review.name },
+                          reviewRating: {
+                            "@type": "Rating",
+                            ratingValue: "5",
+                            bestRating: "5",
+                          },
+                          reviewBody: review.quote,
+                        })),
+                      }
+                    : {}),
+                }}
+              />
+              <section className="relative overflow-hidden bg-navy-900 px-6 py-16 lg:px-8 lg:py-28">
+                <div
+                  aria-hidden
+                  className="pointer-events-none absolute left-1/2 top-0 h-[320px] w-[640px] -translate-x-1/2 rounded-full bg-primary-500/10 blur-[150px]"
+                />
+                <div className="relative">
+                  <ReviewsBand
+                    eyebrow={reviews.eyebrow}
+                    heading={page.title.split(" | ")[0] || reviews.heading}
+                    ratingValue={formatGoogleRating(meta.rating) || reviews.ratingValue}
+                    starCount={reviews.starCount}
+                    reviewCount={meta.reviewCount}
+                    reviewCountLabel={`${meta.reviewCount} Google reviews`}
+                    body={reviews.body}
+                    googleLabel={reviews.googleLabel}
+                    googleHref={meta.reviewsUrl}
+                    bookLabel={reviews.bookLabel}
+                    bookHref={reviews.bookHref}
+                  />
+                  <div
+                    className="reveal mx-auto mt-16 w-full max-w-[1280px]"
+                    style={{ "--reveal-delay": "160ms" } as CSSProperties}
+                  >
+                    <ReviewCarousel reviews={toTestimonials(googleQuotes)} />
+                  </div>
+                </div>
+              </section>
+            </>
+          );
+        }}
+      </GoogleReviews>
     </main>
   );
 }
