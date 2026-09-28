@@ -131,6 +131,10 @@ function parse(page) {
       mode = "section";
       continue;
     }
+    if (/:$/.test(block)) {
+      pushParagraph(block);
+      continue;
+    }
     const looksBullet = block.length <= 300 && !/[.!?][")\]]?$/.test(block);
     if (looksBullet && (listBuffer || /:$/.test(previousParagraph().trim()))) {
       if (!listBuffer) listBuffer = [];

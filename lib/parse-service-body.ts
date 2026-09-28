@@ -170,6 +170,14 @@ export function parseServiceBody(page: SiteInventoryPage): ParsedServiceBody {
       continue;
     }
 
+    // A colon-ending block is a list introduction ("Try:", "Patterns include:"),
+    // even when it follows an open list. Flush that list and keep the intro
+    // as its own paragraph so the next short items start a new list.
+    if (/:$/.test(block)) {
+      pushParagraph(block);
+      continue;
+    }
+
     // List-run heuristic: consecutive short blocks that don't end with a
     // terminal period form a bulleted list. Long blocks or period-terminated
     // blocks flush the list buffer as a paragraph.
