@@ -1,11 +1,19 @@
 import type { NextConfig } from "next";
+import { withPayload } from "@payloadcms/next/withPayload";
 import redirectsNeeded from "./seo-audit/redirects-needed.json";
 
 const nextConfig: NextConfig = {
   trailingSlash: true,
+  skipTrailingSlashRedirect: true,
   images: {
     qualities: [70, 75, 90],
   },
+  serverExternalPackages: [
+    "pg",
+    "@payloadcms/db-vercel-postgres",
+    "@neondatabase/serverless",
+    "@vercel/postgres",
+  ],
   async redirects() {
     return redirectsNeeded.redirects.map(
       (redirect: { oldPath: string; newPath: string }) => ({
@@ -17,4 +25,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default withPayload(nextConfig, { devBundleServerPackages: false });

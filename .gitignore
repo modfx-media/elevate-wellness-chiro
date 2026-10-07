@@ -17,6 +17,11 @@
 /.next/
 /out/
 
+# payload uploads
+/public/media/*
+!/public/media/.gitkeep
+/media
+
 # production
 /build
 
