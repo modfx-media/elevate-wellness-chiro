@@ -72,9 +72,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }
     const existing = entries.get(url);
     const lastModified = doc.sourceUpdatedAt || doc.updatedAt;
-    if (existing && lastModified) {
-      entries.set(url, { ...existing, lastModified });
+    if (existing) {
+      if (lastModified) {
+        entries.set(url, { ...existing, lastModified });
+      }
+      continue;
     }
+    // Published CMS-only paths (not in the static inventory) still belong in the sitemap.
+    entries.set(url, {
+      url,
+      lastModified: lastModified || new Date(),
+      changeFrequency: "monthly",
+      priority: 0.5,
+    });
   }
 
   return Array.from(entries.values());
