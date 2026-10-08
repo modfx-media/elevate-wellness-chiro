@@ -18,6 +18,13 @@ export type CmsVideo = {
   placement?: string | null;
 };
 
+export type CmsUploadDoc = {
+  url?: string | null;
+  alt?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+};
+
 export type CmsDoc = {
   id: string | number;
   title?: string | null;
@@ -44,9 +51,12 @@ export type CmsDoc = {
   locationKey?: string | null;
   sourceKind?: string | null;
   sourceUrl?: string | null;
+  /** Lexical article body. Inline images are upload nodes populated with media.url. */
+  content?: unknown;
   meta?: {
     title?: string | null;
     description?: string | null;
+    image?: number | CmsUploadDoc | null;
   } | null;
 };
 

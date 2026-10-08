@@ -332,6 +332,24 @@ export interface Post {
   legacyId?: string | null;
   sourceUrl?: string | null;
   sourceKind?: ('inventory' | 'pseo' | 'extra') | null;
+  /**
+   * Article body. Use the image button to upload inline images. The featured image is the SEO image.
+   */
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   pageType?:
     | (
         | 'homepage'
@@ -769,6 +787,7 @@ export interface PostsSelect<T extends boolean = true> {
   legacyId?: T;
   sourceUrl?: T;
   sourceKind?: T;
+  content?: T;
   pageType?: T;
   title?: T;
   bodyCopy?: T;

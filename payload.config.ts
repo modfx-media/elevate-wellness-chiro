@@ -14,6 +14,7 @@ import { Posts } from "./collections/Posts";
 import { Header } from "./globals/Header";
 import { Footer } from "./globals/Footer";
 import { SiteSettings } from "./globals/SiteSettings";
+import { ensurePostContentColumns } from "./lib/cms/ensure-post-content";
 import { getCorsOrigins, getServerURL } from "./lib/cms/server-url";
 import { toPublicPath } from "./lib/cms/paths";
 
@@ -44,6 +45,9 @@ export default buildConfig({
   collections: [Users, Media, Pages, Posts],
   globals: [Header, Footer, SiteSettings],
   editor: lexicalEditor(),
+  onInit: async (payload) => {
+    await ensurePostContentColumns(payload);
+  },
   sharp,
   db: vercelPostgresAdapter({
     forceUseVercelPostgres: true,
@@ -72,7 +76,8 @@ export default buildConfig({
       collections: {
         media: true,
       },
-      token: blobToken || "",
+      token: process.env.BLOB_READ_WRITE_TOKEN,
+      clientUploads: true,
     }),
   ],
   typescript: {
