@@ -9,9 +9,11 @@ import { CategoryArchiveTemplate } from "./CategoryArchiveTemplate";
 import { LegalTemplate } from "./LegalTemplate";
 import { UtilityTemplate } from "./UtilityTemplate";
 
+type PageTemplate = (props: { page: SiteInventoryPage }) => ReactElement | Promise<ReactElement>;
+
 const TEMPLATES_BY_PAGE_TYPE: Record<
   Exclude<SiteInventoryPage["pageType"], "homepage">,
-  (props: { page: SiteInventoryPage }) => ReactElement
+  PageTemplate
 > = {
   service: ServiceTemplate,
   "injury-condition": ConditionTemplate,
@@ -24,7 +26,7 @@ const TEMPLATES_BY_PAGE_TYPE: Record<
 };
 
 /** Renders the correct placeholder template for a flat (non-homepage, non-author) route. */
-export function renderFlatPageTemplate(page: SiteInventoryPage): ReactElement {
+export function renderFlatPageTemplate(page: SiteInventoryPage): ReactElement | Promise<ReactElement> {
   const Template = TEMPLATES_BY_PAGE_TYPE[page.pageType as Exclude<SiteInventoryPage["pageType"], "homepage">];
   return <Template page={page} />;
 }

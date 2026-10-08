@@ -23,7 +23,7 @@ export async function CMSRoute({
   return (
     <>
       {draft.isEnabled ? <LivePreviewListener serverURL={getServerURL()} /> : null}
-      <RenderRoutedContent doc={routed.doc} />
+      <RenderRoutedContent doc={routed.doc} collection={routed.collection} />
     </>
   );
 }

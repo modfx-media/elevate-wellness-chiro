@@ -6,7 +6,8 @@ function shouldSkip(pathname: string): boolean {
     pathname.startsWith("/admin") ||
     pathname.startsWith("/api") ||
     pathname.startsWith("/_next") ||
-    pathname.startsWith("/media")
+    pathname.startsWith("/media") ||
+    pathname.startsWith("/.well-known")
   ) {
     return true;
   }
@@ -15,13 +16,15 @@ function shouldSkip(pathname: string): boolean {
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  if (shouldSkip(pathname)) return NextResponse.next();
-  if (!pathname.endsWith("/")) {
-    const url = request.nextUrl.clone();
-    url.pathname = `${pathname}/`;
-    return NextResponse.redirect(url, 308);
-  }
-  return NextResponse.next();
+  if (shouldSkip(pathname) || pathname.endsWith("/")) return NextResponse.next();
+
+  // NextURL remembers that this request had no trailing slash and strips it
+  // again when the redirect is serialized, so Location would equal the
+  // request path and the browser loops. A standard URL keeps the slash.
+  // Canonical public URLs stay slash-terminated (`trailingSlash: true`).
+  const destination = new URL(request.url);
+  destination.pathname = `${pathname}/`;
+  return NextResponse.redirect(destination, 308);
 }
 
 export const config = {

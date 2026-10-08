@@ -8,6 +8,9 @@ import { PseoLocationTemplate } from "@/components/templates/PseoLocationTemplat
 import { CMSRoute } from "@/components/cms/CMSRoute";
 import { cmsMetadata } from "@/lib/cms/metadata";
 
+export const dynamicParams = true;
+export const revalidate = 60;
+
 export async function generateStaticParams() {
   const slugs = new Set([
     ...getFlatPages().map((page) => page.slug),
@@ -45,10 +48,24 @@ export default async function FlatPage(props: PageProps<"/[slug]">) {
   }
 
   const pseoPage = getPseoPageBySlug(slug);
-  if (!pseoPage) notFound();
+  if (pseoPage) {
+    return (
+      <CMSRoute path={`/${slug}`}>
+        <PseoLocationTemplate page={pseoPage} />
+      </CMSRoute>
+    );
+  }
+
+  // Designed routes above win. This only resolves a published CMS document
+  // whose root slug is not already a page in the site (for example
+  // /pediatric-chiropractic-in-clinton-utah).
   return (
     <CMSRoute path={`/${slug}`}>
-      <PseoLocationTemplate page={pseoPage} />
+      <CmsSlugMiss />
     </CMSRoute>
   );
+}
+
+function CmsSlugMiss(): never {
+  notFound();
 }

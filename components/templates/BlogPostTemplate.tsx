@@ -13,11 +13,20 @@ import {
 } from "@/lib/parse-service-body";
 import { BOOKING_URL } from "@/components/site/nav-data";
 import { locations } from "@/components/site/footer-data";
+import { ArticleRichText } from "@/components/cms/ArticleRichText";
+import { hasRichText } from "@/lib/cms/rich-text";
 
 const PRACTICE_NAME = "Elevate Wellness Chiropractic";
 
-export function BlogPostTemplate({ page }: { page: SiteInventoryPage }) {
+export function BlogPostTemplate({
+  page,
+  richText,
+}: {
+  page: SiteInventoryPage;
+  richText?: unknown;
+}) {
   const parsed = promoteIntroHeadings(parseServiceBody(page));
+  const richBody = hasRichText(richText) ? richText : null;
   const bountiful = locations[0];
 
   const displayTitle = page.title.split(" | ")[0].split(" - ")[0].trim() || page.title;
@@ -52,12 +61,16 @@ export function BlogPostTemplate({ page }: { page: SiteInventoryPage }) {
 
       {featured ? <FeaturedImage image={featured} /> : null}
 
-      <ArticleBody
-        intro={parsed.intro}
-        sections={parsed.sections}
-        faq={parsed.faq}
-        inlineImages={inlineBodyImages}
-      />
+      {richBody ? (
+        <ArticleRichText data={richBody} />
+      ) : (
+        <ArticleBody
+          intro={parsed.intro}
+          sections={parsed.sections}
+          faq={parsed.faq}
+          inlineImages={inlineBodyImages}
+        />
+      )}
 
       <PostFooter
         author={author}

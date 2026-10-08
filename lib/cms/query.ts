@@ -10,7 +10,7 @@ async function findByPath(collection: "pages" | "posts", cmsPath: string, draftE
     collection,
     where: { path: { equals: cmsPath } },
     limit: 1,
-    depth: 1,
+    depth: 2,
     draft: draftEnabled,
     overrideAccess: draftEnabled,
   });
@@ -52,4 +52,29 @@ export async function queryPublishedSitemapDocs(): Promise<CmsDoc[]> {
   }
 
   return docs;
+}
+
+/** Published posts, newest `publishedAt` first. Drafts are not included. */
+export async function queryPublishedBlogPosts(): Promise<CmsDoc[]> {
+  const payload = await getPayload({ config });
+  const result = await payload.find({
+    collection: "posts",
+    where: {
+      and: [
+        { _status: { equals: "published" } },
+        {
+          or: [
+            { pageType: { equals: "blog post" } },
+            { pageType: { exists: false } },
+          ],
+        },
+      ],
+    },
+    sort: "-publishedAt",
+    limit: 1000,
+    depth: 1,
+    pagination: false,
+    draft: false,
+  });
+  return result.docs as CmsDoc[];
 }

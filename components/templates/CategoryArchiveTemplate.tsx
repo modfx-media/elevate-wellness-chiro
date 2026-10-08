@@ -11,18 +11,27 @@ import {
 } from "@/lib/site-content";
 import { BOOKING_URL } from "@/components/site/nav-data";
 import { locations } from "@/components/site/footer-data";
+import { mergePublishedBlogPosts } from "@/lib/cms/blog-posts";
+import { queryPublishedBlogPosts } from "@/lib/cms/query";
+import { withCMS } from "@/lib/cms/safe";
 
 const PRACTICE_NAME = "Elevate Wellness Chiropractic";
 const BLOG_HUB_SLUG = "blog";
 
-export function CategoryArchiveTemplate({ page }: { page: SiteInventoryPage }) {
+export async function CategoryArchiveTemplate({ page }: { page: SiteInventoryPage }) {
   const bountiful = locations[0];
   const isBlogHub = page.slug === BLOG_HUB_SLUG;
   const displayTitle = deriveCategoryDisplayTitle(page.title, isBlogHub);
 
-  const posts = isBlogHub
+  const hardcoded = isBlogHub
     ? getBlogPostsSortedByDate()
     : sortByDateDesc(getPostsLinkedFromCategory(page.slug));
+  const posts = isBlogHub
+    ? await withCMS(
+        async () => mergePublishedBlogPosts(hardcoded, await queryPublishedBlogPosts()),
+        hardcoded,
+      )
+    : hardcoded;
 
   return (
     <main className="flex flex-1 flex-col bg-white">
@@ -162,7 +171,7 @@ function PostCard({ post, index }: { post: SiteInventoryPage; index: number }) {
       className="reveal group flex flex-col overflow-hidden rounded-2xl border border-navy-900/5 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
       style={{ "--reveal-delay": `${Math.min(index * 40, 240)}ms` } as CSSProperties}
     >
-      <Link href={toSitePath(`/${post.slug}/`)} className="flex h-full flex-col">
+      <Link href={toSitePath(post.path || `/${post.slug}/`)} className="flex h-full flex-col">
         {img ? (
           <div className="relative aspect-[16/10] overflow-hidden">
             <Image
