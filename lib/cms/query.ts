@@ -2,6 +2,7 @@ import { getPayload } from "payload";
 import { draftMode } from "next/headers";
 import config from "@payload-config";
 import { toCmsPath } from "@/lib/cms/paths";
+import { isScheduledInFuture } from "@/lib/cms/publish-date";
 import type { CmsDoc, RoutedContent } from "@/lib/cms/types";
 
 async function findByPath(collection: "pages" | "posts", cmsPath: string, draftEnabled: boolean) {
@@ -26,7 +27,10 @@ export async function queryRoutedContentByPath(path: string): Promise<RoutedCont
   if (page) return { collection: "pages", doc: page };
 
   const post = await findByPath("posts", cmsPath, draftEnabled);
-  if (post) return { collection: "posts", doc: post };
+  if (post) {
+    if (!draftEnabled && isScheduledInFuture(post.publishedAt)) return null;
+    return { collection: "posts", doc: post };
+  }
 
   return null;
 }

@@ -16,6 +16,11 @@ import { LocationsMap } from "@/components/home/LocationsMap";
 import { ProvidersSection } from "@/components/home/ProvidersSection";
 import type { CSSProperties } from "react";
 import { formatGoogleRating, getDisplayedGoogleReviews } from "@/lib/google-reviews";
+import { getBlogPostsSortedByDate } from "@/lib/site-content";
+import { mergePublishedBlogPosts } from "@/lib/cms/blog-posts";
+import { queryPublishedBlogPosts } from "@/lib/cms/query";
+import { withCMS } from "@/lib/cms/safe";
+import { formatPublishDate } from "@/lib/cms/publish-date";
 import {
   hero,
   trustBadges,
@@ -26,7 +31,7 @@ import {
   faqHeading,
   faqCategoryLabel,
   blogHeading,
-  blogFallbackImages,
+  blogPreviews,
   getRecentBlogPosts,
   reviews,
   toTestimonials,
@@ -49,9 +54,7 @@ function SectionEyebrow({ label }: { label: string }) {
 }
 
 function formatBlogDate(value: string): string {
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return "";
-  return date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+  return formatPublishDate(value, "short");
 }
 
 export async function HomepageTemplate({
@@ -62,7 +65,13 @@ export async function HomepageTemplate({
   location?: LocationKey;
 }) {
   void page; // metadata is already built from this record in the route
-  const recentPosts = getRecentBlogPosts(4);
+  const recentPosts = await withCMS(async () => {
+    const merged = mergePublishedBlogPosts(
+      getBlogPostsSortedByDate(),
+      await queryPublishedBlogPosts(),
+    );
+    return blogPreviews(merged, 4);
+  }, getRecentBlogPosts(4));
   const content = getLocationContent(location);
   const philosophy = content.philosophy;
   const { meta } = await getDisplayedGoogleReviews();
@@ -367,25 +376,32 @@ export async function HomepageTemplate({
                 href={post.href}
                 className="group reveal flex flex-col overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-sm transition-shadow duration-300 hover:shadow-2xl"
               >
-                <div
-                  className="relative aspect-video w-full overflow-hidden"
-                  style={{ "--reveal-delay": `${(i % 4) * 90}ms` } as CSSProperties}
-                >
-                  <Image
-                    src={blogFallbackImages[i % blogFallbackImages.length]}
-                    alt={post.title}
-                    fill
-                    sizes="(min-width: 768px) 25vw, 100vw"
-                    className="object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
-                  {post.publishDate ? (
-                    <span className="absolute left-3 top-3 rounded-full bg-white/90 px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-wide text-navy-900 backdrop-blur-sm">
+                {post.image ? (
+                  <div
+                    className="relative aspect-video w-full overflow-hidden"
+                    style={{ "--reveal-delay": `${(i % 4) * 90}ms` } as CSSProperties}
+                  >
+                    <Image
+                      src={post.image}
+                      alt={post.title}
+                      fill
+                      sizes="(min-width: 768px) 25vw, 100vw"
+                      className="object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
+                    {post.publishDate ? (
+                      <span className="absolute left-3 top-3 rounded-full bg-white/90 px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-wide text-navy-900 backdrop-blur-sm">
+                        {formatBlogDate(post.publishDate)}
+                      </span>
+                    ) : null}
+                  </div>
+                ) : null}
+                <div className="flex flex-1 flex-col p-6">
+                  {!post.image && post.publishDate ? (
+                    <span className="text-[0.65rem] font-semibold uppercase tracking-wide text-navy-900">
                       {formatBlogDate(post.publishDate)}
                     </span>
                   ) : null}
-                </div>
-                <div className="flex flex-1 flex-col p-6">
-                  <h3 className="font-display text-base font-semibold leading-snug text-ink-900 transition-colors group-hover:text-accent">
+                  <h3 className={`font-display text-base font-semibold leading-snug text-ink-900 transition-colors group-hover:text-accent${!post.image && post.publishDate ? " mt-2" : ""}`}>
                     {post.title}
                   </h3>
                   <p className="mt-2 flex-1 text-sm leading-relaxed text-ink-700">{post.excerpt}</p>

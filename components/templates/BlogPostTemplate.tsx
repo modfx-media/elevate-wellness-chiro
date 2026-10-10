@@ -15,6 +15,7 @@ import { BOOKING_URL } from "@/components/site/nav-data";
 import { locations } from "@/components/site/footer-data";
 import { ArticleRichText } from "@/components/cms/ArticleRichText";
 import { hasRichText } from "@/lib/cms/rich-text";
+import { formatPublishDate, publishCalendarDay, publishSortTime } from "@/lib/cms/publish-date";
 
 const PRACTICE_NAME = "Elevate Wellness Chiropractic";
 
@@ -219,10 +220,10 @@ function HeroBand({
             </div>
           ) : null}
           {publishDate ? (
-            <time dateTime={publishDate}>{formatDateLong(publishDate)}</time>
+            <time dateTime={publishCalendarDay(publishDate)}>{formatPublishDate(publishDate, "long")}</time>
           ) : null}
-          {lastModified && lastModified.slice(0, 10) !== (publishDate ?? "").slice(0, 10) ? (
-            <span className="text-white/50">Updated {formatDateShort(lastModified)}</span>
+          {shownUpdate(publishDate, lastModified) ? (
+            <span className="text-white/50">Updated {formatPublishDate(lastModified, "short")}</span>
           ) : null}
         </div>
       </div>
@@ -390,7 +391,7 @@ function PostFooter({
 }) {
   const recent = getBlogPosts()
     .filter((p) => p.publishDate)
-    .sort((a, b) => (b.publishDate ?? "").localeCompare(a.publishDate ?? ""))
+    .sort((a, b) => publishSortTime(b.publishDate) - publishSortTime(a.publishDate))
     .slice(0, 3);
   return (
     <>
@@ -413,9 +414,9 @@ function PostFooter({
               <div className="text-sm">
                 <p className="font-semibold text-navy-900">Written by {author.name}</p>
                 <p className="mt-1 text-ink-700">
-                  {publishDate ? `Published ${formatDateShort(publishDate)}` : null}
-                  {lastModified && lastModified.slice(0, 10) !== (publishDate ?? "").slice(0, 10)
-                    ? ` · Updated ${formatDateShort(lastModified)}`
+                  {publishDate ? `Published ${formatPublishDate(publishDate, "short")}` : null}
+                  {shownUpdate(publishDate, lastModified)
+                    ? ` · Updated ${formatPublishDate(lastModified, "short")}`
                     : null}
                 </p>
               </div>
@@ -511,8 +512,8 @@ function RecentCard({ post }: { post: SiteInventoryPage }) {
         ) : null}
         <div className="flex flex-1 flex-col gap-3 p-5">
           {post.publishDate ? (
-            <time className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary-700" dateTime={post.publishDate}>
-              {formatDateShort(post.publishDate)}
+            <time className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary-700" dateTime={publishCalendarDay(post.publishDate)}>
+              {formatPublishDate(post.publishDate, "short")}
             </time>
           ) : null}
           <h3 className="font-display text-lg font-bold leading-snug text-navy-900 group-hover:text-primary-700">
@@ -526,16 +527,11 @@ function RecentCard({ post }: { post: SiteInventoryPage }) {
 
 // ─── Formatting ─────────────────────────────────────────────────────────────
 
-function formatDateLong(iso: string): string {
-  const d = new Date(iso);
-  if (Number.isNaN(d.getTime())) return iso.slice(0, 10);
-  return d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric", timeZone: "UTC" });
-}
-
-function formatDateShort(iso: string): string {
-  const d = new Date(iso);
-  if (Number.isNaN(d.getTime())) return iso.slice(0, 10);
-  return d.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric", timeZone: "UTC" });
+function shownUpdate(publishDate: string | null, lastModified: string): boolean {
+  if (!lastModified) return false;
+  const published = publishDate ? publishCalendarDay(publishDate) : "";
+  const modified = publishCalendarDay(lastModified);
+  return Boolean(modified && modified !== published);
 }
 
 // ─── JSON-LD ────────────────────────────────────────────────────────────────
@@ -566,8 +562,8 @@ function BlogPostingJsonLd({
       description: page.openGraph?.description ?? page.metaDescription,
       url: page.canonicalUrl,
       mainEntityOfPage: page.canonicalUrl,
-      datePublished: page.publishDate,
-      dateModified: page.lastModified,
+      datePublished: page.publishDate ? publishCalendarDay(page.publishDate) : undefined,
+      dateModified: page.lastModified ? publishCalendarDay(page.lastModified) || page.lastModified : undefined,
       image: featured ? featured.src : undefined,
       author: author
         ? { "@type": "Person", name: author.name }
