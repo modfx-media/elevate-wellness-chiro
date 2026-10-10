@@ -1,4 +1,5 @@
-import { getAllPages } from "@/lib/site-content";
+import { getAllPages, normalizeAssetUrl, type SiteInventoryPage } from "@/lib/site-content";
+import { publishSortTime } from "@/lib/cms/publish-date";
 import { BOOKING_URL } from "@/components/site/nav-data";
 import { locations as officeLocations, socialLinks } from "@/components/site/footer-data";
 
@@ -243,40 +244,39 @@ export const faqHeading = "Frequently Asked Questions"; // verbatim h2 "FREQUENT
 export const faqCategoryLabel = "About Chiropractic Care"; // verbatim h2 "ABOUT CHIROPRACTIC CARE"
 export const blogHeading = "Our Blog"; // verbatim h2 "Our Blog"
 
-// Real site photography (from the live media library) used as representative
-// imagery for blog preview cards, assigned by position rather than per-post
-// (the crawl doesn't map a specific image to each post).
-export const blogFallbackImages = [
-  "/images/homepage/hurt-leg-scaled.jpg",
-  "/images/homepage/blog-getty-itofjmnjtxo.jpg",
-  "/images/homepage/blog-getty-mzueeaqfqei.jpg",
-  "/images/homepage/blog-shutterstock-2256034543.jpg",
-];
-
 export interface BlogPreviewPost {
   slug: string;
   title: string;
   excerpt: string;
   href: string;
   publishDate?: string;
+  image?: string;
+}
+
+function postOwnImage(page: SiteInventoryPage): string | undefined {
+  const raw =
+    page.openGraph?.image ||
+    page.images.find((image) => image.placement === "hero")?.src ||
+    page.images.find((image) => image.placement === "inline (body content)")?.src;
+  return raw ? normalizeAssetUrl(raw) : undefined;
 }
 
 /** The most recent posts from the Phase 3 blog content collection, newest first. */
 export function getRecentBlogPosts(count: number): BlogPreviewPost[] {
-  return getAllPages()
-    .filter((page) => page.pageType === "blog post")
-    .sort((a, b) => {
-      const dateA = new Date(a.publishDate ?? a.lastModified).getTime();
-      const dateB = new Date(b.publishDate ?? b.lastModified).getTime();
-      return dateB - dateA;
-    })
+  return blogPreviews(getAllPages().filter((page) => page.pageType === "blog post"), count);
+}
+
+export function blogPreviews(pages: SiteInventoryPage[], count: number): BlogPreviewPost[] {
+  return [...pages]
+    .sort((a, b) => publishSortTime(b.publishDate) - publishSortTime(a.publishDate))
     .slice(0, count)
     .map((page) => ({
       slug: page.slug,
       title: page.title,
       excerpt: page.metaDescription,
-      href: `/${page.slug}/`,
+      href: page.path || `/${page.slug}/`,
       publishDate: page.publishDate,
+      image: postOwnImage(page),
     }));
 }
 

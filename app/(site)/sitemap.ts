@@ -6,6 +6,7 @@ import { isNoindexPath } from "@/lib/seo";
 import { withCMS } from "@/lib/cms/safe";
 import { queryPublishedSitemapDocs } from "@/lib/cms/query";
 import { toCmsPath, toPublicPath } from "@/lib/cms/paths";
+import { isScheduledInFuture } from "@/lib/cms/publish-date";
 
 function priorityFor(page: SiteInventoryPage): number {
   if (page.pageType === "homepage") return 1;
@@ -65,6 +66,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const cmsDocs = await withCMS(() => queryPublishedSitemapDocs(), []);
   for (const doc of cmsDocs) {
     if (!doc.path) continue;
+    if (doc.pageType === "blog post" && isScheduledInFuture(doc.publishedAt)) continue;
     const url = `${SITE_URL}${toPublicPath(toCmsPath(doc.path))}`;
     if (doc.noIndex || doc.excludeFromSitemap) {
       entries.delete(url);

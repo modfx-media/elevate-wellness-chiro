@@ -14,6 +14,7 @@ import { locations } from "@/components/site/footer-data";
 import { mergePublishedBlogPosts } from "@/lib/cms/blog-posts";
 import { queryPublishedBlogPosts } from "@/lib/cms/query";
 import { withCMS } from "@/lib/cms/safe";
+import { formatPublishDate, publishCalendarDay, publishSortTime } from "@/lib/cms/publish-date";
 
 const PRACTICE_NAME = "Elevate Wellness Chiropractic";
 const BLOG_HUB_SLUG = "blog";
@@ -68,7 +69,7 @@ function deriveCategoryDisplayTitle(rawTitle: string, isBlogHub: boolean): strin
 }
 
 function sortByDateDesc(posts: SiteInventoryPage[]): SiteInventoryPage[] {
-  return [...posts].sort((a, b) => (b.publishDate ?? "").localeCompare(a.publishDate ?? ""));
+  return [...posts].sort((a, b) => publishSortTime(b.publishDate) - publishSortTime(a.publishDate));
 }
 
 // ─── Hero ───────────────────────────────────────────────────────────────────
@@ -187,9 +188,9 @@ function PostCard({ post, index }: { post: SiteInventoryPage; index: number }) {
           {post.publishDate ? (
             <time
               className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary-700"
-              dateTime={post.publishDate}
+              dateTime={publishCalendarDay(post.publishDate)}
             >
-              {formatDateShort(post.publishDate)}
+              {formatPublishDate(post.publishDate, "short")}
             </time>
           ) : null}
           <h2 className="font-display text-xl font-bold leading-snug text-navy-900 group-hover:text-primary-700">
@@ -282,14 +283,6 @@ function ArchiveCta({ phone, telHref }: { phone: string; telHref: string }) {
       </div>
     </section>
   );
-}
-
-// ─── Formatting ─────────────────────────────────────────────────────────────
-
-function formatDateShort(iso: string): string {
-  const d = new Date(iso);
-  if (Number.isNaN(d.getTime())) return iso.slice(0, 10);
-  return d.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric", timeZone: "UTC" });
 }
 
 // ─── JSON-LD ────────────────────────────────────────────────────────────────
