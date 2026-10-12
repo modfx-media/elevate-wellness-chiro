@@ -18,6 +18,7 @@ import { ensurePostContentColumns } from "./lib/cms/ensure-post-content";
 import { getCorsOrigins, getServerURL } from "./lib/cms/server-url";
 import { toPublicPath } from "./lib/cms/paths";
 
+import { scheduledPublishPlugin } from "./scheduled-publish";
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
 
@@ -57,6 +58,7 @@ export default buildConfig({
     },
   }),
   plugins: [
+    scheduledPublishPlugin(),
     seoPlugin({
       collections: ["pages", "posts"],
       uploadsCollection: "media",
