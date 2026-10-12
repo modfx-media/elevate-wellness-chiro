@@ -8,6 +8,8 @@ import { queryPublishedSitemapDocs } from "@/lib/cms/query";
 import { toCmsPath, toPublicPath } from "@/lib/cms/paths";
 import { isScheduledInFuture } from "@/lib/cms/publish-date";
 
+
+export const revalidate = 300;
 function priorityFor(page: SiteInventoryPage): number {
   if (page.pageType === "homepage") return 1;
   if (page.pageType === "service" || page.pageType === "service-location/geo page") return 0.8;
