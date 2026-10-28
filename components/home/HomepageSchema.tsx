@@ -7,9 +7,12 @@ import { JsonLd } from "@/components/seo/JsonLd";
 
 const [bountiful, clinton] = napAndHours.locations;
 
+const WEEKDAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+
 function localBusiness(
   location: (typeof napAndHours.locations)[number],
   shifts: { opens: string; closes: string }[],
+  days: string[],
   geo?: { latitude: string; longitude: string },
 ) {
   return {
@@ -35,13 +38,7 @@ function localBusiness(
     }),
     openingHoursSpecification: shifts.map((shift) => ({
       "@type": "OpeningHoursSpecification",
-      dayOfWeek: [
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-      ].map((day) => `https://schema.org/${day}`),
+      dayOfWeek: days.map((day) => `https://schema.org/${day}`),
       opens: shift.opens,
       closes: shift.closes,
     })),
@@ -57,13 +54,15 @@ const bountifulSchema = localBusiness(
     { opens: "09:00", closes: "12:00" },
     { opens: "14:00", closes: "17:45" },
   ],
+  WEEKDAYS,
   { latitude: "40.8886118", longitude: "-111.8878658" },
 );
 
-const clintonSchema = localBusiness(clinton, [
-  { opens: "08:30", closes: "12:00" },
-  { opens: "13:30", closes: "17:45" },
-]);
+const clintonSchema = localBusiness(
+  clinton,
+  [{ opens: "08:30", closes: "17:30" }],
+  [...WEEKDAYS, "Saturday", "Sunday"],
+);
 
 const faqSchema = {
   "@context": "https://schema.org",

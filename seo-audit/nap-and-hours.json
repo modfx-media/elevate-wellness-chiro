@@ -37,17 +37,17 @@
         "postalCode": "84015",
         "addressCountry": "US"
       },
-      "phone": "(385) 417-3990",
+      "phone": "(385) 417-3900",
       "hours": {
-        "Monday": "8:30 AM – 12 PM, 1:30 – 5:45 PM",
-        "Tuesday": "8:30 AM – 12 PM, 1:30 – 5:45 PM",
-        "Wednesday": "8:30 AM – 12 PM, 1:30 – 5:45 PM",
-        "Thursday": "8:30 AM – 12 PM, 1:30 – 5:45 PM",
-        "Friday": "8:30 AM – 12 PM, 1:30 – 5:45 PM",
-        "Saturday": "Closed",
-        "Sunday": "Closed"
+        "Monday": "8:30 AM – 5:30 PM",
+        "Tuesday": "8:30 AM – 5:30 PM",
+        "Wednesday": "8:30 AM – 5:30 PM",
+        "Thursday": "8:30 AM – 5:30 PM",
+        "Friday": "8:30 AM – 5:30 PM",
+        "Saturday": "8:30 AM – 5:30 PM",
+        "Sunday": "8:30 AM – 5:30 PM"
       },
-      "note": null,
+      "note": "Phone and hours updated 2026-10-29 to match the Google Business Profile.",
       "foundOnPages": [
         "https://www.elevatewellnesschiro.com/elevate-wellness-chiropractic-in-bountiful-ut/",
         "https://www.elevatewellnesschiro.com/elevate-wellness-chiropractic-in-clinton-ut/"
