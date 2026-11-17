@@ -475,7 +475,7 @@ function OfficeCardTemplate({ page }: { page: SiteInventoryPage }) {
                   Hours
                 </p>
                 <dl className="mt-3 grid grid-cols-[auto_1fr] gap-x-6 gap-y-2 text-sm">
-                  {groupHours(matching.hours).map((row, j) => (
+                  {withLunchBreak(groupHours(matching.hours), matching.lunchBreak).map((row, j) => (
                     <div key={j} className="contents">
                       <dt className="font-semibold text-navy-900">{row.day}</dt>
                       <dd className="text-ink-700">{row.value}</dd>
@@ -557,6 +557,13 @@ function groupHours(hours: Record<string, string>): { day: string; value: string
   }));
 }
 
+function withLunchBreak(
+  rows: { day: string; value: string }[],
+  lunchBreak: string | null | undefined,
+): { day: string; value: string }[] {
+  return lunchBreak ? [...rows, { day: "Lunch Break", value: lunchBreak }] : rows;
+}
+
 // ─── Contact (both offices + hours) ─────────────────────────────────────────
 
 function ContactTemplate({ page }: { page: SiteInventoryPage }) {
@@ -582,7 +589,10 @@ function ContactTemplate({ page }: { page: SiteInventoryPage }) {
         i += 2;
       }
     }
-    offices.push({ name, addrLine: addr, hours });
+    const nap = napAndHours.locations.find((l) =>
+      name.toLowerCase().includes(l.address.addressLocality.toLowerCase()),
+    );
+    offices.push({ name, addrLine: addr, hours: withLunchBreak(hours, nap?.lunchBreak) });
   }
 
   return (

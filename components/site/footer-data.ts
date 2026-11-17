@@ -64,7 +64,10 @@ export const locations = napAndHours.locations.map((location) => ({
   address: location.address.asPublishedOnContactPage,
   phone: location.phone,
   telHref: toTelHref(location.phone),
-  hours: groupHours(location.hours),
+  hours: [
+    ...groupHours(location.hours),
+    ...(location.lunchBreak ? [{ label: "Lunch Break", value: location.lunchBreak }] : []),
+  ],
 }));
 
 export const socialLinks = [

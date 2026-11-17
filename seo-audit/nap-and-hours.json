@@ -21,6 +21,7 @@
         "Saturday": "Closed",
         "Sunday": "Closed"
       },
+      "lunchBreak": null,
       "note": "schema.org LocalBusiness/MedicalClinic markup on the homepage lists a DIFFERENT street address (\"190 W 100 S STE C\") and DIFFERENT hours (one JSON-LD block: Mon/Tue/Wed/Thu 09:00-12:00 & 14:00-17:30, no Friday listed; another block: Mon-Fri 09:00-17:45 continuous). The on-page visible text above is treated as the source of truth per the audit brief; the schema discrepancy should be resolved/reconciled in a later phase.",
       "foundOnPages": [
         "https://www.elevatewellnesschiro.com/elevate-wellness-chiropractic-in-bountiful-ut/",
@@ -47,6 +48,7 @@
         "Saturday": "Closed",
         "Sunday": "Closed"
       },
+      "lunchBreak": "12 – 2 PM",
       "note": "Phone updated 2026-10-29 to match the Google Business Profile. Hours updated 2026-11-17 per the client (lunch break 12–2 PM).",
       "foundOnPages": [
         "https://www.elevatewellnesschiro.com/elevate-wellness-chiropractic-in-bountiful-ut/",
