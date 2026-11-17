@@ -60,8 +60,11 @@ const bountifulSchema = localBusiness(
 
 const clintonSchema = localBusiness(
   clinton,
-  [{ opens: "08:30", closes: "17:30" }],
-  [...WEEKDAYS, "Saturday", "Sunday"],
+  [
+    { opens: "08:30", closes: "12:00" },
+    { opens: "14:00", closes: "17:45" },
+  ],
+  WEEKDAYS,
 );
 
 const faqSchema = {
